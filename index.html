@@ -11,6 +11,19 @@
     input, textarea { width: 100%; padding: 8px; margin-bottom: 10px; }
     button { padding: 10px 15px; background-color: red; color: white; border: none; cursor: pointer; }
     #ai-results { margin-top: 20px; padding: 10px; border: 1px solid #ddd; }
+    #loading { display:none; font-weight:bold; display:flex; align-items:center; gap:10px; color:blue; }
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid red;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -33,6 +46,10 @@
 
   <div id="ai-results">
     <h3>AI Evaluation</h3>
+    <div id="loading">
+      <div class="spinner"></div>
+      <span>Evaluating... please wait.</span>
+    </div>
     <pre id="ai-summary">Waiting for input...</pre>
   </div>
 

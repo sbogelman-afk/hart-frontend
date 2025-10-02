@@ -1,5 +1,12 @@
 async function submitIntakeForm(formData) {
+  const loadingEl = document.getElementById("loading");
+  const summaryEl = document.getElementById("ai-summary");
+
   try {
+    // Show loading message
+    loadingEl.style.display = "flex";
+    summaryEl.textContent = "";
+
     const response = await fetch("/.netlify/functions/evaluate", {
       method: "POST",
       headers: {
@@ -19,7 +26,10 @@ async function submitIntakeForm(formData) {
     const result = await response.json();
     const evalData = result.evaluation;
 
-    document.getElementById("ai-summary").innerHTML = `
+    // Hide loading message
+    loadingEl.style.display = "none";
+
+    summaryEl.innerHTML = `
       <strong>Chief Complaint:</strong> ${evalData.chief_complaint}<br>
       <strong>Summary:</strong> ${evalData.history_summary}<br>
       <strong>Risk Flags:</strong> ${JSON.stringify(evalData.risk_flags)}<br>
@@ -28,7 +38,9 @@ async function submitIntakeForm(formData) {
       <strong>Emergency:</strong> ${evalData.emergency_guidance}
     `;
   } catch (err) {
-    document.getElementById("ai-summary").textContent = "Error: " + err.message;
+    // Hide loading if error
+    loadingEl.style.display = "none";
+    summaryEl.textContent = "Error: " + err.message;
   }
 }
 
