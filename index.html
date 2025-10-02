@@ -1,120 +1,114 @@
-const form = document.getElementById("intakeForm");
-const resultEl = document.getElementById("result");
-const loadingEl = document.getElementById("loading");
-const emergencyEl = document.getElementById("emergency");
-const langSelect = document.getElementById("lang");
-const pdfBtn = document.getElementById("pdfBtn");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HART Intake</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    header { background: darkred; color: white; padding: 15px; text-align: center; }
+    h1 { margin: 0; }
+    .container { padding: 20px; }
+    label { font-weight: bold; display: block; margin-top: 10px; }
+    textarea, input, select { width: 100%; padding: 8px; margin-top: 4px; }
+    .section { margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+    button { margin-top: 15px; padding: 10px 20px; background: darkred; color: white; border: none; cursor: pointer; border-radius: 5px; }
+    button:hover { background: red; }
+    #loading { display: none; font-weight: bold; color: blue; align-items: center; gap: 10px; margin-top: 10px; }
+    .spinner { border: 4px solid #f3f3f3; border-top: 4px solid red; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
+    @keyframes spin { 0% {transform: rotate(0deg);} 100% {transform: rotate(360deg);} }
+    #emergency { display: none; color: red; font-weight: bold; margin-top: 15px; }
+    .lang-switch { margin: 10px 0; text-align: center; }
+    .lang-switch button { margin: 0 5px; padding: 5px 10px; }
+    .lang-switch button.active { background: red; color: white; }
+    .voice-btn { margin-top: 5px; padding: 5px 10px; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="title">HART Intake Form</h1>
+    <p>Human–AI Relationship Translator for Health</p>
+  </header>
 
-// Emergency red flag check
-document.getElementById("fainting").addEventListener("change", e => {
-  emergencyEl.style.display = e.target.value === "Yes" ? "block" : "none";
-});
+  <div class="container">
+    <!-- Language Switch -->
+    <div class="lang-switch">
+      <button type="button" data-lang="en" class="active">English</button>
+      <button type="button" data-lang="ru">Русский</button>
+      <button type="button" data-lang="he">עברית</button>
+    </div>
 
-// Translations
-const translations = {
-  ru: {
-    name: "Имя", age: "Возраст", gender: "Пол", contact: "Контактная информация",
-    chief_complaint: "Основная жалоба", history: "История болезни",
-    primary: "Вопросы терапевта", meds: "Текущие лекарства", allergies: "Аллергии",
-    cardio: "Вопросы кардиолога", chest_pain: "У вас есть боль в груди?",
-    palpitations: "У вас есть сердцебиение?", sob: "Одышка?",
-    fainting: "Были ли у вас обмороки недавно?"
-  },
-  he: {
-    name: "שם", age: "גיל", gender: "מגדר", contact: "פרטי קשר",
-    chief_complaint: "תלונה עיקרית", history: "היסטוריה רפואית",
-    primary: "שאלות רופא משפחה", meds: "תרופות נוכחיות", allergies: "אלרגיות",
-    cardio: "שאלות קרדיולוגיה", chest_pain: "האם יש לך כאבים בחזה?",
-    palpitations: "האם יש לך דפיקות לב?", sob: "קוצר נשימה?",
-    fainting: "האם התעלפת לאחרונה?"
-  }
-};
+    <form id="intakeForm">
+      <!-- General Info -->
+      <div class="section">
+        <h3 data-i18n="general_info">Patient Information</h3>
+        <label data-i18n="name">Name</label>
+        <input type="text" name="name" />
 
-langSelect.addEventListener("change", () => {
-  const lang = langSelect.value;
-  document.querySelectorAll("[data-i18n]").forEach(el => {
-    const key = el.getAttribute("data-i18n");
-    if (translations[lang] && translations[lang][key]) {
-      el.textContent = translations[lang][key];
-    } else if (lang === "en") {
-      el.textContent = el.getAttribute("data-i18n").replace("_", " ");
-    }
-  });
-});
+        <label data-i18n="age">Age</label>
+        <input type="number" name="age" />
 
-// PDF generator
-function generatePDF(answers, evaluation) {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+        <label data-i18n="gender">Gender</label>
+        <select name="gender">
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
 
-  const uid = "HART-" + Date.now();
+        <label data-i18n="contact">Contact Information</label>
+        <input type="text" name="contact" />
+      </div>
 
-  doc.setFontSize(16);
-  doc.text("HART Intake Report", 10, 20);
-  doc.setFontSize(10);
-  doc.text("Report ID: " + uid, 10, 28);
-  doc.text("Date: " + new Date().toLocaleString(), 10, 34);
+      <!-- Complaint -->
+      <div class="section">
+        <h3 data-i18n="complaint">Chief Complaint & History</h3>
+        <label data-i18n="chief_complaint">Chief Complaint</label>
+        <textarea name="chief_complaint"></textarea>
+        <button type="button" class="voice-btn" data-target="chief_complaint">🎤 Speak</button>
 
-  let y = 44;
-  doc.setFontSize(12);
-  doc.text("Patient Information:", 10, y); y += 6;
-  doc.text(`Name: ${answers.name || ""}`, 10, y); y += 6;
-  doc.text(`Age: ${answers.age || ""}`, 10, y); y += 6;
-  doc.text(`Gender: ${answers.gender || ""}`, 10, y); y += 6;
-  doc.text(`Contact: ${answers.contact || ""}`, 10, y); y += 10;
+        <label data-i18n="history">History of Present Illness</label>
+        <textarea name="history"></textarea>
+        <button type="button" class="voice-btn" data-target="history">🎤 Speak</button>
+      </div>
 
-  doc.text("Chief Complaint:", 10, y); y += 6;
-  doc.text(answers.chief_complaint || "", 10, y); y += 10;
+      <!-- Primary Care -->
+      <div class="section">
+        <h3 data-i18n="primary">Primary Care Questions</h3>
+        <label data-i18n="meds">Current Medications</label>
+        <textarea name="medications"></textarea>
+        <label data-i18n="allergies">Allergies</label>
+        <textarea name="allergies"></textarea>
+      </div>
 
-  doc.text("History of Present Illness:", 10, y); y += 6;
-  doc.text(answers.history || "", 10, y); y += 10;
+      <!-- Cardiology -->
+      <div class="section">
+        <h3 data-i18n="cardio">Cardiology Questions</h3>
+        <label data-i18n="symptoms">Select all symptoms you have:</label>
+        <div>
+          <label><input type="checkbox" name="symptoms" value="Chest pain"> Chest pain</label>
+          <label><input type="checkbox" name="symptoms" value="Palpitations"> Palpitations</label>
+          <label><input type="checkbox" name="symptoms" value="Shortness of breath"> Shortness of breath</label>
+          <label><input type="checkbox" name="symptoms" value="Swelling in legs"> Swelling in legs</label>
+        </div>
+      </div>
 
-  doc.text("Primary Care:", 10, y); y += 6;
-  doc.text(`Medications: ${answers.medications || ""}`, 10, y); y += 6;
-  doc.text(`Allergies: ${answers.allergies || ""}`, 10, y); y += 10;
+      <!-- Emergency -->
+      <div class="section">
+        <h3 data-i18n="emergency">Emergency Check</h3>
+        <label data-i18n="fainting">Have you fainted recently?</label>
+        <select id="fainting" name="fainting"><option>No</option><option>Yes</option></select>
+        <div id="emergency">🚨 Emergency Warning: Please call 911 immediately!</div>
+      </div>
 
-  doc.text("Cardiology:", 10, y); y += 6;
-  doc.text(`Chest Pain: ${answers.chest_pain || ""}`, 10, y); y += 6;
-  doc.text(`Palpitations: ${answers.palpitations || ""}`, 10, y); y += 6;
-  doc.text(`Shortness of Breath: ${answers.shortness_breath || ""}`, 10, y); y += 6;
-  doc.text(`Fainting: ${answers.fainting || ""}`, 10, y); y += 10;
+      <button type="submit">Submit</button>
+    </form>
 
-  doc.text("AI Evaluation:", 10, y); y += 6;
-  const evalStr = JSON.stringify(evaluation, null, 2);
-  doc.text(doc.splitTextToSize(evalStr, 180), 10, y);
+    <div id="loading"><div class="spinner"></div><span>Evaluating... please wait.</span></div>
+    <pre id="result"></pre>
+    <button id="pdfBtn" style="display:none;">Download PDF</button>
+  </div>
 
-  doc.save(uid + ".pdf");
-}
-
-// Submit handler
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  resultEl.textContent = "";
-  pdfBtn.style.display = "none";
-  loadingEl.style.display = "flex";
-
-  const formData = new FormData(form);
-  const answers = {};
-  formData.forEach((value, key) => { answers[key] = value; });
-
-  try {
-    const res = await fetch("/.netlify/functions/evaluate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ answers })
-    });
-
-    if (!res.ok) throw new Error(`Backend error: ${res.status}`);
-    const data = await res.json();
-    resultEl.textContent = JSON.stringify(data, null, 2);
-
-    // enable PDF download
-    pdfBtn.style.display = "inline-block";
-    pdfBtn.onclick = () => generatePDF(answers, data);
-
-  } catch (err) {
-    resultEl.textContent = "Error: " + err.message;
-  } finally {
-    loadingEl.style.display = "none";
-  }
-});
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
