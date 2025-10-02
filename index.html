@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HART Intake Form</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .form-section { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; }
+    input, textarea { width: 100%; padding: 8px; margin-bottom: 10px; }
+    button { padding: 10px 15px; background-color: red; color: white; border: none; cursor: pointer; }
+    #ai-results { margin-top: 20px; padding: 10px; border: 1px solid #ddd; }
+  </style>
+</head>
+<body>
+  <h1>HART Patient Intake</h1>
+  <form id="intakeForm">
+    <div class="form-section">
+      <label for="patient_name">Patient Name</label>
+      <input type="text" id="patient_name" name="patient_name" required />
+    </div>
+    <div class="form-section">
+      <label for="reason">Reason for Visit</label>
+      <textarea id="reason" name="reason"></textarea>
+    </div>
+    <div class="form-section">
+      <label for="started">When did it start?</label>
+      <input type="text" id="started" name="started" />
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+
+  <div id="ai-results">
+    <h3>AI Evaluation</h3>
+    <pre id="ai-summary">Waiting for input...</pre>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
