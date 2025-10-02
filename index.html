@@ -2,147 +2,128 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HART Intake Form</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #fafafa;
-    }
-    header {
-      background-color: #800020; /* Burgundy */
-      color: white;
-      padding: 15px;
-      text-align: center;
-      position: relative;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 24px;
-    }
-    .lang-buttons {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-    }
-    .lang-buttons button {
-      margin-left: 5px;
-      padding: 5px 10px;
-    }
-    form {
-      margin: 20px auto;
-      padding: 20px;
-      max-width: 600px;
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
-    }
-    h2 {
-      margin-top: 20px;
-      color: #800020;
-    }
-    .section {
-      margin-bottom: 20px;
-    }
-    #emergency-warning {
-      display: none;
-      background: #ffcccc;
-      color: #800020;
-      font-weight: bold;
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 5px;
-    }
-    #ai-output {
-      white-space: pre-wrap;
-      background: #f1f1f1;
-      padding: 10px;
-      border-radius: 5px;
-      margin-top: 10px;
-    }
-    button {
-      margin: 10px 5px 0 0;
-      padding: 8px 14px;
-      background: #800020;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #a52a2a;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
-    <h1 id="welcome-text">Welcome to HART Intake Form</h1>
-    <div class="lang-buttons">
-      <button type="button" onclick="switchLanguage('en')">EN</button>
-      <button type="button" onclick="switchLanguage('ru')">RU</button>
-      <button type="button" onclick="switchLanguage('he')">HE</button>
-    </div>
+    <h1>❤️ HART Patient Intake Form</h1>
+    <p>Welcome! Please fill out the form below. Fields marked * are required.</p>
   </header>
 
-  <form onsubmit="event.preventDefault(); submitForm();">
-    <div class="section">
-      <label for="name">Name:</label><br>
-      <input type="text" id="name" required>
-    </div>
+  <form id="intakeForm">
+    <!-- Emergency Section -->
+    <section>
+      <h2>🚨 Emergency Red Flags</h2>
+      <p>If you have any of the following, please seek immediate medical care:</p>
+      <label><input type="checkbox" name="emergency" value="Chest pain"> Chest pain</label><br>
+      <label><input type="checkbox" name="emergency" value="Severe shortness of breath"> Severe shortness of breath</label><br>
+      <label><input type="checkbox" name="emergency" value="Fainting"> Fainting</label><br>
+      <label><input type="checkbox" name="emergency" value="Confusion"> Confusion</label><br>
+      <label><input type="checkbox" name="emergency" value="Severe bleeding"> Severe bleeding</label><br>
+      <label><input type="checkbox" name="emergency" value="High fever with chills"> High fever with chills</label>
+    </section>
 
-    <div class="section">
-      <label for="age">Age:</label><br>
-      <input type="number" id="age" required>
-    </div>
+    <!-- Patient Info -->
+    <section>
+      <h2>👤 Patient Information</h2>
+      <label>Name*: <input type="text" name="name" required></label><br>
+      <label>Age*: <input type="number" name="age" required></label><br>
+      <label>Gender*: 
+        <select name="gender" required>
+          <option value="">Select</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </label><br>
+      <label>Phone (optional): <input type="text" name="phone"></label><br>
+      <label>Email (optional): <input type="email" name="email"></label>
+    </section>
 
-    <div class="section">
-      <label for="gender">Gender:</label><br>
-      <select id="gender" required>
-        <option value="">--Select--</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-        <option value="Other">Other</option>
-      </select>
-    </div>
+    <!-- General Complaints -->
+    <section>
+      <h2>🩺 General Complaints</h2>
+      <label><input type="checkbox" name="symptoms" value="Fatigue"> Fatigue</label><br>
+      <label><input type="checkbox" name="symptoms" value="Cough"> Cough</label><br>
+      <label><input type="checkbox" name="symptoms" value="Palpitations"> Palpitations</label><br>
+      <label><input type="checkbox" name="symptoms" value="Nausea"> Nausea</label><br>
+      <label><input type="checkbox" name="symptoms" value="Swelling"> Swelling</label><br>
+      <label><input type="checkbox" name="symptoms" value="Headache"> Headache</label><br>
+      <label><input type="checkbox" name="symptoms" value="Dizziness"> Dizziness</label><br>
+      <label>Other complaints: 
+        <textarea name="otherComplaints"></textarea>
+        <button type="button" onclick="startDictation('otherComplaints')">🎤</button>
+      </label>
+    </section>
 
-    <div class="section">
-      <h2 id="emergency-label">Emergency Red Flags</h2>
-      <label><input type="checkbox" class="emergency-check" value="chest pain" onchange="checkEmergency()"> Chest pain</label><br>
-      <label><input type="checkbox" class="emergency-check" value="severe shortness of breath" onchange="checkEmergency()"> Severe shortness of breath</label><br>
-      <label><input type="checkbox" class="emergency-check" value="fainting" onchange="checkEmergency()"> Fainting</label><br>
-      <div id="emergency-warning">⚠️ If you experience any of these, call 911 immediately.</div>
-    </div>
+    <!-- Medical History -->
+    <section>
+      <h2>📋 Medical History</h2>
+      <label><input type="checkbox" name="history" value="Hypertension"> Hypertension</label><br>
+      <label><input type="checkbox" name="history" value="Diabetes"> Diabetes</label><br>
+      <label><input type="checkbox" name="history" value="Asthma"> Asthma</label><br>
+      <label><input type="checkbox" name="history" value="Heart disease"> Heart disease</label><br>
+      <label>Current Medications:
+        <textarea name="medications"></textarea>
+        <button type="button" onclick="startDictation('medications')">🎤</button>
+      </label><br>
+      <label>Allergies:
+        <textarea name="allergies"></textarea>
+        <button type="button" onclick="startDictation('allergies')">🎤</button>
+      </label>
+    </section>
 
-    <div class="section">
-      <h2 id="general-label">General Complaints</h2>
-      <label><input type="checkbox" name="symptom" value="fatigue"> Fatigue</label><br>
-      <label><input type="checkbox" name="symptom" value="headache"> Headache</label><br>
-      <label><input type="checkbox" name="symptom" value="dizziness"> Dizziness</label><br>
-    </div>
+    <!-- Lifestyle -->
+    <section>
+      <h2>🏃 Lifestyle</h2>
+      <label>Smoking: 
+        <select name="smoking">
+          <option value="">Select</option>
+          <option value="No">No</option>
+          <option value="Occasional">Occasional</option>
+          <option value="Yes">Yes</option>
+        </select>
+      </label><br>
+      <label>Alcohol: 
+        <select name="alcohol">
+          <option value="">Select</option>
+          <option value="No">No</option>
+          <option value="Occasional">Occasional</option>
+          <option value="Yes">Yes</option>
+        </select>
+      </label><br>
+      <label>Exercise:
+        <select name="exercise">
+          <option value="">Select</option>
+          <option value="None">None</option>
+          <option value="Occasional">Occasional</option>
+          <option value="Regular">Regular</option>
+        </select>
+      </label>
+    </section>
 
-    <div class="section">
-      <h2 id="cardiology-label">Cardiology Questions</h2>
-      <label><input type="checkbox" name="symptom" value="palpitations"> Palpitations</label><br>
-      <label><input type="checkbox" name="symptom" value="leg swelling"> Leg swelling</label><br>
-    </div>
+    <!-- Notes -->
+    <section>
+      <h2>📝 Additional Notes</h2>
+      <textarea name="notes"></textarea>
+      <button type="button" onclick="startDictation('notes')">🎤</button>
+    </section>
 
-    <div class="section">
-      <h2 id="primary-label">Primary Care Questions</h2>
-      <label><input type="checkbox" name="symptom" value="cough"> Cough</label><br>
-      <label><input type="checkbox" name="symptom" value="fever"> Fever</label><br>
-    </div>
-
-    <button type="submit" id="submit-btn">Submit</button>
-    <button type="button" id="export-btn" onclick="exportPDF()">Export PDF</button>
+    <!-- Submit -->
+    <section>
+      <button type="submit">Submit</button>
+      <p id="loading" style="display:none;">⏳ Evaluating...</p>
+    </section>
   </form>
 
-  <div class="section">
-    <h2 id="ai-label">AI Evaluation</h2>
-    <pre id="ai-output"></pre>
-  </div>
+  <section>
+    <h2>🤖 AI Evaluation</h2>
+    <pre id="result"></pre>
+    <button id="exportPdf" style="display:none;">📄 Export to PDF</button>
+  </section>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
