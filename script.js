@@ -4,16 +4,136 @@ const loadingEl = document.getElementById("loading");
 const pdfBtn = document.getElementById("pdfBtn");
 const emergencyWarning = document.getElementById("emergencyWarning");
 
-// Language switch
+// --- TRANSLATIONS ---
+const translations = {
+  en: {
+    header: "HART – Human-AI Relationship in Health",
+    welcome: "Welcome! Please fill out this intake form carefully. This will help us prepare your visit and guide your care.",
+    emergencyHeader: "Emergency Red Flags",
+    patientHeader: "Patient Information",
+    complaintHeader: "Chief Complaint",
+    historyHeader: "History of Present Illness",
+    generalHeader: "General Complaints",
+    primaryHeader: "Primary Care Questions",
+    cardioHeader: "Cardiology",
+    emergencyWarning: "⚠️ These symptoms may indicate a medical emergency. Please call 911 or your local emergency services immediately.",
+    chestPain: "Chest pain",
+    severeBreath: "Severe shortness of breath",
+    fainting: "Fainting",
+    confusion: "Confusion",
+    bleeding: "Uncontrolled bleeding",
+    fatigue: "Fatigue",
+    headache: "Headache",
+    fever: "Fever",
+    dizziness: "Dizziness",
+    nausea: "Nausea",
+    palpitations: "Palpitations",
+    breath: "Shortness of breath",
+    submit: "Submit",
+    gender: "Gender",
+    male: "Male", female: "Female", other: "Other"
+  },
+  ru: {
+    header: "HART – Человек-ИИ во здравоохранении",
+    welcome: "Добро пожаловать! Пожалуйста, заполните эту форму внимательно. Это поможет подготовить визит и направить лечение.",
+    emergencyHeader: "Экстренные признаки",
+    patientHeader: "Информация о пациенте",
+    complaintHeader: "Основная жалоба",
+    historyHeader: "История болезни",
+    generalHeader: "Общие жалобы",
+    primaryHeader: "Вопросы для терапевта",
+    cardioHeader: "Кардиология",
+    emergencyWarning: "⚠️ Эти симптомы могут указывать на неотложное состояние. Немедленно звоните 103 или в службу скорой помощи.",
+    chestPain: "Боль в груди",
+    severeBreath: "Сильная одышка",
+    fainting: "Обморок",
+    confusion: "Спутанность сознания",
+    bleeding: "Неконтролируемое кровотечение",
+    fatigue: "Усталость",
+    headache: "Головная боль",
+    fever: "Лихорадка",
+    dizziness: "Головокружение",
+    nausea: "Тошнота",
+    palpitations: "Сердцебиение",
+    breath: "Одышка",
+    submit: "Отправить",
+    gender: "Пол",
+    male: "Мужской", female: "Женский", other: "Другой"
+  },
+  he: {
+    header: "HART – קשר אדם-בינה מלאכותית בבריאות",
+    welcome: "ברוך הבא! אנא מלא טופס זה בזהירות. זה יעזור לנו להכין את ביקורך ולהדריך את הטיפול.",
+    emergencyHeader: "סימני חירום",
+    patientHeader: "פרטי מטופל",
+    complaintHeader: "תלונה עיקרית",
+    historyHeader: "היסטוריה רפואית",
+    generalHeader: "תלונות כלליות",
+    primaryHeader: "שאלות לרופא משפחה",
+    cardioHeader: "קרדיולוגיה",
+    emergencyWarning: "⚠️ סימנים אלו עלולים להעיד על מצב חירום רפואי. התקשר מיד למד״א או לשירותי חירום.",
+    chestPain: "כאב בחזה",
+    severeBreath: "קוצר נשימה חמור",
+    fainting: "עילפון",
+    confusion: "בלבול",
+    bleeding: "דימום בלתי נשלט",
+    fatigue: "עייפות",
+    headache: "כאב ראש",
+    fever: "חום",
+    dizziness: "סחרחורת",
+    nausea: "בחילה",
+    palpitations: "דפיקות לב",
+    breath: "קוצר נשימה",
+    submit: "שלח",
+    gender: "מגדר",
+    male: "זכר", female: "נקבה", other: "אחר"
+  }
+};
+
+// --- LANGUAGE SWITCH ---
+function setLanguage(lang) {
+  const t = translations[lang];
+  document.getElementById("header-title").textContent = t.header;
+  document.getElementById("welcome-text").textContent = t.welcome;
+  document.getElementById("emergency-header").textContent = t.emergencyHeader;
+  document.getElementById("patient-header").textContent = t.patientHeader;
+  document.getElementById("complaint-header").textContent = t.complaintHeader;
+  document.getElementById("history-header").textContent = t.historyHeader;
+  document.getElementById("general-header").textContent = t.generalHeader;
+  document.getElementById("primary-header").textContent = t.primaryHeader;
+  document.getElementById("cardio-header").textContent = t.cardioHeader;
+  document.getElementById("emergencyWarning").textContent = t.emergencyWarning;
+
+  document.querySelector("[data-key=chestPain]").textContent = t.chestPain;
+  document.querySelector("[data-key=severeBreath]").textContent = t.severeBreath;
+  document.querySelectorAll("[data-key=fainting]").forEach(el => el.textContent = t.fainting);
+  document.querySelector("[data-key=confusion]").textContent = t.confusion;
+  document.querySelector("[data-key=bleeding]").textContent = t.bleeding;
+  document.querySelector("[data-key=fatigue]").textContent = t.fatigue;
+  document.querySelector("[data-key=headache]").textContent = t.headache;
+  document.querySelector("[data-key=fever]").textContent = t.fever;
+  document.querySelector("[data-key=dizziness]").textContent = t.dizziness;
+  document.querySelector("[data-key=nausea]").textContent = t.nausea;
+  document.querySelector("[data-key=palpitations]").textContent = t.palpitations;
+  document.querySelector("[data-key=breath]").textContent = t.breath;
+
+  document.getElementById("gender-label").childNodes[0].textContent = t.gender + ": ";
+  const genderSelect = document.querySelector("select[name=gender]");
+  genderSelect.options[1].text = t.male;
+  genderSelect.options[2].text = t.female;
+  genderSelect.options[3].text = t.other;
+
+  document.getElementById("submitBtn").textContent = t.submit;
+}
+
 document.querySelectorAll(".lang-switch button").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".lang-switch button").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
-    // (later: add full translation logic here)
+    setLanguage(btn.dataset.lang);
   });
 });
 
-// Emergency red flag warning
+// --- Emergency red flags ---
 form.querySelectorAll("input[name=emergency]").forEach(cb => {
   cb.addEventListener("change", () => {
     const checked = [...form.querySelectorAll("input[name=emergency]:checked")];
@@ -21,7 +141,7 @@ form.querySelectorAll("input[name=emergency]").forEach(cb => {
   });
 });
 
-// Voice recognition
+// --- Voice recognition ---
 const voiceLangMap = { en: "en-US", ru: "ru-RU", he: "he-IL" };
 
 if (!("webkitSpeechRecognition" in window) && !("SpeechRecognition" in window)) {
@@ -44,7 +164,7 @@ if (!("webkitSpeechRecognition" in window) && !("SpeechRecognition" in window)) 
   });
 }
 
-// Submit form
+// --- Submit form ---
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   resultEl.textContent = "";
@@ -53,8 +173,6 @@ form.addEventListener("submit", async (e) => {
 
   const formData = new FormData(form);
   const answers = {};
-
-  // Flatten checkboxes and normal inputs
   formData.forEach((value, key) => {
     if (answers[key]) {
       if (!Array.isArray(answers[key])) answers[key] = [answers[key]];
@@ -64,11 +182,14 @@ form.addEventListener("submit", async (e) => {
     }
   });
 
-  // Flatten arrays to comma-separated strings (backend expects text)
-  for (let k in answers) {
-    if (Array.isArray(answers[k])) {
-      answers[k] = answers[k].join(", ");
-    }
+  // Remap extra fields to safe keys
+  if (answers.emergency) {
+    answers.risk_flags = Array.isArray(answers.emergency) ? answers.emergency.join(", ") : answers.emergency;
+    delete answers.emergency;
+  }
+  if (answers.general) {
+    answers.general_symptoms = Array.isArray(answers.general) ? answers.general.join(", ") : answers.general;
+    delete answers.general;
   }
 
   try {
@@ -90,7 +211,7 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
-// Generate PDF
+// --- PDF generator ---
 function generatePDF(answers, evaluation) {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
@@ -118,7 +239,7 @@ function generatePDF(answers, evaluation) {
   doc.text(answers.history || "", 10, y); y += 10;
 
   doc.text("General Complaints:", 10, y); y += 6;
-  doc.text(answers.general || "", 10, y); y += 10;
+  doc.text(answers.general_symptoms || "", 10, y); y += 10;
 
   doc.text("Primary Care:", 10, y); y += 6;
   doc.text(`Medications: ${answers.medications || ""}`, 10, y); y += 6;
@@ -129,6 +250,9 @@ function generatePDF(answers, evaluation) {
   doc.text(`Palpitations: ${answers.palpitations || ""}`, 10, y); y += 6;
   doc.text(`Shortness of Breath: ${answers.shortness_breath || ""}`, 10, y); y += 6;
   doc.text(`Fainting: ${answers.fainting || ""}`, 10, y); y += 10;
+
+  doc.text("Emergency Flags:", 10, y); y += 6;
+  doc.text(answers.risk_flags || "", 10, y); y += 10;
 
   doc.text("AI Evaluation:", 10, y); y += 6;
   const evalStr = JSON.stringify(evaluation, null, 2);
