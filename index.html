@@ -1,112 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HART Intake</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HART Intake Form</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    header { background: darkred; color: white; padding: 15px; text-align: center; }
-    h1 { margin: 0; }
-    .container { padding: 20px; }
-    label { font-weight: bold; display: block; margin-top: 10px; }
-    textarea, input, select { width: 100%; padding: 8px; margin-top: 4px; }
-    .section { margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
-    button { margin-top: 15px; padding: 10px 20px; background: darkred; color: white; border: none; cursor: pointer; border-radius: 5px; }
-    button:hover { background: red; }
-    #loading { display: none; font-weight: bold; color: blue; align-items: center; gap: 10px; margin-top: 10px; }
-    .spinner { border: 4px solid #f3f3f3; border-top: 4px solid red; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
-    @keyframes spin { 0% {transform: rotate(0deg);} 100% {transform: rotate(360deg);} }
-    #emergency { display: none; color: red; font-weight: bold; margin-top: 15px; }
-    .lang-switch { margin: 10px 0; text-align: center; }
-    .lang-switch button { margin: 0 5px; padding: 5px 10px; }
-    .lang-switch button.active { background: red; color: white; }
-    .voice-btn { margin-top: 5px; padding: 5px 10px; font-size: 0.9em; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      background: #f8f9fa;
+    }
+    header {
+      background: red;
+      color: white;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+    }
+    header img {
+      height: 30px;
+      margin-right: 10px;
+    }
+    header h1 {
+      margin: 0; font-size: 1.5em;
+    }
+    .welcome {
+      padding: 10px;
+      font-size: 1.1em;
+      background: #fff;
+      margin: 0;
+    }
+    .lang-switch {
+      text-align: right;
+      margin: 10px;
+    }
+    .lang-switch button {
+      margin-left: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .lang-switch button.active {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      margin: 20px;
+      border-radius: 6px;
+      box-shadow: 0 0 4px rgba(0,0,0,0.1);
+    }
+    h2 {
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 4px;
+      margin-top: 20px;
+      text-transform: uppercase;
+    }
+    label { display: block; margin-top: 10px; }
+    input, textarea {
+      width: 100%; padding: 6px; margin-top: 4px;
+    }
+    .checkbox-group {
+      margin: 10px 0;
+    }
+    .checkbox-group label {
+      display: block;
+      margin-left: 20px;
+    }
+    .voice-btn {
+      margin-left: 5px;
+      cursor: pointer;
+    }
+    #loading {
+      display: none;
+      font-weight: bold;
+      color: blue;
+      margin: 10px;
+    }
+    #result {
+      white-space: pre-wrap;
+      background: #f1f1f1;
+      padding: 15px;
+      margin: 20px;
+      border-radius: 6px;
+    }
+    #pdfBtn {
+      display:none;
+      margin: 15px;
+      padding: 10px 15px;
+    }
+    .emergency-warning {
+      display: none;
+      color: red;
+      font-weight: bold;
+      margin: 10px 0;
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1 id="title">HART Intake Form</h1>
-    <p>Human–AI Relationship Translator for Health</p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Heart_corazón.svg/1024px-Heart_corazón.svg.png" alt="heart logo">
+    <h1>HART – Human-AI Relationship in Health</h1>
   </header>
 
-  <div class="container">
-    <!-- Language Switch -->
-    <div class="lang-switch">
-      <button type="button" data-lang="en" class="active">English</button>
-      <button type="button" data-lang="ru">Русский</button>
-      <button type="button" data-lang="he">עברית</button>
+  <p class="welcome">Welcome! Please fill out this intake form carefully. This will help us prepare your visit and guide your care.</p>
+
+  <div class="lang-switch">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+    <button data-lang="he">HE</button>
+  </div>
+
+  <form id="intakeForm">
+    <h2>Emergency Red Flags</h2>
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="emergency" value="Chest pain"> Chest pain</label>
+      <label><input type="checkbox" name="emergency" value="Severe shortness of breath"> Severe shortness of breath</label>
+      <label><input type="checkbox" name="emergency" value="Fainting"> Fainting</label>
+      <label><input type="checkbox" name="emergency" value="Confusion"> Confusion</label>
+      <label><input type="checkbox" name="emergency" value="Uncontrolled bleeding"> Uncontrolled bleeding</label>
+    </div>
+    <div class="emergency-warning" id="emergencyWarning">
+      ⚠️ These symptoms may indicate a medical emergency. Please call 911 or your local emergency services immediately.
     </div>
 
-    <form id="intakeForm">
-      <!-- General Info -->
-      <div class="section">
-        <h3 data-i18n="general_info">Patient Information</h3>
-        <label data-i18n="name">Name</label>
-        <input type="text" name="name" />
+    <h2>Patient Information</h2>
+    <label>Name: <input type="text" name="name"></label>
+    <label>Age: <input type="number" name="age"></label>
+    <label>Gender: <input type="text" name="gender"></label>
+    <label>Contact: <input type="text" name="contact"></label>
 
-        <label data-i18n="age">Age</label>
-        <input type="number" name="age" />
+    <h2>Chief Complaint</h2>
+    <textarea name="chief_complaint"></textarea>
+    <button type="button" class="voice-btn" data-target="chief_complaint">🎤 Speak</button>
 
-        <label data-i18n="gender">Gender</label>
-        <select name="gender">
-          <option>Male</option>
-          <option>Female</option>
-          <option>Other</option>
-        </select>
+    <h2>History of Present Illness</h2>
+    <textarea name="history"></textarea>
+    <button type="button" class="voice-btn" data-target="history">🎤 Speak</button>
 
-        <label data-i18n="contact">Contact Information</label>
-        <input type="text" name="contact" />
-      </div>
+    <h2>General Complaints</h2>
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="general" value="Fatigue"> Fatigue</label>
+      <label><input type="checkbox" name="general" value="Headache"> Headache</label>
+      <label><input type="checkbox" name="general" value="Fever"> Fever</label>
+      <label><input type="checkbox" name="general" value="Dizziness"> Dizziness</label>
+      <label><input type="checkbox" name="general" value="Nausea"> Nausea</label>
+    </div>
 
-      <!-- Complaint -->
-      <div class="section">
-        <h3 data-i18n="complaint">Chief Complaint & History</h3>
-        <label data-i18n="chief_complaint">Chief Complaint</label>
-        <textarea name="chief_complaint"></textarea>
-        <button type="button" class="voice-btn" data-target="chief_complaint">🎤 Speak</button>
+    <h2>Primary Care Questions</h2>
+    <label>Medications: <input type="text" name="medications"></label>
+    <label>Allergies: <input type="text" name="allergies"></label>
 
-        <label data-i18n="history">History of Present Illness</label>
-        <textarea name="history"></textarea>
-        <button type="button" class="voice-btn" data-target="history">🎤 Speak</button>
-      </div>
+    <h2>Cardiology</h2>
+    <label><input type="checkbox" name="chest_pain" value="Yes"> Chest pain</label>
+    <label><input type="checkbox" name="palpitations" value="Yes"> Palpitations</label>
+    <label><input type="checkbox" name="shortness_breath" value="Yes"> Shortness of breath</label>
+    <label><input type="checkbox" name="fainting" value="Yes"> Fainting</label>
 
-      <!-- Primary Care -->
-      <div class="section">
-        <h3 data-i18n="primary">Primary Care Questions</h3>
-        <label data-i18n="meds">Current Medications</label>
-        <textarea name="medications"></textarea>
-        <label data-i18n="allergies">Allergies</label>
-        <textarea name="allergies"></textarea>
-      </div>
+    <button type="submit">Submit</button>
+  </form>
 
-      <!-- Cardiology -->
-      <div class="section">
-        <h3 data-i18n="cardio">Cardiology Questions</h3>
-        <label data-i18n="symptoms">Select all symptoms you have:</label>
-        <div>
-          <label><input type="checkbox" name="symptoms" value="Chest pain"> Chest pain</label>
-          <label><input type="checkbox" name="symptoms" value="Palpitations"> Palpitations</label>
-          <label><input type="checkbox" name="symptoms" value="Shortness of breath"> Shortness of breath</label>
-          <label><input type="checkbox" name="symptoms" value="Swelling in legs"> Swelling in legs</label>
-        </div>
-      </div>
-
-      <!-- Emergency -->
-      <div class="section">
-        <h3 data-i18n="emergency">Emergency Check</h3>
-        <label data-i18n="fainting">Have you fainted recently?</label>
-        <select id="fainting" name="fainting"><option>No</option><option>Yes</option></select>
-        <div id="emergency">🚨 Emergency Warning: Please call 911 immediately!</div>
-      </div>
-
-      <button type="submit">Submit</button>
-    </form>
-
-    <div id="loading"><div class="spinner"></div><span>Evaluating... please wait.</span></div>
-    <pre id="result"></pre>
-    <button id="pdfBtn" style="display:none;">Download PDF</button>
-  </div>
+  <div id="loading">⏳ Evaluating...</div>
+  <pre id="result"></pre>
+  <button id="pdfBtn">Download PDF</button>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="script.js"></script>
