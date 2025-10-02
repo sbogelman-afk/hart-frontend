@@ -2,51 +2,79 @@ const form = document.getElementById("intakeForm");
 const resultEl = document.getElementById("result");
 const loadingEl = document.getElementById("loading");
 const emergencyEl = document.getElementById("emergency");
-const langSelect = document.getElementById("lang");
 const pdfBtn = document.getElementById("pdfBtn");
 
-// Emergency red flag check
+// --- Language Translations ---
+const translations = {
+  ru: {
+    general_info: "Информация о пациенте", name: "Имя", age: "Возраст", gender: "Пол", contact: "Контакт",
+    complaint: "Жалобы и история", chief_complaint: "Основная жалоба", history: "История болезни",
+    primary: "Вопросы терапевта", meds: "Текущие лекарства", allergies: "Аллергии",
+    cardio: "Вопросы кардиолога", symptoms: "Выберите все симптомы:",
+    emergency: "Проверка на экстренные случаи", fainting: "У вас были обмороки?"
+  },
+  he: {
+    general_info: "מידע על המטופל", name: "שם", age: "גיל", gender: "מגדר", contact: "פרטי קשר",
+    complaint: "תלונות והיסטוריה", chief_complaint: "תלונה עיקרית", history: "היסטוריה רפואית",
+    primary: "שאלות רופא משפחה", meds: "תרופות נוכחיות", allergies: "אלרגיות",
+    cardio: "שאלות קרדיולוגיה", symptoms: "בחר את כל הסימפטומים:",
+    emergency: "בדיקת חירום", fainting: "האם התעלפת לאחרונה?"
+  }
+};
+
+// Language switching with active button
+document.querySelectorAll(".lang-switch button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const lang = btn.dataset.lang;
+    document.querySelectorAll(".lang-switch button").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      if (translations[lang] && translations[lang][key]) {
+        el.textContent = translations[lang][key];
+      } else if (lang === "en") {
+        el.textContent = el.getAttribute("data-i18n").replace("_", " ");
+      }
+    });
+  });
+});
+
+// --- Emergency flag check ---
 document.getElementById("fainting").addEventListener("change", e => {
   emergencyEl.style.display = e.target.value === "Yes" ? "block" : "none";
 });
 
-// Translations
-const translations = {
-  ru: {
-    name: "Имя", age: "Возраст", gender: "Пол", contact: "Контактная информация",
-    chief_complaint: "Основная жалоба", history: "История болезни",
-    primary: "Вопросы терапевта", meds: "Текущие лекарства", allergies: "Аллергии",
-    cardio: "Вопросы кардиолога", chest_pain: "У вас есть боль в груди?",
-    palpitations: "У вас есть сердцебиение?", sob: "Одышка?",
-    fainting: "Были ли у вас обмороки недавно?"
-  },
-  he: {
-    name: "שם", age: "גיל", gender: "מגדר", contact: "פרטי קשר",
-    chief_complaint: "תלונה עיקרית", history: "היסטוריה רפואית",
-    primary: "שאלות רופא משפחה", meds: "תרופות נוכחיות", allergies: "אלרגיות",
-    cardio: "שאלות קרדיולוגיה", chest_pain: "האם יש לך כאבים בחזה?",
-    palpitations: "האם יש לך דפיקות לב?", sob: "קוצר נשימה?",
-    fainting: "האם התעלפת לאחרונה?"
-  }
+// --- Voice recording support ---
+const voiceLangMap = {
+  en: "en-US",
+  ru: "ru-RU",
+  he: "he-IL"
 };
 
-langSelect.addEventListener("change", () => {
-  const lang = langSelect.value;
-  document.querySelectorAll("[data-i18n]").forEach(el => {
-    const key = el.getAttribute("data-i18n");
-    if (translations[lang] && translations[lang][key]) {
-      el.textContent = translations[lang][key];
-    } else if (lang === "en") {
-      el.textContent = el.getAttribute("data-i18n").replace("_", " ");
-    }
+if (!("webkitSpeechRecognition" in window) && !("SpeechRecognition" in window)) {
+  document.querySelectorAll(".voice-btn").forEach(btn => btn.style.display = "none");
+} else {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  document.querySelectorAll(".voice-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.target;
+      const currentLang = document.querySelector(".lang-switch button.active")?.dataset.lang || "en";
+      const recognition = new SpeechRecognition();
+      recognition.lang = voiceLangMap[currentLang] || "en-US";
+      recognition.start();
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        form.querySelector(`[name=${target}]`).value += 
+          (form.querySelector(`[name=${target}]`).value ? " " : "") + transcript;
+      };
+    });
   });
-});
+}
 
-// PDF generator
+// --- PDF Generator ---
 function generatePDF(answers, evaluation) {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
-
   const uid = "HART-" + Date.now();
 
   doc.setFontSize(16);
@@ -74,9 +102,9 @@ function generatePDF(answers, evaluation) {
   doc.text(`Allergies: ${answers.allergies || ""}`, 10, y); y += 10;
 
   doc.text("Cardiology:", 10, y); y += 6;
-  doc.text(`Chest Pain: ${answers.chest_pain || ""}`, 10, y); y += 6;
-  doc.text(`Palpitations: ${answers.palpitations || ""}`, 10, y); y += 6;
-  doc.text(`Shortness of Breath: ${answers.shortness_breath || ""}`, 10, y); y += 6;
+  doc.text(`Symptoms: ${(answers.symptoms || []).join(", ")}`, 10, y); y += 10;
+
+  doc.text("Emergency:", 10, y); y += 6;
   doc.text(`Fainting: ${answers.fainting || ""}`, 10, y); y += 10;
 
   doc.text("AI Evaluation:", 10, y); y += 6;
@@ -86,7 +114,7 @@ function generatePDF(answers, evaluation) {
   doc.save(uid + ".pdf");
 }
 
-// Submit handler
+// --- Submit handler ---
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   resultEl.textContent = "";
@@ -95,7 +123,14 @@ form.addEventListener("submit", async (e) => {
 
   const formData = new FormData(form);
   const answers = {};
-  formData.forEach((value, key) => { answers[key] = value; });
+  formData.forEach((value, key) => {
+    if (answers[key]) {
+      if (!Array.isArray(answers[key])) answers[key] = [answers[key]];
+      answers[key].push(value);
+    } else {
+      answers[key] = value;
+    }
+  });
 
   try {
     const res = await fetch("/.netlify/functions/evaluate", {
@@ -108,7 +143,6 @@ form.addEventListener("submit", async (e) => {
     const data = await res.json();
     resultEl.textContent = JSON.stringify(data, null, 2);
 
-    // enable PDF download
     pdfBtn.style.display = "inline-block";
     pdfBtn.onclick = () => generatePDF(answers, data);
 
