@@ -1,10 +1,10 @@
 // ===== Config =====
 const API_URL = "https://hart-eval-backend-48887cb98881.herokuapp.com/evaluate";
-const API_TOKEN = "hart-backend-secret-2025"; // using backend bearer, OK for testing
+const API_TOKEN = "hart-backend-secret-2025"; // backend bearer
 let lastEvaluation = null; // store last AI evaluation for PDF export
 
 // ===== Translations (EN, RU, HE) =====
-const t = { /* … keep your translations exactly as you pasted … */ };
+const t = { /* keep your full translations block here (en, ru, he) */ };
 
 // ===== Helpers: i18n & RTL =====
 const $ = (sel) => document.querySelector(sel);
@@ -51,11 +51,43 @@ function updateEmergencyState(){
 
 // ===== Speech recognition =====
 let activeRecog = null;
-function setupMicButtons(){ /* unchanged as in your code */ }
+function setupMicButtons(){
+  $$(".mic-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const targetName = btn.getAttribute("data-target");
+      const field = document.querySelector(`textarea[name='${targetName}']`);
+      if (!("webkitSpeechRecognition" in window)) {
+        field.value += (field.value ? "\n" : "") + "[Speech recognition not supported]";
+        return;
+      }
+      if (activeRecog){
+        activeRecog.stop();
+        activeRecog = null;
+        btn.classList.remove("recording");
+        return;
+      }
+      const rec = new webkitSpeechRecognition();
+      rec.continuous = true;
+      rec.interimResults = true;
+      rec.lang = (document.documentElement.getAttribute("dir") === "rtl") ? "he-IL" : "en-US";
+      rec.onresult = (e) => {
+        let tx = "";
+        for (let i=e.resultIndex; i<e.results.length; i++){
+          tx += e.results[i][0].transcript;
+        }
+        field.value = tx;
+      };
+      rec.onend = () => { activeRecog = null; btn.classList.remove("recording"); };
+      rec.start();
+      activeRecog = rec;
+      btn.classList.add("recording");
+    });
+  });
+}
 
 // ===== Show AI Evaluation nicely =====
 function showEvaluation(result) {
-  lastEvaluation = result; // save for PDF
+  lastEvaluation = result;
 
   $("#result").innerHTML = `
     <div class="evaluation-report">
@@ -78,7 +110,6 @@ function showEvaluation(result) {
     </div>
   `;
 
-  // Attach PDF button event
   document.getElementById("pdfButton").addEventListener("click", downloadPDF);
 }
 
@@ -172,14 +203,23 @@ async function submitForm(e){
 document.addEventListener("DOMContentLoaded", () => {
   applyTranslations("en");
 
-  // New language bar instead of dropdown
+  // Language switcher bar
   document.querySelectorAll("#langSwitcher button").forEach(btn => {
     btn.addEventListener("click", () => {
       applyTranslations(btn.dataset.lang);
     });
   });
 
+  // Emergency events
   $$(".rf").forEach(cb => cb.addEventListener("change", updateEmergencyState));
+
+  // Mic buttons
   setupMicButtons();
-  document.getElementById("intakeForm").addEventListener("submit", submitForm);
+
+  // Form submit
+  const form = document.getElementById("intakeForm");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    submitForm(e);
+  });
 });
