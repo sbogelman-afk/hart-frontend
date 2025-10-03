@@ -1,74 +1,116 @@
-const form = document.getElementById("intakeForm");
-const loading = document.getElementById("loading");
-const result = document.getElementById("result");
-
-// Backend endpoint
-const API_URL = "https://hart-eval-backend-48887cb98881.herokuapp.com/evaluate";
-const API_TOKEN = "hart-backend-secret-2025";
-
-// Form submit
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  loading.style.display = "block";
-  result.textContent = "";
-
-  const formData = new FormData(form);
-  const symptoms = formData.getAll("symptoms");
-  if (formData.get("symptoms_other")) {
-    symptoms.push(formData.get("symptoms_other"));
-  }
-
-  const payload = {
-    name: formData.get("name"),
-    age: parseInt(formData.get("age")),
-    gender: formData.get("gender"),
-    symptoms: symptoms,
-    history: formData.get("history"),
-    medications: formData.get("medications")
-  };
-
-  try {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${API_TOKEN}`
-      },
-      body: JSON.stringify(payload)
-    });
-
-    if (!res.ok) {
-      throw new Error(`Backend error: ${res.status}`);
-    }
-
-    const data = await res.json();
-    result.textContent = JSON.stringify(data, null, 2);
-  } catch (err) {
-    result.textContent = "Error: " + err.message;
-  } finally {
-    loading.style.display = "none";
-  }
-});
-
-// Voice recording (basic speech-to-text using browser API)
-let recognition;
-if ("webkitSpeechRecognition" in window) {
-  recognition = new webkitSpeechRecognition();
-  recognition.continuous = true;
-  recognition.interimResults = true;
-  recognition.lang = "en-US";
-
-  recognition.onresult = (event) => {
-    let transcript = "";
-    for (let i = event.resultIndex; i < event.results.length; i++) {
-      transcript += event.results[i][0].transcript;
-    }
-    document.getElementById("voiceNotes").value = transcript;
-  };
-
-  document.getElementById("start-recording").onclick = () => recognition.start();
-  document.getElementById("stop-recording").onclick = () => recognition.stop();
-} else {
-  document.getElementById("voiceNotes").value =
-    "Speech recognition not supported in this browser.";
+:root{
+  --burgundy:#6a1b1b;
+  --burgundy-dark:#520f0f;
+  --bg:#f6f7fb;
+  --card:#ffffff;
+  --muted:#6b7280;
+  --danger:#b91c1c;
+  --danger-bg:#fee2e2;
+  --ring:#e5e7eb;
 }
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  background:var(--bg);
+  color:#111827;
+  line-height:1.4;
+}
+
+/* RTL mode */
+body.rtl {
+  direction: rtl;
+  text-align: right;
+}
+body.rtl .grid-2, body.rtl .grid-3 { direction: rtl; }
+body.rtl label, body.rtl .with-mic { text-align: right; }
+
+/* Header */
+.site-header{
+  background:linear-gradient(90deg,var(--burgundy),var(--burgundy-dark));
+  color:#fff;
+  padding:1rem 1.25rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:.75rem;
+}
+.brand{display:flex; gap:.5rem; align-items:center; font-weight:700; font-size:1.25rem}
+.brand .heart{font-size:1.4rem}
+.welcome{margin:0; flex: 1 0 100%;}
+.lang-wrap select{
+  background:rgba(255,255,255,.12);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.25);
+  padding:.35rem .5rem;
+  border-radius:6px;
+}
+
+/* Layout */
+main{max-width:980px;margin:1rem auto;padding:0 1rem}
+.card{
+  background:var(--card);
+  border:1px solid var(--ring);
+  border-radius:10px;
+  padding:1rem;
+  box-shadow:0 6px 20px rgba(0,0,0,.04);
+  margin-bottom:1rem;
+}
+.card.danger{border-color:var(--danger)}
+
+h2{margin:.25rem 0 .75rem; color:var(--burgundy)}
+p.muted{color:var(--muted); margin:.25rem 0 1rem}
+
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:1rem}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:.75rem}
+@media (max-width:800px){
+  .grid-2, .grid-3{grid-template-columns:1fr}
+}
+
+label{display:flex; flex-direction:column; gap:.4rem; font-size:.95rem}
+input,select,textarea,button{
+  border:1px solid var(--ring);
+  border-radius:8px;
+  padding:.6rem .7rem;
+  font-size:1rem;
+  background:#fff;
+}
+input:focus,select:focus,textarea:focus,button:focus{outline:2px solid #cbd5e1; outline-offset:1px}
+
+.chk{display:flex; align-items:center; gap:.5rem; border:1px solid var(--ring); padding:.45rem .6rem; border-radius:8px; background:#fff}
+.chk input{width:auto; margin-right:.4rem}
+.mt{margin-top:.5rem}
+
+.with-mic{position:relative}
+.mic-btn{
+  position:absolute; right:.5rem; bottom:.5rem;
+  background:#f3f4f6; border:1px solid var(--ring);
+  padding:.3rem .5rem; border-radius:6px; cursor:pointer;
+}
+body.rtl .mic-btn{left:.5rem; right:auto}
+
+.callout{
+  background:var(--danger-bg);
+  border:1px solid var(--danger);
+  color:#7f1d1d;
+  padding:.75rem;
+  border-radius:8px;
+  margin-top:.75rem;
+}
+.hidden{display:none}
+
+.actions{display:flex; gap:.75rem; align-items:center; margin-top:.5rem}
+button.primary{background:var(--burgundy); color:#fff; border-color:transparent}
+button.primary:hover{background:var(--burgundy-dark)}
+button.ghost{background:#fff}
+
+.loading{margin-top:.5rem; font-weight:600; color:var(--burgundy)}
+.result{
+  background:#0b1020; color:#d1d5db;
+  padding:1rem; border-radius:10px; margin-top:1rem; overflow:auto
+}
+
+.site-footer{max-width:980px; margin: 0 auto 2rem; padding:0 1rem; color:var(--muted)}
+.sr-only{position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden}
