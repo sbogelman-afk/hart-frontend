@@ -1,224 +1,388 @@
-// ===== TRANSLATIONS =====
-const translations = {
+// ===== Config =====
+const API_URL = "https://hart-eval-backend-48887cb98881.herokuapp.com/evaluate";
+const API_TOKEN = "hart-backend-secret-2025"; // using backend bearer, OK for testing
+
+// ===== Translations (EN, RU, HE) =====
+const t = {
   en: {
-    title: "HART Patient Intake Form",
-    emergency: "🚨 Emergency: If you are experiencing severe chest pain, difficulty breathing, or other life-threatening symptoms, please call 911 immediately.",
-    name: "Full Name",
-    age: "Age",
-    gender: "Gender",
-    male: "Male",
-    female: "Female",
-    other: "Other",
-    symptoms: "Main Symptoms",
-    history: "Medical History",
-    medications: "Current Medications",
-    lifestyle: "Lifestyle Factors",
-    smoking: "Smoking",
-    alcohol: "Alcohol",
-    yes: "Yes",
-    no: "No",
-    occasional: "Occasional",
-    contact: "Contact Information (optional)",
-    email: "Email",
-    phone: "Phone",
+    welcome: "Welcome! Please complete this intake to help us prepare your visit.",
+    emergency_header: "Emergency red flags",
+    emergency_note: "If any of these apply, stop and seek emergency care.",
+    rf_chest_pain: "Severe chest pain",
+    rf_severe_sob: "Severe shortness of breath",
+    rf_stroke: "Facial droop or new weakness",
+    rf_bleeding: "Uncontrolled bleeding",
+    rf_confusion: "Severe confusion",
+    rf_suicidal: "Suicidal thoughts",
+    call911_title: "Possible emergency.",
+    call911_text: "Please call 911 or go to the nearest emergency department now.",
+
+    sect_patient: "Patient Information",
+    name_label: "Name*",
+    age_label: "Age*",
+    gender_label: "Gender*",
+    gender_m: "Male",
+    gender_f: "Female",
+    gender_o: "Other",
+    email_label: "Email (optional)",
+    phone_label: "Phone (optional)",
+    select_prompt: "Select…",
+
+    sect_symptoms: "Symptoms",
+    symptoms_note: "Select all that apply:",
+    s_fever: "Fever",
+    s_cough: "Cough",
+    s_sob: "Shortness of breath",
+    s_chest_pain: "Chest pain",
+    s_fatigue: "Fatigue",
+    s_headache: "Headache",
+    s_nausea: "Nausea",
+    s_dizziness: "Dizziness",
+    s_palpitations: "Palpitations",
+    other_symptoms: "Other (optional)",
+
+    sect_history: "Medical History",
+    history_ph: "Relevant past medical history...",
+
+    sect_meds: "Current Medications",
+    meds_ph: "List any medications currently taken...",
+
+    sect_lifestyle: "Lifestyle (optional)",
+    smoking_label: "Smoking",
+    alcohol_label: "Alcohol",
+    exercise_label: "Exercise (hours/week)",
+    yes: "Yes", no: "No", occasional: "Occasional",
+
     submit: "Submit",
-    pdf: "Download PDF Report",
-    evaluation: "AI Evaluation Report"
+    export_pdf: "Export PDF",
+    evaluating: "Evaluating… Please wait.",
+    footer_note: "This form does not provide medical diagnosis. For emergencies, call 911."
   },
   ru: {
-    title: "Форма регистрации пациента HART",
-    emergency: "🚨 Срочно: если у вас сильная боль в груди, затрудненное дыхание или другие угрожающие жизни симптомы, немедленно звоните 911.",
-    name: "Полное имя",
-    age: "Возраст",
-    gender: "Пол",
-    male: "Мужской",
-    female: "Женский",
-    other: "Другое",
-    symptoms: "Основные жалобы",
-    history: "Медицинская история",
-    medications: "Принимаемые лекарства",
-    lifestyle: "Факторы образа жизни",
-    smoking: "Курение",
-    alcohol: "Алкоголь",
-    yes: "Да",
-    no: "Нет",
-    occasional: "Иногда",
-    contact: "Контактная информация (необязательно)",
-    email: "Эл. почта",
-    phone: "Телефон",
+    welcome: "Добро пожаловать! Пожалуйста, заполните форму, чтобы мы могли подготовиться к визиту.",
+    emergency_header: "Тревожные симптомы (неотложные)",
+    emergency_note: "Если что-то из этого присутствует, немедленно обратитесь за экстренной помощью.",
+    rf_chest_pain: "Сильная боль в груди",
+    rf_severe_sob: "Сильная одышка",
+    rf_stroke: "Асимметрия лица или внезапная слабость",
+    rf_bleeding: "Неконтролируемое кровотечение",
+    rf_confusion: "Выраженная спутанность сознания",
+    rf_suicidal: "Суицидальные мысли",
+    call911_title: "Возможная неотложная ситуация.",
+    call911_text: "Позвоните 911 или обратитесь в ближайшее отделение неотложной помощи.",
+
+    sect_patient: "Информация о пациенте",
+    name_label: "Имя*",
+    age_label: "Возраст*",
+    gender_label: "Пол*",
+    gender_m: "Мужской",
+    gender_f: "Женский",
+    gender_o: "Другое",
+    email_label: "Эл. почта (необязательно)",
+    phone_label: "Телефон (необязательно)",
+    select_prompt: "Выберите…",
+
+    sect_symptoms: "Симптомы",
+    symptoms_note: "Отметьте все подходящее:",
+    s_fever: "Лихорадка",
+    s_cough: "Кашель",
+    s_sob: "Одышка",
+    s_chest_pain: "Боль в груди",
+    s_fatigue: "Усталость",
+    s_headache: "Головная боль",
+    s_nausea: "Тошнота",
+    s_dizziness: "Головокружение",
+    s_palpitations: "Серцебиение",
+    other_symptoms: "Другое (необязательно)",
+
+    sect_history: "Медицинский анамнез",
+    history_ph: "Ранее перенесенные заболевания, операции и т.д.",
+
+    sect_meds: "Текущие лекарства",
+    meds_ph: "Перечислите все принимаемые препараты…",
+
+    sect_lifestyle: "Образ жизни (необязательно)",
+    smoking_label: "Курение",
+    alcohol_label: "Алкоголь",
+    exercise_label: "Физ. нагрузка (часов/нед.)",
+    yes: "Да", no: "Нет", occasional: "Редко",
+
     submit: "Отправить",
-    pdf: "Скачать отчет PDF",
-    evaluation: "Отчет AI-оценки"
+    export_pdf: "PDF отчет",
+    evaluating: "Оценка… Пожалуйста, подождите.",
+    footer_note: "Эта форма не является диагнозом. При неотложных состояниях звоните 911."
   },
   he: {
-    title: "טופס קבלה של HART",
-    emergency: "🚨 חירום: אם אתה חווה כאב חמור בחזה, קוצר נשימה או תסמינים מסכני חיים אחרים, התקשר ל-911 מיד.",
-    name: "שם מלא",
-    age: "גיל",
-    gender: "מגדר",
-    male: "זכר",
-    female: "נקבה",
-    other: "אחר",
-    symptoms: "תסמינים עיקריים",
-    history: "היסטוריה רפואית",
-    medications: "תרופות נוכחיות",
-    lifestyle: "גורמי אורח חיים",
-    smoking: "עישון",
-    alcohol: "אלכוהול",
-    yes: "כן",
-    no: "לא",
-    occasional: "מדי פעם",
-    contact: "פרטי קשר (אופציונלי)",
-    email: "דוא״ל",
-    phone: "טלפון",
-    submit: "שלח",
-    pdf: "הורד דוח PDF",
-    evaluation: "דוח הערכת AI"
+    welcome: "ברוכים הבאים! אנא מלאו את הטופס כדי שנוכל להיערך לביקור.",
+    emergency_header: "אזהרות חרום",
+    emergency_note: "אם אחד מאלה קיים – הפסיקו ופנו לעזרה דחופה.",
+    rf_chest_pain: "כאבים חזקים בחזה",
+    rf_severe_sob: "קוצר נשימה חמור",
+    rf_stroke: "צניחת פנים או חולשה חדשה",
+    rf_bleeding: "דימום שאינו נפסק",
+    rf_confusion: "בלבול קשה",
+    rf_suicidal: "מחשבות אובדניות",
+    call911_title: "יתכן מצב חירום.",
+    call911_text: "התקשרו 911 או פנו לחדר מיון הקרוב.",
+
+    sect_patient: "פרטי מטופל",
+    name_label: "שם*",
+    age_label: "גיל*",
+    gender_label: "מין*",
+    gender_m: "זכר",
+    gender_f: "נקבה",
+    gender_o: "אחר",
+    email_label: "אימייל (רשות)",
+    phone_label: "טלפון (רשות)",
+    select_prompt: "בחרו…",
+
+    sect_symptoms: "תסמינים",
+    symptoms_note: "בחרו את כל המתאים:",
+    s_fever: "חום",
+    s_cough: "שיעול",
+    s_sob: "קוצר נשימה",
+    s_chest_pain: "כאבים בחזה",
+    s_fatigue: "עייפות",
+    s_headache: "כאבי ראש",
+    s_nausea: "בחילה",
+    s_dizziness: "סחרחורת",
+    s_palpitations: "דופק מהיר",
+    other_symptoms: "אחר (רשות)",
+
+    sect_history: "היסטוריה רפואית",
+    history_ph: "מחלות רקע, ניתוחים וכו׳",
+
+    sect_meds: "תרופות נוכחיות",
+    meds_ph: "רשימת התרופות שאתם נוטלים…",
+
+    sect_lifestyle: "אורח חיים (רשות)",
+    smoking_label: "עישון",
+    alcohol_label: "אלכוהול",
+    exercise_label: "פעילות גופנית (ש׳ בשבוע)",
+    yes: "כן", no: "לא", occasional: "לעיתים",
+
+    submit: "שליחה",
+    export_pdf: "יצוא PDF",
+    evaluating: "מעריך… אנא המתינו.",
+    footer_note: "טופס זה אינו מהווה אבחון. בחירום – חייגו 911."
   }
 };
 
-let currentLang = "en";
+// ===== Helpers: i18n & RTL =====
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
 
-// ===== LANGUAGE SWITCHER =====
-function switchLanguage(lang) {
-  currentLang = lang;
-  const t = translations[lang];
-  document.getElementById("form-title").innerText = t.title;
-  document.getElementById("emergency-text").innerText = t.emergency;
-  document.getElementById("label-name").innerText = t.name;
-  document.getElementById("label-age").innerText = t.age;
-  document.getElementById("label-gender").innerText = t.gender;
-  document.getElementById("gender-male").innerText = t.male;
-  document.getElementById("gender-female").innerText = t.female;
-  document.getElementById("gender-other").innerText = t.other;
-  document.getElementById("label-symptoms").innerText = t.symptoms;
-  document.getElementById("label-history").innerText = t.history;
-  document.getElementById("label-medications").innerText = t.medications;
-  document.getElementById("label-lifestyle").innerText = t.lifestyle;
-  document.getElementById("label-smoking").innerText = t.smoking;
-  document.getElementById("label-alcohol").innerText = t.alcohol;
-  document.getElementById("smoke-yes").innerText = t.yes;
-  document.getElementById("smoke-no").innerText = t.no;
-  document.getElementById("smoke-occasional").innerText = t.occasional;
-  document.getElementById("alcohol-yes").innerText = t.yes;
-  document.getElementById("alcohol-no").innerText = t.no;
-  document.getElementById("alcohol-occasional").innerText = t.occasional;
-  document.getElementById("label-contact").innerText = t.contact;
-  document.getElementById("label-email").innerText = t.email;
-  document.getElementById("label-phone").innerText = t.phone;
-  document.getElementById("submit-btn").innerText = t.submit;
-  document.getElementById("pdf-btn").innerText = t.pdf;
-  document.getElementById("evaluation-title").innerText = t.evaluation;
-}
-
-// ===== FORM SUBMISSION =====
-document.getElementById("intake-form").addEventListener("submit", async function(e) {
-  e.preventDefault();
-  document.getElementById("loading").style.display = "block";
-
-  const data = {
-    name: document.getElementById("name").value,
-    age: document.getElementById("age").value,
-    gender: document.getElementById("gender").value,
-    symptoms: document.getElementById("symptoms").value.split(",").map(s => s.trim()),
-    history: document.getElementById("history").value,
-    medications: document.getElementById("medications").value
-  };
-
-  try {
-    const response = await fetch("https://hart-eval-backend-48887cb98881.herokuapp.com/evaluate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer hart-backend-secret-2025"
-      },
-      body: JSON.stringify(data)
-    });
-
-    if (!response.ok) throw new Error("Backend error: " + response.status);
-
-    const result = await response.json();
-    displayEvaluation(result, currentLang);
-
-  } catch (err) {
-    alert("Error: " + err.message);
-  } finally {
-    document.getElementById("loading").style.display = "none";
+function applyTranslations(lang){
+  // Toggle RTL for Hebrew
+  if (lang === "he") {
+    document.documentElement.setAttribute("dir", "rtl");
+    document.body.classList.add("rtl");
+  } else {
+    document.documentElement.setAttribute("dir", "ltr");
+    document.body.classList.remove("rtl");
   }
-});
 
-// ===== DISPLAY POLISHED EVALUATION =====
-function displayEvaluation(result, lang) {
-  const container = document.getElementById("evaluation-result");
-  container.innerHTML = `
-    <div class="report">
-      <h2>${translations[lang].evaluation}</h2>
-      <h3>Chief Complaint</h3>
-      <p>${result.chief_complaint}</p>
-      <h3>History Summary</h3>
-      <p>${result.history_summary}</p>
-      <h3>Risk Flags</h3>
-      <ul>${Object.entries(result.risk_flags).map(([k,v]) => `<li><b>${k}:</b> ${v}</li>`).join("")}</ul>
-      <h3>Recommended Follow-ups</h3>
-      <ul>${result.recommended_followups.map(r => `<li>${r}</li>`).join("")}</ul>
-      <h3>Differential Considerations</h3>
-      <ul>${result.differential_considerations.map(d => `<li>${d}</li>`).join("")}</ul>
-      <h3>Patient-Friendly Summary</h3>
-      <p>${result.patient_friendly_summary}</p>
-      <h3>Emergency Guidance</h3>
-      <p><b>${result.emergency_guidance}</b></p>
-    </div>
-  `;
+  // All text nodes with data-i18n
+  $$("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (t[lang][key] !== undefined) el.textContent = t[lang][key];
+  });
 
-  document.getElementById("pdf-btn").style.display = "block";
-  document.getElementById("pdf-btn").onclick = () => downloadPDF(result, lang);
+  // Placeholders using data-ph keys on inputs/textareas
+  $$("[data-ph]").forEach(el => {
+    const key = el.getAttribute("data-ph");
+    if (t[lang][key] !== undefined) el.setAttribute("placeholder", t[lang][key]);
+  });
+
+  // Also update the default "Select…" options
+  $$("option[data-i18n='select_prompt']").forEach(opt => {
+    opt.textContent = t[lang]["select_prompt"];
+  });
 }
 
-// ===== PDF GENERATION =====
-function downloadPDF(result, lang) {
+// ===== Emergency red flags logic =====
+function updateEmergencyState(){
+  const anyChecked = Array.from($$(".rf")).some(cb => cb.checked);
+  const banner = $("#emergencyBanner");
+  const submit = $("#submitBtn");
+
+  if (anyChecked){
+    banner.classList.remove("hidden");
+    submit.disabled = true;
+  } else {
+    banner.classList.add("hidden");
+    submit.disabled = false;
+  }
+}
+
+// ===== Speech recognition (simple toggle per textarea) =====
+let activeRecog = null;
+function setupMicButtons(){
+  $$(".mic-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const targetName = btn.getAttribute("data-target");
+      const field = document.querySelector(`textarea[name='${targetName}']`);
+      if (!("webkitSpeechRecognition" in window)) {
+        field.value += (field.value ? "\n" : "") + "[Speech recognition not supported in this browser]";
+        return;
+      }
+      if (activeRecog){
+        activeRecog.stop();
+        activeRecog = null;
+        btn.classList.remove("recording");
+        return;
+      }
+      const rec = new webkitSpeechRecognition();
+      rec.continuous = true;
+      rec.interimResults = true;
+      rec.lang = (document.documentElement.getAttribute("dir") === "rtl") ? "he-IL" : "en-US";
+      rec.onresult = (e) => {
+        let tx = "";
+        for (let i=e.resultIndex; i<e.results.length; i++){
+          tx += e.results[i][0].transcript;
+        }
+        field.value = tx;
+      };
+      rec.onend = () => { activeRecog = null; btn.classList.remove("recording"); };
+      rec.start();
+      activeRecog = rec;
+      btn.classList.add("recording");
+    });
+  });
+}
+
+// ===== PDF export (simple structured report) =====
+async function exportPDF(){
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
-  doc.setFontSize(18);
-  doc.text("❤️ HART Patient Evaluation Report", 10, 15);
+  const name = $("input[name='name']").value || "-";
+  const age = $("input[name='age']").value || "-";
+  const gender = $("select[name='gender']").value || "-";
 
-  doc.setFontSize(12);
-  doc.text("Chief Complaint:", 10, 30);
-  doc.text(result.chief_complaint, 10, 37);
+  const symptoms = Array.from($$("input[name='symptoms']:checked")).map(i=>i.value);
+  const symptomsOther = $("input[name='symptoms_other']").value?.trim();
+  if (symptomsOther) symptoms.push(symptomsOther);
 
-  doc.text("History Summary:", 10, 50);
-  doc.text(result.history_summary, 10, 57);
+  const history = $("textarea[name='history']").value || "-";
+  const meds = $("textarea[name='medications']").value || "-";
 
-  doc.text("Risk Flags:", 10, 70);
-  Object.entries(result.risk_flags).forEach(([k,v], i) => {
-    doc.text(`${k}: ${v}`, 15, 77 + i*7);
-  });
+  const smoking = $("select[name='smoking']").value || "-";
+  const alcohol = $("select[name='alcohol']").value || "-";
+  const exercise = $("input[name='exercise']").value || "-";
 
-  doc.text("Follow-ups:", 10, 110);
-  result.recommended_followups.forEach((f, i) => {
-    doc.text(`- ${f}`, 15, 117 + i*7);
-  });
+  doc.setFontSize(16);
+  doc.text("HART Intake Report", 14, 18);
+  doc.setFontSize(11);
+  doc.text(`Name: ${name}`, 14, 28);
+  doc.text(`Age: ${age}`, 14, 34);
+  doc.text(`Gender: ${gender}`, 14, 40);
 
-  doc.text("Differential:", 10, 150);
-  result.differential_considerations.forEach((d, i) => {
-    doc.text(`- ${d}`, 15, 157 + i*7);
-  });
+  doc.text("Symptoms:", 14, 50);
+  doc.text(`• ${symptoms.join(", ") || "-"}`, 20, 56, { maxWidth: 170 });
 
-  doc.text("Patient-Friendly Summary:", 10, 190);
-  doc.text(result.patient_friendly_summary, 10, 197);
+  doc.text("Medical History:", 14, 70);
+  doc.text(history || "-", 20, 76, { maxWidth: 170 });
 
-  doc.text("Emergency Guidance:", 10, 220);
-  doc.text(result.emergency_guidance, 10, 227);
+  doc.text("Medications:", 14, 92);
+  doc.text(meds || "-", 20, 98, { maxWidth: 170 });
 
-  doc.save("HART_Evaluation.pdf");
+  doc.text("Lifestyle:", 14, 114);
+  doc.text(`Smoking: ${smoking} | Alcohol: ${alcohol} | Exercise (hrs/wk): ${exercise}`, 20, 120, { maxWidth: 170 });
+
+  doc.save(`HART_Intake_${name.replace(/\s+/g,'_')}.pdf`);
 }
 
-// ===== SPEECH RECOGNITION =====
-function startRecognition(fieldId) {
-  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-  recognition.lang = currentLang === "ru" ? "ru-RU" : currentLang === "he" ? "he-IL" : "en-US";
-  recognition.start();
-  recognition.onresult = function(event) {
-    document.getElementById(fieldId).value = event.results[0][0].transcript;
+// ===== Submit handler =====
+async function submitForm(e){
+  e.preventDefault();
+
+  // If any emergency flag checked, keep disabled and block submission
+  if (!$("#submitBtn").disabled && !$("#emergencyBanner").classList.contains("hidden")) {
+    return;
+  }
+
+  const loading = $("#loading");
+  const resultEl = $("#result");
+  loading.classList.remove("hidden");
+  resultEl.textContent = "";
+
+  // Gather required fields & build payload for backend schema
+  const name = $("input[name='name']").value?.trim();
+  const ageRaw = $("input[name='age']").value;
+  const age = ageRaw ? parseInt(ageRaw, 10) : ageRaw;
+  const gender = $("select[name='gender']").value;
+
+  const symptoms = Array.from($$("input[name='symptoms']:checked")).map(i=>i.value);
+  const other = $("input[name='symptoms_other']").value?.trim();
+  if (other) symptoms.push(other);
+
+  const history = $("textarea[name='history']").value?.trim() || "";
+  const medications = $("textarea[name='medications']").value?.trim() || "";
+
+  // Optional data (we fold into history so backend receives one combined field)
+  const smoking = $("select[name='smoking']").value;
+  const alcohol = $("select[name='alcohol']").value;
+  const exercise = $("input[name='exercise']").value;
+
+  let combinedHistory = history;
+  const lifestyleBits = [];
+  if (smoking) lifestyleBits.push(`Smoking: ${smoking}`);
+  if (alcohol) lifestyleBits.push(`Alcohol: ${alcohol}`);
+  if (exercise) lifestyleBits.push(`Exercise hours/week: ${exercise}`);
+  if (lifestyleBits.length){
+    combinedHistory += (combinedHistory ? "\n" : "") + "Lifestyle: " + lifestyleBits.join("; ");
+  }
+
+  // Build payload (exactly what backend expects)
+  const payload = {
+    name,
+    age,
+    gender,
+    symptoms,
+    history: combinedHistory,
+    medications
   };
+
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type":"application/json",
+        "Authorization": `Bearer ${API_TOKEN}`
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) throw new Error(`Backend error: ${res.status}`);
+
+    const data = await res.json();
+    resultEl.textContent = JSON.stringify(data, null, 2);
+  } catch (err){
+    resultEl.textContent = "Error: " + err.message;
+  } finally {
+    loading.classList.add("hidden");
+  }
 }
+
+// ===== Init =====
+document.addEventListener("DOMContentLoaded", () => {
+  // Default language EN
+  applyTranslations("en");
+
+  // Language switch
+  const langSelect = document.getElementById("langSelect");
+  langSelect.addEventListener("change", (e) => applyTranslations(e.target.value));
+
+  // Emergency events
+  $$(".rf").forEach(cb => cb.addEventListener("change", updateEmergencyState));
+
+  // Mic buttons
+  setupMicButtons();
+
+  // Form submit
+  document.getElementById("intakeForm").addEventListener("submit", submitForm);
+
+  // PDF export
+  document.getElementById("pdfBtn").addEventListener("click", exportPDF);
+});
