@@ -386,3 +386,28 @@ document.addEventListener("DOMContentLoaded", () => {
   // PDF export
   document.getElementById("pdfBtn").addEventListener("click", exportPDF);
 });
+
+document.getElementById("pdfButton").addEventListener("click", async () => {
+    try {
+        const response = await fetch(`${API_URL.replace("/evaluate","")}/export-pdf`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${API_TOKEN}`
+            },
+            body: JSON.stringify(lastEvaluation)  // store last evaluation when received
+        });
+
+        if (!response.ok) throw new Error("Failed to export PDF");
+        
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "HART_Report.pdf";
+        a.click();
+        window.URL.revokeObjectURL(url);
+    } catch (err) {
+        alert("Error exporting PDF: " + err.message);
+    }
+});
