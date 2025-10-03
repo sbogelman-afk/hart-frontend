@@ -1,128 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HART Intake Form</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <h1>❤️ HART Patient Intake Form</h1>
-    <p>Welcome! Please fill out the form below. Fields marked * are required.</p>
+    <div class="logo">❤️ HART</div>
+    <h1>Patient Intake Form</h1>
+    <p>Please fill out the form below. Fields marked * are required.</p>
   </header>
 
-  <form id="intakeForm">
-    <!-- Emergency Section -->
-    <section>
-      <h2>🚨 Emergency Red Flags</h2>
-      <p>If you have any of the following, please seek immediate medical care:</p>
-      <label><input type="checkbox" name="emergency" value="Chest pain"> Chest pain</label><br>
-      <label><input type="checkbox" name="emergency" value="Severe shortness of breath"> Severe shortness of breath</label><br>
-      <label><input type="checkbox" name="emergency" value="Fainting"> Fainting</label><br>
-      <label><input type="checkbox" name="emergency" value="Confusion"> Confusion</label><br>
-      <label><input type="checkbox" name="emergency" value="Severe bleeding"> Severe bleeding</label><br>
-      <label><input type="checkbox" name="emergency" value="High fever with chills"> High fever with chills</label>
-    </section>
+  <main>
+    <form id="intakeForm">
+      <!-- Patient Information -->
+      <section>
+        <h2>Patient Information</h2>
+        <label>Name*: <input type="text" name="name" required /></label>
+        <label>Age*: <input type="number" name="age" required /></label>
+        <label>Gender*:
+          <select name="gender" required>
+            <option value="" disabled selected>Select...</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+        <label>Email (optional): <input type="email" name="email" /></label>
+        <label>Phone (optional): <input type="tel" name="phone" /></label>
+      </section>
 
-    <!-- Patient Info -->
-    <section>
-      <h2>👤 Patient Information</h2>
-      <label>Name*: <input type="text" name="name" required></label><br>
-      <label>Age*: <input type="number" name="age" required></label><br>
-      <label>Gender*: 
-        <select name="gender" required>
-          <option value="">Select</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
-        </select>
-      </label><br>
-      <label>Phone (optional): <input type="text" name="phone"></label><br>
-      <label>Email (optional): <input type="email" name="email"></label>
-    </section>
+      <!-- Symptoms -->
+      <section>
+        <h2>Symptoms</h2>
+        <p>Select all that apply:</p>
+        <label><input type="checkbox" name="symptoms" value="Fever" /> Fever</label>
+        <label><input type="checkbox" name="symptoms" value="Cough" /> Cough</label>
+        <label><input type="checkbox" name="symptoms" value="Shortness of breath" /> Shortness of breath</label>
+        <label><input type="checkbox" name="symptoms" value="Chest pain" /> Chest pain</label>
+        <label><input type="checkbox" name="symptoms" value="Fatigue" /> Fatigue</label>
+        <label><input type="checkbox" name="symptoms" value="Headache" /> Headache</label>
+        <label><input type="checkbox" name="symptoms" value="Nausea" /> Nausea</label>
+        <label>Other: <input type="text" name="symptoms_other" /></label>
+      </section>
 
-    <!-- General Complaints -->
-    <section>
-      <h2>🩺 General Complaints</h2>
-      <label><input type="checkbox" name="symptoms" value="Fatigue"> Fatigue</label><br>
-      <label><input type="checkbox" name="symptoms" value="Cough"> Cough</label><br>
-      <label><input type="checkbox" name="symptoms" value="Palpitations"> Palpitations</label><br>
-      <label><input type="checkbox" name="symptoms" value="Nausea"> Nausea</label><br>
-      <label><input type="checkbox" name="symptoms" value="Swelling"> Swelling</label><br>
-      <label><input type="checkbox" name="symptoms" value="Headache"> Headache</label><br>
-      <label><input type="checkbox" name="symptoms" value="Dizziness"> Dizziness</label><br>
-      <label>Other complaints: 
-        <textarea name="otherComplaints"></textarea>
-        <button type="button" onclick="startDictation('otherComplaints')">🎤</button>
-      </label>
-    </section>
+      <!-- Medical History -->
+      <section>
+        <h2>Medical History</h2>
+        <textarea name="history" rows="3" placeholder="Relevant past medical history..."></textarea>
+      </section>
 
-    <!-- Medical History -->
-    <section>
-      <h2>📋 Medical History</h2>
-      <label><input type="checkbox" name="history" value="Hypertension"> Hypertension</label><br>
-      <label><input type="checkbox" name="history" value="Diabetes"> Diabetes</label><br>
-      <label><input type="checkbox" name="history" value="Asthma"> Asthma</label><br>
-      <label><input type="checkbox" name="history" value="Heart disease"> Heart disease</label><br>
-      <label>Current Medications:
-        <textarea name="medications"></textarea>
-        <button type="button" onclick="startDictation('medications')">🎤</button>
-      </label><br>
-      <label>Allergies:
-        <textarea name="allergies"></textarea>
-        <button type="button" onclick="startDictation('allergies')">🎤</button>
-      </label>
-    </section>
+      <!-- Medications -->
+      <section>
+        <h2>Current Medications</h2>
+        <textarea name="medications" rows="3" placeholder="List any medications currently taken..."></textarea>
+      </section>
 
-    <!-- Lifestyle -->
-    <section>
-      <h2>🏃 Lifestyle</h2>
-      <label>Smoking: 
-        <select name="smoking">
-          <option value="">Select</option>
-          <option value="No">No</option>
-          <option value="Occasional">Occasional</option>
-          <option value="Yes">Yes</option>
-        </select>
-      </label><br>
-      <label>Alcohol: 
-        <select name="alcohol">
-          <option value="">Select</option>
-          <option value="No">No</option>
-          <option value="Occasional">Occasional</option>
-          <option value="Yes">Yes</option>
-        </select>
-      </label><br>
-      <label>Exercise:
-        <select name="exercise">
-          <option value="">Select</option>
-          <option value="None">None</option>
-          <option value="Occasional">Occasional</option>
-          <option value="Regular">Regular</option>
-        </select>
-      </label>
-    </section>
+      <!-- Lifestyle -->
+      <section>
+        <h2>Lifestyle</h2>
+        <label>Smoking:
+          <select name="smoking">
+            <option value="" disabled selected>Select...</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+            <option value="Occasional">Occasional</option>
+          </select>
+        </label>
+        <label>Alcohol:
+          <select name="alcohol">
+            <option value="" disabled selected>Select...</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+            <option value="Occasional">Occasional</option>
+          </select>
+        </label>
+        <label>Exercise (hours per week): <input type="number" name="exercise" /></label>
+      </section>
 
-    <!-- Notes -->
-    <section>
-      <h2>📝 Additional Notes</h2>
-      <textarea name="notes"></textarea>
-      <button type="button" onclick="startDictation('notes')">🎤</button>
-    </section>
+      <!-- Voice Input -->
+      <section>
+        <h2>Voice Notes</h2>
+        <button type="button" id="start-recording">🎤 Start Recording</button>
+        <button type="button" id="stop-recording">⏹ Stop</button>
+        <textarea id="voiceNotes" name="voice_notes" placeholder="Your recorded notes will appear here..."></textarea>
+      </section>
 
-    <!-- Submit -->
-    <section>
+      <!-- Submit -->
       <button type="submit">Submit</button>
-      <p id="loading" style="display:none;">⏳ Evaluating...</p>
-    </section>
-  </form>
+    </form>
 
-  <section>
-    <h2>🤖 AI Evaluation</h2>
+    <div id="loading" style="display:none;">Evaluating... Please wait.</div>
     <pre id="result"></pre>
-    <button id="exportPdf" style="display:none;">📄 Export to PDF</button>
-  </section>
+  </main>
 
   <script src="script.js"></script>
 </body>
