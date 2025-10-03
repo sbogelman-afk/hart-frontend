@@ -4,14 +4,18 @@
   <meta charset="UTF-8">
   <title>HART Patient Intake</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f7f7fa; }
     h1 { color: #6b0f1a; }
-    section { margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; }
+    section { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background: #fff; }
     label { display: block; margin-top: 8px; }
     textarea, input, select { width: 100%; padding: 6px; margin-top: 4px; }
     button { margin-top: 10px; padding: 8px 12px; background: #6b0f1a; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
     button:hover { background: #9b1c2d; }
-    #report { white-space: pre-wrap; background: #f8f8f8; padding: 15px; border: 1px solid #ccc; border-radius: 8px; margin-top: 20px; }
+    #report { margin-top: 25px; padding: 20px; background: #fff; border: 2px solid #6b0f1a; border-radius: 10px; }
+    .report-section { margin-bottom: 20px; }
+    .report-section h3 { color: #6b0f1a; border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-bottom: 8px; }
+    .risk-flag { margin-left: 15px; }
+    .emergency { color: #fff; background: #b00020; padding: 10px; border-radius: 6px; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -106,22 +110,67 @@
         if (!res.ok) throw new Error("Backend error: " + res.status);
 
         const result = await res.json();
-        document.getElementById("report").innerText = result.formatted_report;
+        renderReport(result);
 
       } catch (err) {
         document.getElementById("report").innerText = "Error: " + err.message;
       }
     }
 
+    function renderReport(result) {
+      const reportDiv = document.getElementById("report");
+      reportDiv.innerHTML = `
+        <div class="report-section">
+          <h3>Chief Complaint</h3>
+          <p>${result.chief_complaint}</p>
+        </div>
+
+        <div class="report-section">
+          <h3>History Summary</h3>
+          <p>${result.history_summary}</p>
+        </div>
+
+        <div class="report-section">
+          <h3>Risk Flags</h3>
+          <ul>
+            ${Object.entries(result.risk_flags).map(([k,v]) => `<li class="risk-flag"><strong>${k}:</strong> ${v}</li>`).join("")}
+          </ul>
+        </div>
+
+        <div class="report-section">
+          <h3>Recommended Follow-ups</h3>
+          <ul>
+            ${result.recommended_followups.map(item => `<li>${item}</li>`).join("")}
+          </ul>
+        </div>
+
+        <div class="report-section">
+          <h3>Differential Considerations</h3>
+          <ul>
+            ${result.differential_considerations.map(item => `<li>${item}</li>`).join("")}
+          </ul>
+        </div>
+
+        <div class="report-section">
+          <h3>Patient-Friendly Summary</h3>
+          <p>${result.patient_friendly_summary}</p>
+        </div>
+
+        <div class="report-section emergency">
+          🚨 ${result.emergency_guidance} 🚨
+        </div>
+      `;
+    }
+
     async function downloadPDF() {
-      const reportText = document.getElementById("report").innerText;
-      if (!reportText) { alert("No report to download!"); return; }
+      const reportHTML = document.getElementById("report").innerText;
+      if (!reportHTML) { alert("No report to download!"); return; }
 
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
       doc.setFont("times", "normal");
       doc.setFontSize(12);
-      const lines = doc.splitTextToSize(reportText, 180);
+      const lines = doc.splitTextToSize(reportHTML, 180);
       doc.text(lines, 15, 20);
       doc.save("patient_report.pdf");
     }
