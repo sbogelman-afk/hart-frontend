@@ -3,177 +3,106 @@
 <head>
   <meta charset="UTF-8">
   <title>HART Patient Intake</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; background: #f7f7fa; }
-    h1 { color: #6b0f1a; }
-    section { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background: #fff; }
-    label { display: block; margin-top: 8px; }
-    textarea, input, select { width: 100%; padding: 6px; margin-top: 4px; }
-    button { margin-top: 10px; padding: 8px 12px; background: #6b0f1a; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
-    button:hover { background: #9b1c2d; }
-    #report { margin-top: 25px; padding: 20px; background: #fff; border: 2px solid #6b0f1a; border-radius: 10px; }
-    .report-section { margin-bottom: 20px; }
-    .report-section h3 { color: #6b0f1a; border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-bottom: 8px; }
-    .risk-flag { margin-left: 15px; }
-    .emergency { color: #fff; background: #b00020; padding: 10px; border-radius: 6px; font-weight: bold; }
-  </style>
+  <link rel="stylesheet" href="styles.css">
+  <!-- jsPDF + html2canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
-  <h1>Patient Intake Form</h1>
+  <header>
+    <img src="heart-logo.png" alt="HART Logo" class="logo">
+    <h1>HART Patient Intake Form</h1>
+  </header>
 
-  <section>
-    <label>Name:</label>
-    <input type="text" id="name" required>
-
-    <label>Age:</label>
-    <input type="number" id="age" required>
-
-    <label>Gender:</label>
-    <select id="gender">
-      <option value="">-- Select --</option>
-      <option>Male</option>
-      <option>Female</option>
-      <option>Other</option>
+  <div class="container">
+    <!-- Language Selector -->
+    <label for="lang">Language:</label>
+    <select id="lang" onchange="switchLanguage()">
+      <option value="en">English</option>
+      <option value="ru">Русский</option>
+      <option value="he">עברית</option>
     </select>
 
-    <label>Contact Info (Optional):</label>
-    <input type="text" id="contact">
-  </section>
+    <!-- Intake Form -->
+    <form id="intakeForm">
+      <!-- Emergency Section -->
+      <section>
+        <h2>🚨 Emergency Red Flags</h2>
+        <p>If you check any of these, call <b>911 immediately</b>.</p>
+        <label><input type="checkbox" name="emergency" value="Chest pain"> Chest pain</label><br>
+        <label><input type="checkbox" name="emergency" value="Severe shortness of breath"> Severe shortness of breath</label><br>
+        <label><input type="checkbox" name="emergency" value="Loss of consciousness"> Loss of consciousness</label><br>
+      </section>
 
-  <section>
-    <h3>Symptoms</h3>
-    <textarea id="symptoms"></textarea>
-  </section>
+      <!-- Patient Info -->
+      <section>
+        <h2>Patient Information</h2>
+        <label>Name: <input type="text" name="name" required></label><br>
+        <label>Age: <input type="number" name="age" required></label><br>
+        <label>Gender:
+          <select name="gender" required>
+            <option value="">--Select--</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </label><br>
+        <label>Email (optional): <input type="email" name="email"></label><br>
+        <label>Phone (optional): <input type="tel" name="phone"></label><br>
+      </section>
 
-  <section>
-    <h3>Medical History</h3>
-    <textarea id="history"></textarea>
-  </section>
+      <!-- Symptoms -->
+      <section>
+        <h2>Symptoms</h2>
+        <label><input type="checkbox" name="symptoms" value="Fever"> Fever</label><br>
+        <label><input type="checkbox" name="symptoms" value="Cough"> Cough</label><br>
+        <label><input type="checkbox" name="symptoms" value="Fatigue"> Fatigue</label><br>
+        <label><input type="checkbox" name="symptoms" value="Headache"> Headache</label><br>
+        <label>Other: <input type="text" name="other_symptom"></label>
+      </section>
 
-  <section>
-    <h3>Medications</h3>
-    <textarea id="medications"></textarea>
-  </section>
+      <!-- History -->
+      <section>
+        <h2>Medical History</h2>
+        <textarea name="history" rows="3" placeholder="Past conditions, surgeries, etc."></textarea>
+      </section>
 
-  <section>
-    <h3>Lifestyle</h3>
-    <label>Smoking:</label>
-    <select id="smoking">
-      <option value="">-- Select --</option>
-      <option>Yes</option>
-      <option>No</option>
-      <option>Occasional</option>
-    </select>
-    <label>Alcohol:</label>
-    <select id="alcohol">
-      <option value="">-- Select --</option>
-      <option>Yes</option>
-      <option>No</option>
-      <option>Occasional</option>
-    </select>
-  </section>
+      <!-- Medications -->
+      <section>
+        <h2>Medications</h2>
+        <textarea name="medications" rows="2" placeholder="Current medications"></textarea>
+      </section>
 
-  <button onclick="submitForm()">Submit</button>
-  <button onclick="downloadPDF()">Download PDF Report</button>
+      <!-- Lifestyle -->
+      <section>
+        <h2>Lifestyle</h2>
+        <label>Smoking:
+          <select name="smoking">
+            <option>No</option>
+            <option>Yes</option>
+            <option>Occasional</option>
+          </select>
+        </label><br>
+        <label>Alcohol:
+          <select name="alcohol">
+            <option>No</option>
+            <option>Yes</option>
+            <option>Occasional</option>
+          </select>
+        </label>
+      </section>
 
-  <div id="report"></div>
+      <button type="submit">Submit</button>
+    </form>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script>
-    const API_URL = "https://hart-eval-backend-48887cb98881.herokuapp.com/evaluate";
-    const API_TOKEN = "hart-backend-secret-2025";
+    <!-- AI Evaluation -->
+    <div id="evaluation-container" style="display:none;">
+      <h2>AI Evaluation Report</h2>
+      <div id="report"></div>
+      <button onclick="downloadPDF()" class="pdf-button">Download PDF</button>
+    </div>
+  </div>
 
-    async function submitForm() {
-      const data = {
-        name: document.getElementById("name").value,
-        age: document.getElementById("age").value,
-        gender: document.getElementById("gender").value,
-        symptoms: document.getElementById("symptoms").value.split(","),
-        history: document.getElementById("history").value,
-        medications: document.getElementById("medications").value,
-        lifestyle: {
-          smoking: document.getElementById("smoking").value,
-          alcohol: document.getElementById("alcohol").value
-        }
-      };
-
-      try {
-        const res = await fetch(API_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${API_TOKEN}`
-          },
-          body: JSON.stringify(data)
-        });
-
-        if (!res.ok) throw new Error("Backend error: " + res.status);
-
-        const result = await res.json();
-        renderReport(result);
-
-      } catch (err) {
-        document.getElementById("report").innerText = "Error: " + err.message;
-      }
-    }
-
-    function renderReport(result) {
-      const reportDiv = document.getElementById("report");
-      reportDiv.innerHTML = `
-        <div class="report-section">
-          <h3>Chief Complaint</h3>
-          <p>${result.chief_complaint}</p>
-        </div>
-
-        <div class="report-section">
-          <h3>History Summary</h3>
-          <p>${result.history_summary}</p>
-        </div>
-
-        <div class="report-section">
-          <h3>Risk Flags</h3>
-          <ul>
-            ${Object.entries(result.risk_flags).map(([k,v]) => `<li class="risk-flag"><strong>${k}:</strong> ${v}</li>`).join("")}
-          </ul>
-        </div>
-
-        <div class="report-section">
-          <h3>Recommended Follow-ups</h3>
-          <ul>
-            ${result.recommended_followups.map(item => `<li>${item}</li>`).join("")}
-          </ul>
-        </div>
-
-        <div class="report-section">
-          <h3>Differential Considerations</h3>
-          <ul>
-            ${result.differential_considerations.map(item => `<li>${item}</li>`).join("")}
-          </ul>
-        </div>
-
-        <div class="report-section">
-          <h3>Patient-Friendly Summary</h3>
-          <p>${result.patient_friendly_summary}</p>
-        </div>
-
-        <div class="report-section emergency">
-          🚨 ${result.emergency_guidance} 🚨
-        </div>
-      `;
-    }
-
-    async function downloadPDF() {
-      const reportHTML = document.getElementById("report").innerText;
-      if (!reportHTML) { alert("No report to download!"); return; }
-
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      doc.setFont("times", "normal");
-      doc.setFontSize(12);
-      const lines = doc.splitTextToSize(reportHTML, 180);
-      doc.text(lines, 15, 20);
-      doc.save("patient_report.pdf");
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
