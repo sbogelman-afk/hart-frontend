@@ -10,36 +10,72 @@ const t = { /* … keep your translations exactly as you pasted … */ };
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
 
-function applyTranslations(lang){ /* … unchanged … */ }
+function applyTranslations(lang){
+  if (lang === "he") {
+    document.documentElement.setAttribute("dir", "rtl");
+    document.body.classList.add("rtl");
+  } else {
+    document.documentElement.setAttribute("dir", "ltr");
+    document.body.classList.remove("rtl");
+  }
+
+  $$("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (t[lang][key] !== undefined) el.textContent = t[lang][key];
+  });
+
+  $$("[data-ph]").forEach(el => {
+    const key = el.getAttribute("data-ph");
+    if (t[lang][key] !== undefined) el.setAttribute("placeholder", t[lang][key]);
+  });
+
+  $$("option[data-i18n='select_prompt']").forEach(opt => {
+    opt.textContent = t[lang]["select_prompt"];
+  });
+}
 
 // ===== Emergency red flags logic =====
-function updateEmergencyState(){ /* … unchanged … */ }
+function updateEmergencyState(){
+  const anyChecked = Array.from($$(".rf")).some(cb => cb.checked);
+  const banner = $("#emergencyBanner");
+  const submit = $("#submitBtn");
+
+  if (anyChecked){
+    banner.classList.remove("hidden");
+    submit.disabled = true;
+  } else {
+    banner.classList.add("hidden");
+    submit.disabled = false;
+  }
+}
 
 // ===== Speech recognition =====
 let activeRecog = null;
-function setupMicButtons(){ /* … unchanged … */ }
+function setupMicButtons(){ /* unchanged as in your code */ }
 
 // ===== Show AI Evaluation nicely =====
 function showEvaluation(result) {
   lastEvaluation = result; // save for PDF
 
   $("#result").innerHTML = `
-    <h2>AI Evaluation Report</h2>
-    <h3>Chief Complaint</h3>
-    <p>${result.chief_complaint}</p>
-    <h3>History Summary</h3>
-    <p>${result.history_summary}</p>
-    <h3>Risk Flags</h3>
-    <ul>${Object.entries(result.risk_flags).map(([k,v]) => `<li><b>${k}:</b> ${v}</li>`).join("")}</ul>
-    <h3>Recommended Follow-ups</h3>
-    <ul>${result.recommended_followups.map(item => `<li>${item}</li>`).join("")}</ul>
-    <h3>Differential Considerations</h3>
-    <ul>${result.differential_considerations.map(item => `<li>${item}</li>`).join("")}</ul>
-    <h3>Patient-Friendly Summary</h3>
-    <p>${result.patient_friendly_summary}</p>
-    <h3>Emergency Guidance</h3>
-    <p style="color:red;font-weight:bold">🚨 ${result.emergency_guidance} 🚨</p>
-    <button id="pdfButton">Download PDF</button>
+    <div class="evaluation-report">
+      <h2>AI Evaluation Report</h2>
+      <h3>Chief Complaint</h3>
+      <p>${result.chief_complaint}</p>
+      <h3>History Summary</h3>
+      <p>${result.history_summary}</p>
+      <h3>Risk Flags</h3>
+      <ul>${Object.entries(result.risk_flags).map(([k,v]) => `<li><b>${k}:</b> ${v}</li>`).join("")}</ul>
+      <h3>Recommended Follow-ups</h3>
+      <ul>${result.recommended_followups.map(item => `<li>${item}</li>`).join("")}</ul>
+      <h3>Differential Considerations</h3>
+      <ul>${result.differential_considerations.map(item => `<li>${item}</li>`).join("")}</ul>
+      <h3>Patient-Friendly Summary</h3>
+      <p>${result.patient_friendly_summary}</p>
+      <h3>Emergency Guidance</h3>
+      <p class="emergency">🚨 ${result.emergency_guidance} 🚨</p>
+      <button id="pdfButton">Download PDF</button>
+    </div>
   `;
 
   // Attach PDF button event
@@ -135,7 +171,14 @@ async function submitForm(e){
 // ===== Init =====
 document.addEventListener("DOMContentLoaded", () => {
   applyTranslations("en");
-  document.getElementById("langSelect").addEventListener("change", (e) => applyTranslations(e.target.value));
+
+  // New language bar instead of dropdown
+  document.querySelectorAll("#langSwitcher button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      applyTranslations(btn.dataset.lang);
+    });
+  });
+
   $$(".rf").forEach(cb => cb.addEventListener("change", updateEmergencyState));
   setupMicButtons();
   document.getElementById("intakeForm").addEventListener("submit", submitForm);
