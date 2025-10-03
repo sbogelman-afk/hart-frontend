@@ -176,3 +176,31 @@ button.ghost{background:#fff}
   color: red;
   font-weight: bold;
 }
+
+#result { background: #fff; color: #111; border: none; padding: 0; }
+
+.evaluation-report {
+  background: #fff;
+  color: #111;
+  border: 1px solid #e1e1e1;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 16px;
+  line-height: 1.5;
+  font-size: 14px;
+}
+.evaluation-report h2 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  border-bottom: 2px solid #900;
+  padding-bottom: 6px;
+}
+.evaluation-report h3 { margin: 14px 0 6px; font-size: 15px; }
+.evaluation-report ul { margin: 0 0 6px 18px; }
+.evaluation-report .emergency { color: #c00; font-weight: 700; }
+
+.lang-bar button { background: #fff; border: 1px solid #ccc; padding: 4px 8px; cursor: pointer; }
+.lang-bar button.active { border-color: #900; color: #900; font-weight: 600; }
+
+.alert { background: #ffecec; border: 1px solid #d00; padding: 10px; border-radius: 6px; margin: 8px 0; }
+.hidden { display: none !important; }
