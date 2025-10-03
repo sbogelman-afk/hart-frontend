@@ -1,105 +1,197 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-8">
-  <title>HART Patient Intake</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; background: #fafafa; }
-    header { background: #7b1e24; color: white; padding: 15px; text-align: center; border-radius: 8px; }
-    header h1 { margin: 0; font-size: 24px; }
-    header span { font-size: 26px; margin-right: 10px; }
-    form { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-top: 20px; }
-    label { display: block; margin-top: 15px; font-weight: bold; }
-    input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
-    .section-title { margin-top: 20px; font-size: 18px; color: #7b1e24; }
-    #emergency-text { background: #ffdddd; padding: 10px; border: 1px solid #cc0000; border-radius: 5px; margin-bottom: 15px; font-weight: bold; }
-    button { margin-top: 15px; padding: 10px 20px; background: #7b1e24; color: white; border: none; border-radius: 5px; cursor: pointer; }
-    button:hover { background: #5c161b; }
-    #loading { display: none; margin-top: 10px; color: #7b1e24; font-weight: bold; }
-    #evaluation-result { margin-top: 30px; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    #pdf-btn { display: none; margin-top: 15px; background: #2c5282; }
-    #pdf-btn:hover { background: #1a365d; }
-    .lang-switch { margin-top: 15px; }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HART — Patient Intake</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- jsPDF for PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 </head>
 <body>
+  <header class="site-header">
+    <div class="brand">
+      <span class="heart">❤️</span>
+      <span class="brand-name">HART</span>
+    </div>
 
-<header>
-  <span>❤️</span><h1 id="form-title">HART Patient Intake Form</h1>
-</header>
+    <div class="lang-wrap">
+      <label for="langSelect" class="sr-only">Language</label>
+      <select id="langSelect" aria-label="Language selector">
+        <option value="en">English</option>
+        <option value="ru">Русский</option>
+        <option value="he">עברית</option>
+      </select>
+    </div>
 
-<div id="emergency-text">
-  🚨 Emergency: If you are experiencing severe chest pain, difficulty breathing, or other life-threatening symptoms, please call 911 immediately.
-</div>
+    <p class="welcome" data-i18n="welcome">
+      Welcome! Please complete this intake to help us prepare your visit.
+    </p>
+  </header>
 
-<div class="lang-switch">
-  <label for="language">Language:</label>
-  <select id="language" onchange="switchLanguage(this.value)">
-    <option value="en" selected>English</option>
-    <option value="ru">Русский</option>
-    <option value="he">עברית</option>
-  </select>
-</div>
+  <main>
+    <!-- Emergency Red Flags -->
+    <section class="card danger">
+      <h2 data-i18n="emergency_header">Emergency red flags</h2>
+      <p class="muted" data-i18n="emergency_note">
+        If any of these apply, stop and seek emergency care.
+      </p>
 
-<form id="intake-form">
-  <label id="label-name">Full Name</label>
-  <input type="text" id="name" required>
+      <div class="grid-2">
+        <label class="chk">
+          <input type="checkbox" class="rf" value="Severe chest pain" />
+          <span data-i18n="rf_chest_pain">Severe chest pain</span>
+        </label>
+        <label class="chk">
+          <input type="checkbox" class="rf" value="Severe shortness of breath" />
+          <span data-i18n="rf_severe_sob">Severe shortness of breath</span>
+        </label>
+        <label class="chk">
+          <input type="checkbox" class="rf" value="Facial droop or new weakness" />
+          <span data-i18n="rf_stroke">Facial droop or new weakness</span>
+        </label>
+        <label class="chk">
+          <input type="checkbox" class="rf" value="Uncontrolled bleeding" />
+          <span data-i18n="rf_bleeding">Uncontrolled bleeding</span>
+        </label>
+        <label class="chk">
+          <input type="checkbox" class="rf" value="Severe confusion" />
+          <span data-i18n="rf_confusion">Severe confusion</span>
+        </label>
+        <label class="chk">
+          <input type="checkbox" class="rf" value="Suicidal thoughts" />
+          <span data-i18n="rf_suicidal">Suicidal thoughts</span>
+        </label>
+      </div>
 
-  <label id="label-age">Age</label>
-  <input type="number" id="age" required>
+      <div id="emergencyBanner" class="callout hidden" role="alert" aria-live="assertive">
+        <strong data-i18n="call911_title">Possible emergency.</strong>
+        <span data-i18n="call911_text">Please call 911 or go to the nearest emergency department now.</span>
+      </div>
+    </section>
 
-  <label id="label-gender">Gender</label>
-  <select id="gender">
-    <option value=""></option>
-    <option id="gender-male" value="Male">Male</option>
-    <option id="gender-female" value="Female">Female</option>
-    <option id="gender-other" value="Other">Other</option>
-  </select>
+    <form id="intakeForm" class="card">
+      <!-- Patient Information -->
+      <section>
+        <h2 data-i18n="sect_patient">Patient Information</h2>
+        <div class="grid-2">
+          <label>
+            <span data-i18n="name_label">Name*</span>
+            <input type="text" name="name" required />
+          </label>
 
-  <label id="label-symptoms">Main Symptoms (comma separated)</label>
-  <textarea id="symptoms"></textarea>
-  <button type="button" onclick="startRecognition('symptoms')">🎤 Speak</button>
+          <label>
+            <span data-i18n="age_label">Age*</span>
+            <input type="number" name="age" min="0" required />
+          </label>
 
-  <label id="label-history">Medical History</label>
-  <textarea id="history"></textarea>
-  <button type="button" onclick="startRecognition('history')">🎤 Speak</button>
+          <label>
+            <span data-i18n="gender_label">Gender*</span>
+            <select name="gender" required>
+              <option value="" selected disabled data-i18n="select_prompt">Select…</option>
+              <option value="Male" data-i18n="gender_m">Male</option>
+              <option value="Female" data-i18n="gender_f">Female</option>
+              <option value="Other" data-i18n="gender_o">Other</option>
+            </select>
+          </label>
 
-  <label id="label-medications">Current Medications</label>
-  <textarea id="medications"></textarea>
-  <button type="button" onclick="startRecognition('medications')">🎤 Speak</button>
+          <label>
+            <span data-i18n="email_label">Email (optional)</span>
+            <input type="email" name="email" />
+          </label>
 
-  <div class="section-title" id="label-lifestyle">Lifestyle Factors</div>
-  <label id="label-smoking">Smoking</label>
-  <select id="smoking">
-    <option id="smoke-yes" value="Yes">Yes</option>
-    <option id="smoke-no" value="No">No</option>
-    <option id="smoke-occasional" value="Occasional">Occasional</option>
-  </select>
+          <label>
+            <span data-i18n="phone_label">Phone (optional)</span>
+            <input type="tel" name="phone" />
+          </label>
+        </div>
+      </section>
 
-  <label id="label-alcohol">Alcohol</label>
-  <select id="alcohol">
-    <option id="alcohol-yes" value="Yes">Yes</option>
-    <option id="alcohol-no" value="No">No</option>
-    <option id="alcohol-occasional" value="Occasional">Occasional</option>
-  </select>
+      <!-- Symptoms -->
+      <section>
+        <h2 data-i18n="sect_symptoms">Symptoms</h2>
+        <p class="muted" data-i18n="symptoms_note">Select all that apply:</p>
 
-  <div class="section-title" id="label-contact">Contact Information (optional)</div>
-  <label id="label-email">Email</label>
-  <input type="email" id="email">
-  <label id="label-phone">Phone</label>
-  <input type="tel" id="phone">
+        <div class="grid-3">
+          <label class="chk"><input type="checkbox" name="symptoms" value="Fever" /><span data-i18n="s_fever">Fever</span></label>
+          <label class="chk"><input type="checkbox" name="symptoms" value="Cough" /><span data-i18n="s_cough">Cough</span></label>
+          <label class="chk"><input type="checkbox" name="symptoms" value="Shortness of breath" /><span data-i18n="s_sob">Shortness of breath</span></label>
+          <label class="chk"><input type="checkbox" name="symptoms" value="Chest pain" /><span data-i18n="s_chest_pain">Chest pain</span></label>
+          <label class="chk"><input type="checkbox" name="symptoms" value="Fatigue" /><span data-i18n="s_fatigue">Fatigue</span></label>
+          <label class="chk"><input type="checkbox" name="symptoms" value="Headache" /><span data-i18n="s_headache">Headache</span></label>
+          <label class="chk"><input type="checkbox" name="symptoms" value="Nausea" /><span data-i18n="s_nausea">Nausea</span></label>
+          <label class="chk"><input type="checkbox" name="symptoms" value="Dizziness" /><span data-i18n="s_dizziness">Dizziness</span></label>
+          <label class="chk"><input type="checkbox" name="symptoms" value="Palpitations" /><span data-i18n="s_palpitations">Palpitations</span></label>
+        </div>
 
-  <button type="submit" id="submit-btn">Submit</button>
-  <div id="loading">Evaluating... Please wait</div>
-</form>
+        <label class="mt">
+          <span data-i18n="other_symptoms">Other (optional)</span>
+          <input type="text" name="symptoms_other" />
+        </label>
+      </section>
 
-<div id="evaluation-result">
-  <h2 id="evaluation-title">AI Evaluation Report</h2>
-</div>
+      <!-- History & Medications -->
+      <section>
+        <h2 data-i18n="sect_history">Medical History</h2>
+        <div class="with-mic">
+          <textarea name="history" rows="4" placeholder="" data-ph="history_ph"></textarea>
+          <button type="button" class="mic-btn" data-target="history" title="Start/Stop Recording">🎤</button>
+        </div>
+      </section>
 
-<button id="pdf-btn">Download PDF Report</button>
+      <section>
+        <h2 data-i18n="sect_meds">Current Medications</h2>
+        <div class="with-mic">
+          <textarea name="medications" rows="3" placeholder="" data-ph="meds_ph"></textarea>
+          <button type="button" class="mic-btn" data-target="medications" title="Start/Stop Recording">🎤</button>
+        </div>
+      </section>
 
-<script src="script.js"></script>
+      <!-- Lifestyle (optional; will be folded into history for backend compatibility) -->
+      <section>
+        <h2 data-i18n="sect_lifestyle">Lifestyle (optional)</h2>
+        <div class="grid-3">
+          <label>
+            <span data-i18n="smoking_label">Smoking</span>
+            <select name="smoking">
+              <option value="" selected disabled data-i18n="select_prompt">Select…</option>
+              <option value="Yes" data-i18n="yes">Yes</option>
+              <option value="No" data-i18n="no">No</option>
+              <option value="Occasional" data-i18n="occasional">Occasional</option>
+            </select>
+          </label>
+
+          <label>
+            <span data-i18n="alcohol_label">Alcohol</span>
+            <select name="alcohol">
+              <option value="" selected disabled data-i18n="select_prompt">Select…</option>
+              <option value="Yes" data-i18n="yes">Yes</option>
+              <option value="No" data-i18n="no">No</option>
+              <option value="Occasional" data-i18n="occasional">Occasional</option>
+            </select>
+          </label>
+
+          <label>
+            <span data-i18n="exercise_label">Exercise (hours/week)</span>
+            <input type="number" name="exercise" min="0" />
+          </label>
+        </div>
+      </section>
+
+      <div class="actions">
+        <button id="submitBtn" type="submit" class="primary" data-i18n="submit">Submit</button>
+        <button id="pdfBtn" type="button" class="ghost" data-i18n="export_pdf">Export PDF</button>
+      </div>
+
+      <div id="loading" class="loading hidden" data-i18n="evaluating">Evaluating… Please wait.</div>
+      <pre id="result" class="result"></pre>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <small data-i18n="footer_note">This form does not provide medical diagnosis. For emergencies, call 911.</small>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
