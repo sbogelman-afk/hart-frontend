@@ -112,5 +112,44 @@ button.ghost{background:#fff}
   padding:1rem; border-radius:10px; margin-top:1rem; overflow:auto
 }
 
+/* Evaluation report styling */
+.evaluation-report {
+  background: #fff;
+  color: #000;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.evaluation-report h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #900; /* burgundy accent */
+  padding-bottom: 5px;
+}
+
+.evaluation-report h3 {
+  margin-top: 15px;
+  font-size: 15px;
+  color: #333;
+}
+
+.evaluation-report ul {
+  margin: 5px 0 10px 20px;
+  padding: 0;
+}
+
+.evaluation-report p {
+  margin: 5px 0;
+}
+
+.evaluation-report .emergency {
+  color: red;
+  font-weight: bold;
+}
+
 .site-footer{max-width:980px; margin: 0 auto 2rem; padding:0 1rem; color:var(--muted)}
 .sr-only{position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden}
