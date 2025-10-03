@@ -153,3 +153,26 @@ button.ghost{background:#fff}
 
 .site-footer{max-width:980px; margin: 0 auto 2rem; padding:0 1rem; color:var(--muted)}
 .sr-only{position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden}
+
+.evaluation-report {
+  background: #fff;
+  color: #000;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.evaluation-report h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #900;
+  padding-bottom: 5px;
+}
+
+.evaluation-report .emergency {
+  color: red;
+  font-weight: bold;
+}
