@@ -3,106 +3,103 @@
 <head>
   <meta charset="UTF-8">
   <title>HART Patient Intake</title>
-  <link rel="stylesheet" href="styles.css">
-  <!-- jsPDF + html2canvas -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #fafafa; }
+    header { background: #7b1e24; color: white; padding: 15px; text-align: center; border-radius: 8px; }
+    header h1 { margin: 0; font-size: 24px; }
+    header span { font-size: 26px; margin-right: 10px; }
+    form { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-top: 20px; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
+    .section-title { margin-top: 20px; font-size: 18px; color: #7b1e24; }
+    #emergency-text { background: #ffdddd; padding: 10px; border: 1px solid #cc0000; border-radius: 5px; margin-bottom: 15px; font-weight: bold; }
+    button { margin-top: 15px; padding: 10px 20px; background: #7b1e24; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #5c161b; }
+    #loading { display: none; margin-top: 10px; color: #7b1e24; font-weight: bold; }
+    #evaluation-result { margin-top: 30px; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    #pdf-btn { display: none; margin-top: 15px; background: #2c5282; }
+    #pdf-btn:hover { background: #1a365d; }
+    .lang-switch { margin-top: 15px; }
+  </style>
 </head>
 <body>
-  <header>
-    <img src="heart-logo.png" alt="HART Logo" class="logo">
-    <h1>HART Patient Intake Form</h1>
-  </header>
 
-  <div class="container">
-    <!-- Language Selector -->
-    <label for="lang">Language:</label>
-    <select id="lang" onchange="switchLanguage()">
-      <option value="en">English</option>
-      <option value="ru">Русский</option>
-      <option value="he">עברית</option>
-    </select>
+<header>
+  <span>❤️</span><h1 id="form-title">HART Patient Intake Form</h1>
+</header>
 
-    <!-- Intake Form -->
-    <form id="intakeForm">
-      <!-- Emergency Section -->
-      <section>
-        <h2>🚨 Emergency Red Flags</h2>
-        <p>If you check any of these, call <b>911 immediately</b>.</p>
-        <label><input type="checkbox" name="emergency" value="Chest pain"> Chest pain</label><br>
-        <label><input type="checkbox" name="emergency" value="Severe shortness of breath"> Severe shortness of breath</label><br>
-        <label><input type="checkbox" name="emergency" value="Loss of consciousness"> Loss of consciousness</label><br>
-      </section>
+<div id="emergency-text">
+  🚨 Emergency: If you are experiencing severe chest pain, difficulty breathing, or other life-threatening symptoms, please call 911 immediately.
+</div>
 
-      <!-- Patient Info -->
-      <section>
-        <h2>Patient Information</h2>
-        <label>Name: <input type="text" name="name" required></label><br>
-        <label>Age: <input type="number" name="age" required></label><br>
-        <label>Gender:
-          <select name="gender" required>
-            <option value="">--Select--</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
-          </select>
-        </label><br>
-        <label>Email (optional): <input type="email" name="email"></label><br>
-        <label>Phone (optional): <input type="tel" name="phone"></label><br>
-      </section>
+<div class="lang-switch">
+  <label for="language">Language:</label>
+  <select id="language" onchange="switchLanguage(this.value)">
+    <option value="en" selected>English</option>
+    <option value="ru">Русский</option>
+    <option value="he">עברית</option>
+  </select>
+</div>
 
-      <!-- Symptoms -->
-      <section>
-        <h2>Symptoms</h2>
-        <label><input type="checkbox" name="symptoms" value="Fever"> Fever</label><br>
-        <label><input type="checkbox" name="symptoms" value="Cough"> Cough</label><br>
-        <label><input type="checkbox" name="symptoms" value="Fatigue"> Fatigue</label><br>
-        <label><input type="checkbox" name="symptoms" value="Headache"> Headache</label><br>
-        <label>Other: <input type="text" name="other_symptom"></label>
-      </section>
+<form id="intake-form">
+  <label id="label-name">Full Name</label>
+  <input type="text" id="name" required>
 
-      <!-- History -->
-      <section>
-        <h2>Medical History</h2>
-        <textarea name="history" rows="3" placeholder="Past conditions, surgeries, etc."></textarea>
-      </section>
+  <label id="label-age">Age</label>
+  <input type="number" id="age" required>
 
-      <!-- Medications -->
-      <section>
-        <h2>Medications</h2>
-        <textarea name="medications" rows="2" placeholder="Current medications"></textarea>
-      </section>
+  <label id="label-gender">Gender</label>
+  <select id="gender">
+    <option value=""></option>
+    <option id="gender-male" value="Male">Male</option>
+    <option id="gender-female" value="Female">Female</option>
+    <option id="gender-other" value="Other">Other</option>
+  </select>
 
-      <!-- Lifestyle -->
-      <section>
-        <h2>Lifestyle</h2>
-        <label>Smoking:
-          <select name="smoking">
-            <option>No</option>
-            <option>Yes</option>
-            <option>Occasional</option>
-          </select>
-        </label><br>
-        <label>Alcohol:
-          <select name="alcohol">
-            <option>No</option>
-            <option>Yes</option>
-            <option>Occasional</option>
-          </select>
-        </label>
-      </section>
+  <label id="label-symptoms">Main Symptoms (comma separated)</label>
+  <textarea id="symptoms"></textarea>
+  <button type="button" onclick="startRecognition('symptoms')">🎤 Speak</button>
 
-      <button type="submit">Submit</button>
-    </form>
+  <label id="label-history">Medical History</label>
+  <textarea id="history"></textarea>
+  <button type="button" onclick="startRecognition('history')">🎤 Speak</button>
 
-    <!-- AI Evaluation -->
-    <div id="evaluation-container" style="display:none;">
-      <h2>AI Evaluation Report</h2>
-      <div id="report"></div>
-      <button onclick="downloadPDF()" class="pdf-button">Download PDF</button>
-    </div>
-  </div>
+  <label id="label-medications">Current Medications</label>
+  <textarea id="medications"></textarea>
+  <button type="button" onclick="startRecognition('medications')">🎤 Speak</button>
 
-  <script src="script.js"></script>
+  <div class="section-title" id="label-lifestyle">Lifestyle Factors</div>
+  <label id="label-smoking">Smoking</label>
+  <select id="smoking">
+    <option id="smoke-yes" value="Yes">Yes</option>
+    <option id="smoke-no" value="No">No</option>
+    <option id="smoke-occasional" value="Occasional">Occasional</option>
+  </select>
+
+  <label id="label-alcohol">Alcohol</label>
+  <select id="alcohol">
+    <option id="alcohol-yes" value="Yes">Yes</option>
+    <option id="alcohol-no" value="No">No</option>
+    <option id="alcohol-occasional" value="Occasional">Occasional</option>
+  </select>
+
+  <div class="section-title" id="label-contact">Contact Information (optional)</div>
+  <label id="label-email">Email</label>
+  <input type="email" id="email">
+  <label id="label-phone">Phone</label>
+  <input type="tel" id="phone">
+
+  <button type="submit" id="submit-btn">Submit</button>
+  <div id="loading">Evaluating... Please wait</div>
+</form>
+
+<div id="evaluation-result">
+  <h2 id="evaluation-title">AI Evaluation Report</h2>
+</div>
+
+<button id="pdf-btn">Download PDF Report</button>
+
+<script src="script.js"></script>
 </body>
 </html>
