@@ -52,7 +52,10 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:I
   background:#fef2f2;border:1px solid #fecaca;color:var(--warn);
   padding:12px;border-radius:10px;margin-top:12px
 }
-.hidden{display:none}
+.hidden {
+  display: none;
+}
+
 .success{
   background:#ecfdf5;border:1px solid #a7f3d0;color:var(--ok);
   padding:10px 12px;border-radius:10px;margin-top:12px
