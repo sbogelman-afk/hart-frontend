@@ -1,128 +1,197 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HART – Guided Intake</title>
+  <title>HART Intake</title>
   <link rel="stylesheet" href="styles.css" />
-  <!-- jsPDF for local PDF (optional later) -->
-  <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-  <!-- EmailJS (only used if you configure keys in script.js) -->
-  <script defer src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script defer src="script.js"></script>
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <!-- jsPDF in case you later re-add PDF export -->
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 </head>
 <body>
   <header class="site-header">
     <div class="brand">
-      <div class="heart">&#10084;&#65039;</div>
-      <div class="title">
+      <div class="logo">❤</div>
+      <div class="brand-text">
         <h1>HART</h1>
-        <p>Human–AI Relationship for Health</p>
+        <p data-i18n="tagline">Human + AI Health Interpreter</p>
       </div>
     </div>
-
-    <nav class="lang-bar" aria-label="Language">
-      <button class="lang-btn" data-lang="en">EN</button>
+    <nav class="lang-switch">
+      <button class="lang-btn active" data-lang="en">EN</button>
       <button class="lang-btn" data-lang="ru">RU</button>
       <button class="lang-btn" data-lang="he">HE</button>
     </nav>
   </header>
 
   <main class="container">
-    <p class="welcome" data-i18n="welcome">
-      Welcome! Please complete the intake below. Do not include any personal identifiers.
+    <p class="intro" data-i18n="intro">
+      Please complete this short intake (no personal data—email only so we can return your AI evaluation).
     </p>
 
-    <!-- Emergency red flags -->
+    <!-- Emergency Section -->
     <section class="card">
-      <h2 data-i18n="emergency_header">Emergency red flags</h2>
-      <p class="muted" data-i18n="emergency_note">
+      <h2 data-i18n="emerg_title">Emergency Red Flags</h2>
+      <p class="muted" data-i18n="emerg_note">
         If any of these apply, stop and seek emergency care.
       </p>
-
-      <div class="grid flags">
-        <label><input type="checkbox" class="rf" value="severe_chest_pain" /> <span data-i18n="rf_chest_pain">Severe chest pain</span></label>
-        <label><input type="checkbox" class="rf" value="severe_sob" /> <span data-i18n="rf_severe_sob">Severe shortness of breath</span></label>
-        <label><input type="checkbox" class="rf" value="stroke" /> <span data-i18n="rf_stroke">Facial droop or new weakness</span></label>
-        <label><input type="checkbox" class="rf" value="bleeding" /> <span data-i18n="rf_bleeding">Uncontrolled bleeding</span></label>
-        <label><input type="checkbox" class="rf" value="confusion" /> <span data-i18n="rf_confusion">Severe confusion</span></label>
-        <label><input type="checkbox" class="rf" value="suicidal" /> <span data-i18n="rf_suicidal">Suicidal thoughts</span></label>
+      <div class="grid-2">
+        <label><input type="checkbox" class="rf" value="severe_chest_pain" /> <span data-i18n="rf_chest">Severe chest pain</span></label>
+        <label><input type="checkbox" class="rf" value="severe_sob" /> <span data-i18n="rf_sob">Severe shortness of breath</span></label>
+        <label><input type="checkbox" class="rf" value="stroke_signs" /> <span data-i18n="rf_stroke">Facial droop or new weakness</span></label>
+        <label><input type="checkbox" class="rf" value="uncontrolled_bleeding" /> <span data-i18n="rf_bleed">Uncontrolled bleeding</span></label>
+        <label><input type="checkbox" class="rf" value="severe_confusion" /> <span data-i18n="rf_confusion">Severe confusion</span></label>
+        <label><input type="checkbox" class="rf" value="suicidal_thoughts" /> <span data-i18n="rf_suicide">Suicidal thoughts</span></label>
       </div>
-
-      <div id="emergencyBanner" class="banner hidden">
+      <div id="emergencyBanner" class="emergency hidden">
         <strong data-i18n="call911_title">Possible emergency.</strong>
         <span data-i18n="call911_text">Please call 911 or go to the nearest emergency department now.</span>
       </div>
     </section>
 
-    <!-- Intake form -->
-    <form id="intakeForm" class="card">
-      <h2 data-i18n="sect_intake">Guided Intake</h2>
-
-      <div class="grid two">
-        <div class="field">
-          <label for="email" data-i18n="email_label">Your email (to receive the result)*</label>
-          <input id="email" name="email" type="email" required placeholder="you@example.com" />
-        </div>
-
-        <div class="field">
-          <label for="age" data-i18n="age_label">Age*</label>
-          <input id="age" name="age" type="number" min="0" max="120" required />
-        </div>
-      </div>
-
-      <div class="field">
-        <label for="gender" data-i18n="gender_label">Gender</label>
-        <select id="gender" name="gender">
-          <option value="" data-i18n="select_prompt">Select…</option>
-          <option value="Male" data-i18n="gender_m">Male</option>
-          <option value="Female" data-i18n="gender_f">Female</option>
-          <option value="Other" data-i18n="gender_o">Other</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label data-i18n="symptoms_label">What symptoms are you experiencing? (check all that apply)</label>
-        <div class="grid chips">
-          <label><input type="checkbox" name="symptom" value="cough" /> <span data-i18n="s_cough">Cough</span></label>
-          <label><input type="checkbox" name="symptom" value="chest_pain" /> <span data-i18n="s_chest_pain">Chest pain</span></label>
-          <label><input type="checkbox" name="symptom" value="shortness_of_breath" /> <span data-i18n="s_sob">Shortness of breath</span></label>
-          <label><input type="checkbox" name="symptom" value="fever" /> <span data-i18n="s_fever">Fever</span></label>
-          <label><input type="checkbox" name="symptom" value="palpitations" /> <span data-i18n="s_palpitations">Palpitations</span></label>
-          <label><input type="checkbox" name="symptom" value="headache" /> <span data-i18n="s_headache">Headache</span></label>
-          <label><input type="checkbox" name="symptom" value="nausea" /> <span data-i18n="s_nausea">Nausea</span></label>
-          <label><input type="checkbox" name="symptom" value="dizziness" /> <span data-i18n="s_dizziness">Dizziness</span></label>
-        </div>
-      </div>
-
-      <!-- Dynamic follow-ups mount here -->
-      <div id="followups"></div>
-
-      <div class="actions">
-        <button id="submitBtn" type="submit" class="primary" data-i18n="submit">Submit</button>
-        <span id="loading" class="loading hidden" data-i18n="evaluating">Evaluating… Please wait.</span>
-      </div>
-    </form>
-
-    <!-- Result panel -->
-    <section id="resultCard" class="card hidden">
-      <h2 data-i18n="result_header">Submission prepared</h2>
-      <p class="muted" data-i18n="result_note">
-        Your intake has been prepared. We will email your AI evaluation shortly.
-      </p>
-
-      <div id="result" class="result-panel"></div>
-
-      <div class="actions">
-        <button id="emailSendBtn" class="primary" data-i18n="send_email">Send to HART</button>
-        <button id="downloadBtn" class="secondary" data-i18n="download_json">Download JSON</button>
-        <button id="copyBtn" class="secondary" data-i18n="copy_json">Copy JSON</button>
+    <!-- Contact only -->
+    <section class="card">
+      <h2 data-i18n="contact_title">Contact</h2>
+      <div class="grid-2">
+        <label>
+          <span data-i18n="email_label">Email*</span>
+          <input type="email" name="email" required placeholder="you@example.com" />
+        </label>
       </div>
     </section>
 
-    <p class="muted small" data-i18n="footer_note">
+    <!-- Symptoms -->
+    <section class="card">
+      <h2 data-i18n="symptoms_title">Symptoms</h2>
+      <p class="muted" data-i18n="symptoms_note">Select all that apply:</p>
+      <div class="grid-2">
+        <label><input type="checkbox" name="symptom" value="cough" /> <span data-i18n="s_cough">Cough</span></label>
+        <label><input type="checkbox" name="symptom" value="chest_pain" /> <span data-i18n="s_chest">Chest pain</span></label>
+        <label><input type="checkbox" name="symptom" value="shortness_of_breath" /> <span data-i18n="s_sob">Shortness of breath</span></label>
+        <label><input type="checkbox" name="symptom" value="fever" /> <span data-i18n="s_fever">Fever</span></label>
+        <label><input type="checkbox" name="symptom" value="fatigue" /> <span data-i18n="s_fatigue">Fatigue</span></label>
+        <label><input type="checkbox" name="symptom" value="headache" /> <span data-i18n="s_headache">Headache</span></label>
+        <label><input type="checkbox" name="symptom" value="nausea" /> <span data-i18n="s_nausea">Nausea</span></label>
+        <label><input type="checkbox" name="symptom" value="dizziness" /> <span data-i18n="s_dizziness">Dizziness</span></label>
+        <label><input type="checkbox" name="symptom" value="palpitations" /> <span data-i18n="s_palpitations">Palpitations</span></label>
+      </div>
+      <label class="mt">
+        <span data-i18n="other_label">Other (optional)</span>
+        <input type="text" name="symptom_other" placeholder="" />
+      </label>
+    </section>
+
+    <!-- Dynamic follow-ups (auto-unfold) -->
+    <section class="card">
+      <h2 data-i18n="follow_title">Follow-up Details</h2>
+
+      <!-- Cough -->
+      <div id="fu_cough" class="followup hidden">
+        <h3 data-i18n="fu_cough_h">Cough details</h3>
+        <label>
+          <span data-i18n="cough_type">Type</span>
+          <select name="cough_type">
+            <option value="" data-i18n="select_prompt">Select…</option>
+            <option value="dry" data-i18n="cough_dry">Dry</option>
+            <option value="wet" data-i18n="cough_wet">Wet (productive)</option>
+          </select>
+        </label>
+        <label>
+          <span data-i18n="cough_duration">How long (days)?</span>
+          <input type="number" name="cough_days" min="0" />
+        </label>
+        <label>
+          <span data-i18n="cough_sputum">Mucus color (if any)</span>
+          <input type="text" name="cough_sputum" />
+        </label>
+        <label>
+          <span data-i18n="cough_worse_when">Worse at night or exertion?</span>
+          <input type="text" name="cough_worse" />
+        </label>
+      </div>
+
+      <!-- Chest Pain -->
+      <div id="fu_chest_pain" class="followup hidden">
+        <h3 data-i18n="fu_chest_h">Chest pain details</h3>
+        <label>
+          <span data-i18n="chest_location">Location</span>
+          <input type="text" name="chest_location" />
+        </label>
+        <label>
+          <span data-i18n="chest_quality">Quality (pressure, sharp, burning…)</span>
+          <input type="text" name="chest_quality" />
+        </label>
+        <label>
+          <span data-i18n="chest_duration">Duration (minutes)</span>
+          <input type="number" name="chest_duration" min="0" />
+        </label>
+        <label>
+          <span data-i18n="chest_triggers">Triggers/relief</span>
+          <input type="text" name="chest_triggers" />
+        </label>
+        <label>
+          <span data-i18n="chest_radiation">Radiation (arm, jaw, back?)</span>
+          <input type="text" name="chest_radiation" />
+        </label>
+      </div>
+
+      <!-- Shortness of Breath -->
+      <div id="fu_shortness_of_breath" class="followup hidden">
+        <h3 data-i18n="fu_sob_h">Shortness of breath details</h3>
+        <label>
+          <span data-i18n="sob_when">When does it occur (rest, exertion, lying)?</span>
+          <input type="text" name="sob_when" />
+        </label>
+        <label>
+          <span data-i18n="sob_onset">Onset (sudden/gradual)</span>
+          <input type="text" name="sob_onset" />
+        </label>
+        <label>
+          <span data-i18n="sob_associated">Associated symptoms (wheeze, edema)</span>
+          <input type="text" name="sob_assoc" />
+        </label>
+      </div>
+
+      <!-- Fever -->
+      <div id="fu_fever" class="followup hidden">
+        <h3 data-i18n="fu_fever_h">Fever details</h3>
+        <label>
+          <span data-i18n="fever_temp">Highest temperature (°F/°C)</span>
+          <input type="text" name="fever_temp" />
+        </label>
+        <label>
+          <span data-i18n="fever_days">How many days?</span>
+          <input type="number" name="fever_days" min="0" />
+        </label>
+        <label>
+          <span data-i18n="fever_other">Other symptoms (chills, sore throat…)</span>
+          <input type="text" name="fever_other" />
+        </label>
+      </div>
+    </section>
+
+    <!-- Free text summary for anything else -->
+    <section class="card">
+      <h2 data-i18n="free_text_title">Anything else we should know?</h2>
+      <textarea name="free_text" rows="5" placeholder=""></textarea>
+    </section>
+
+    <!-- Actions -->
+    <section class="actions">
+      <button id="submitBtn" class="primary" data-i18n="submit">Send to HART</button>
+      <div id="loading" class="loading hidden" data-i18n="loading">Sending…</div>
+    </section>
+
+    <!-- Result banner -->
+    <section id="result" class="result hidden"></section>
+
+    <p class="footer muted" data-i18n="footer_note">
       This form does not provide medical diagnosis. For emergencies, call 911.
     </p>
   </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
