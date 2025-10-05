@@ -662,17 +662,31 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
 function refreshFollowups() {
   console.log("Refreshing follow-ups…");
+
+  // Hide all follow-up blocks
   Object.values(symptomToBlock).forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.classList.add("hidden");
+    if (el) {
+      el.classList.add("hidden");
+    }
   });
 
+  // Collect selected symptoms
   const selected = Array.from(document.querySelectorAll("input[name='symptom']:checked"))
     .map(x => x.value);
+  console.log("Selected symptoms:", selected);
 
+  // Show matching blocks
   selected.forEach(sym => {
     const id = symptomToBlock[sym];
     const el = id && document.getElementById(id);
-    if (el) el.classList.remove("hidden");
+    console.log("Block to show:", id);
+    if (el) {
+      el.classList.remove("hidden");
+      console.log("After toggle classes:", el.classList);
+    } else {
+      console.warn("No follow-up block found for:", sym);
+    }
   });
 }
+
