@@ -404,20 +404,20 @@ const symptomToBlock = {
 };
 
 function refreshFollowups() {
-  // Hide all by removing .active
+  // Hide all follow-up sections
   Object.values(symptomToBlock).forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.classList.remove("active");
+    if (el) el.classList.add("hidden");
   });
 
-  // Show the ones whose symptom is checked
+  // Show follow-ups only for selected symptoms
   const selected = Array.from(document.querySelectorAll("input[name='symptom']:checked"))
     .map(x => x.value);
 
   selected.forEach(sym => {
     const id = symptomToBlock[sym];
     const el = id && document.getElementById(id);
-    if (el) el.classList.add("active");
+    if (el) el.classList.remove("hidden");
   });
 }
 
