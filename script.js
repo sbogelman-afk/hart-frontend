@@ -640,8 +640,10 @@ document.addEventListener("DOMContentLoaded", ()=>{
   // Emergency listeners
   $$(".rf").forEach(cb=> cb.addEventListener("change", updateEmergencyState));
 
-  // Symptom follow-ups
-  $$("input[name='symptom']").forEach(cb=> cb.addEventListener("change", refreshFollowups));
+// Symptom follow-ups
+$$("input[name='symptom']").forEach(cb => 
+  cb.addEventListener("change", refreshFollowups)
+);
 refreshFollowups(); // ensure hidden on first load
 
   // Mic
