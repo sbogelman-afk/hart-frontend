@@ -75,3 +75,7 @@ button.primary:hover{background:var(--accent-weak)}
 
 body.rtl{direction:rtl}
 body.rtl .grid2, body.rtl .grid3{direction:rtl}
+
+/* Force follow-ups hidden by default; show only when .active is present */
+.followup { display: none; }
+.followup.active { display: block; }
