@@ -640,11 +640,11 @@ document.addEventListener("DOMContentLoaded", ()=>{
   // Emergency listeners
   $$(".rf").forEach(cb=> cb.addEventListener("change", updateEmergencyState));
 
-// Symptom follow-ups
-$$("input[name='symptom']").forEach(cb => 
-  cb.addEventListener("change", refreshFollowups)
-);
-refreshFollowups(); // ensure hidden on first load
+  // Symptom follow-ups
+  $$("input[name='symptom']").forEach(cb => 
+    cb.addEventListener("change", refreshFollowups)
+  );
+  refreshFollowups(); // ensure hidden on first load
 
   // Mic
   setupMicButtons();
@@ -655,3 +655,20 @@ refreshFollowups(); // ensure hidden on first load
   // Lang bar
   $$(".lang-btn").forEach(btn => btn.addEventListener("click", handleLangSwitch));
 });
+
+function refreshFollowups() {
+  console.log("Refreshing follow-ups…");
+  Object.values(symptomToBlock).forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.add("hidden");
+  });
+
+  const selected = Array.from(document.querySelectorAll("input[name='symptom']:checked"))
+    .map(x => x.value);
+
+  selected.forEach(sym => {
+    const id = symptomToBlock[sym];
+    const el = id && document.getElementById(id);
+    if (el) el.classList.remove("hidden");
+  });
+}
