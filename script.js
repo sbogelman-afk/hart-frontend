@@ -405,25 +405,20 @@ const symptomToBlock = {
 
 function refreshFollowups() {
   console.log("Refreshing follow-ups…");
-
-  // Hide all follow-up blocks first
-  Object.values(symptomToBlock).forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.classList.add("hidden");
-  });
-
-  // Show only those matching selected symptoms
   const selected = Array.from(document.querySelectorAll("input[name='symptom']:checked"))
     .map(x => x.value);
+  console.log("Selected:", selected);
 
-  console.log("Selected symptoms:", selected);
-
-  selected.forEach(sym => {
-    const id = symptomToBlock[sym];
-    const el = id && document.getElementById(id);
-    if (el) {
+  Object.entries(symptomToBlock).forEach(([sym, id]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (selected.includes(sym)) {
+      el.style.display = "block";
       el.classList.remove("hidden");
       console.log("Showing:", id);
+    } else {
+      el.style.display = "none";
+      el.classList.add("hidden");
     }
   });
 }
