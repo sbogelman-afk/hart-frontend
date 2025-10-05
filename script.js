@@ -405,6 +405,8 @@ const symptomToBlock = {
 
 function refreshFollowups() {
   console.log("Refreshing follow-ups…");
+  console.log("Found fu-cough?", !!document.getElementById("fu-cough"));
+  console.log("Found fu-chest_pain?", !!document.getElementById("fu-chest_pain"));
   const selected = Array.from(document.querySelectorAll("input[name='symptom']:checked"))
     .map(x => x.value);
   console.log("Selected:", selected);
