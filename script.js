@@ -404,13 +404,13 @@ const symptomToBlock = {
 };
 
 function refreshFollowups() {
-  // Hide all follow-up sections
+  // Hide all follow-up blocks first
   Object.values(symptomToBlock).forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.add("hidden");
   });
 
-  // Show follow-ups only for selected symptoms
+  // Show only those matching selected symptoms
   const selected = Array.from(document.querySelectorAll("input[name='symptom']:checked"))
     .map(x => x.value);
 
