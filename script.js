@@ -644,3 +644,30 @@ document.addEventListener("DOMContentLoaded", ()=>{
   // Lang bar
   $$(".lang-btn").forEach(btn => btn.addEventListener("click", handleLangSwitch));
 });
+
+// === Show / hide follow-up questions dynamically ===
+function setupFollowupQuestions() {
+  const symptomCheckboxes = document.querySelectorAll("input[name='symptoms']");
+  symptomCheckboxes.forEach(cb => {
+    cb.addEventListener("change", () => {
+      // Example for cough follow-up
+      const coughFollowup = document.getElementById("fu-cough");
+      if (cb.value === "cough") {
+        if (cb.checked) coughFollowup.classList.remove("hidden");
+        else coughFollowup.classList.add("hidden");
+      }
+
+      // Example for chest pain
+      const chestFollowup = document.getElementById("fu-chestpain");
+      if (cb.value === "chest pain") {
+        if (cb.checked) chestFollowup.classList.remove("hidden");
+        else chestFollowup.classList.add("hidden");
+      }
+    });
+  });
+}
+
+// Call this when the page loads
+document.addEventListener("DOMContentLoaded", () => {
+  setupFollowupQuestions();
+});
