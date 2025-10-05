@@ -645,23 +645,17 @@ document.addEventListener("DOMContentLoaded", ()=>{
   $$(".lang-btn").forEach(btn => btn.addEventListener("click", handleLangSwitch));
 });
 
-// === Show / hide follow-up questions dynamically ===
+// === Dynamic show/hide follow-up questions ===
 function setupFollowupQuestions() {
-  const symptomCheckboxes = document.querySelectorAll("input[name='symptoms']");
+  // All symptom checkboxes (name='symptom')
+  const symptomCheckboxes = document.querySelectorAll("input[name='symptom']");
+
   symptomCheckboxes.forEach(cb => {
     cb.addEventListener("change", () => {
-      // Example for cough follow-up
-      const coughFollowup = document.getElementById("fu-cough");
-      if (cb.value === "cough") {
-        if (cb.checked) coughFollowup.classList.remove("hidden");
-        else coughFollowup.classList.add("hidden");
-      }
-
-      // Example for chest pain
-      const chestFollowup = document.getElementById("fu-chestpain");
-      if (cb.value === "chest pain") {
-        if (cb.checked) chestFollowup.classList.remove("hidden");
-        else chestFollowup.classList.add("hidden");
+      const followup = document.getElementById("fu-" + cb.value);
+      if (followup) {
+        if (cb.checked) followup.classList.remove("hidden");
+        else followup.classList.add("hidden");
       }
     });
   });
@@ -671,3 +665,4 @@ function setupFollowupQuestions() {
 document.addEventListener("DOMContentLoaded", () => {
   setupFollowupQuestions();
 });
+
