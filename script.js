@@ -402,14 +402,22 @@ const symptomToBlock = {
   "sob": "fu-sob",
   "fatigue": "fu-fatigue"
 };
-function refreshFollowups(){
-  // hide all
-  Object.values(symptomToBlock).forEach(id => $("#"+id).classList.add("hidden"));
-  // show selected blocks
-  const selected = Array.from($$("input[name='symptom']:checked")).map(x=>x.value);
+
+function refreshFollowups() {
+  // Hide all by removing .active
+  Object.values(symptomToBlock).forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove("active");
+  });
+
+  // Show the ones whose symptom is checked
+  const selected = Array.from(document.querySelectorAll("input[name='symptom']:checked"))
+    .map(x => x.value);
+
   selected.forEach(sym => {
     const id = symptomToBlock[sym];
-    if (id) $("#"+id).classList.remove("hidden");
+    const el = id && document.getElementById(id);
+    if (el) el.classList.add("active");
   });
 }
 
@@ -634,6 +642,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
   // Symptom follow-ups
   $$("input[name='symptom']").forEach(cb=> cb.addEventListener("change", refreshFollowups));
+refreshFollowups(); // ensure hidden on first load
 
   // Mic
   setupMicButtons();
@@ -644,25 +653,3 @@ document.addEventListener("DOMContentLoaded", ()=>{
   // Lang bar
   $$(".lang-btn").forEach(btn => btn.addEventListener("click", handleLangSwitch));
 });
-
-// === Dynamic show/hide follow-up questions ===
-function setupFollowupQuestions() {
-  // All symptom checkboxes (name='symptom')
-  const symptomCheckboxes = document.querySelectorAll("input[name='symptom']");
-
-  symptomCheckboxes.forEach(cb => {
-    cb.addEventListener("change", () => {
-      const followup = document.getElementById("fu-" + cb.value);
-      if (followup) {
-        if (cb.checked) followup.classList.remove("hidden");
-        else followup.classList.add("hidden");
-      }
-    });
-  });
-}
-
-// Call this when the page loads
-document.addEventListener("DOMContentLoaded", () => {
-  setupFollowupQuestions();
-});
-
