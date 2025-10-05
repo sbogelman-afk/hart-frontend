@@ -404,6 +404,8 @@ const symptomToBlock = {
 };
 
 function refreshFollowups() {
+  console.log("Refreshing follow-ups…");
+
   // Hide all follow-up blocks first
   Object.values(symptomToBlock).forEach(id => {
     const el = document.getElementById(id);
@@ -414,10 +416,15 @@ function refreshFollowups() {
   const selected = Array.from(document.querySelectorAll("input[name='symptom']:checked"))
     .map(x => x.value);
 
+  console.log("Selected symptoms:", selected);
+
   selected.forEach(sym => {
     const id = symptomToBlock[sym];
     const el = id && document.getElementById(id);
-    if (el) el.classList.remove("hidden");
+    if (el) {
+      el.classList.remove("hidden");
+      console.log("Showing:", id);
+    }
   });
 }
 
