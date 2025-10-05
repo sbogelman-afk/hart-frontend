@@ -1,4 +1,4 @@
-:root{
+:root{ 
   --bg:#fafafa;
   --card:#ffffff;
   --ink:#1f2937;
@@ -53,7 +53,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:I
   padding:12px;border-radius:10px;margin-top:12px
 }
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .success{
@@ -79,6 +79,13 @@ button.primary:hover{background:var(--accent-weak)}
 body.rtl{direction:rtl}
 body.rtl .grid2, body.rtl .grid3{direction:rtl}
 
-/* Force follow-ups hidden by default; show only when .active is present */
-.followup { display: none; }
-.followup.active { display: block; }
+/* Follow-ups styling */
+.followup {
+  display: block;             /* visible by default */
+  margin-top: 1rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1rem;
+}
+.followup.hidden {
+  display: none !important;   /* hidden only when .hidden is present */
+}
