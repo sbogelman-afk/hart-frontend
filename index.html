@@ -239,6 +239,140 @@
       </div>
     </section>
 
+    <!-- Fever follow-ups -->
+    <div id="fu-fever" class="followup hidden">
+      <h3 data-i18n="fu_fever_title">Fever details</h3>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_fever_duration_lbl">Duration</label>
+        <input type="text" id="fuFeverDuration" data-ph="fu_fever_duration_ph" placeholder="e.g., 1 day, 3 days" />
+    
+        <label class="lbl" data-i18n="fu_fever_temp_lbl">Highest temperature (°F/°C)</label>
+        <input type="text" id="fuFeverTemp" placeholder="e.g., 101°F or 38.5°C" />
+      </div>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_fever_chills_lbl">Chills or sweating?</label>
+        <select id="fuFeverChills">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="yes" data-i18n="yes">Yes</option>
+        </select>
+    
+        <label class="lbl" data-i18n="fu_fever_other_lbl">Associated symptoms</label>
+        <input type="text" id="fuFeverAssoc" placeholder="e.g., sore throat, cough" />
+      </div>
+    </div>
+    
+    <!-- Headache follow-ups -->
+    <div id="fu-headache" class="followup hidden">
+      <h3 data-i18n="fu_headache_title">Headache details</h3>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_headache_onset_lbl">Onset</label>
+        <input type="text" id="fuHeadacheOnset" data-ph="fu_headache_onset_ph" placeholder="sudden or gradual? when did it start?" />
+    
+        <label class="lbl" data-i18n="fu_headache_duration_lbl">Duration/frequency</label>
+        <input type="text" id="fuHeadacheDuration" placeholder="constant or intermittent?" />
+      </div>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_headache_severity_lbl">Severity (1–10)</label>
+        <input type="number" id="fuHeadacheSeverity" min="1" max="10" />
+    
+        <label class="lbl" data-i18n="fu_headache_assoc_lbl">Associated symptoms</label>
+        <input type="text" id="fuHeadacheAssoc" placeholder="e.g., nausea, vision changes" />
+      </div>
+    </div>
+    
+    <!-- Nausea follow-ups -->
+    <div id="fu-nausea" class="followup hidden">
+      <h3 data-i18n="fu_nausea_title">Nausea details</h3>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_nausea_onset_lbl">When did it start?</label>
+        <input type="text" id="fuNauseaOnset" placeholder="e.g., 2 days ago" />
+    
+        <label class="lbl" data-i18n="fu_nausea_vomit_lbl">Vomiting present?</label>
+        <select id="fuNauseaVomit">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="yes" data-i18n="yes">Yes</option>
+        </select>
+      </div>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_nausea_food_lbl">Worse after eating?</label>
+        <select id="fuNauseaFood">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="yes" data-i18n="yes">Yes</option>
+        </select>
+    
+        <label class="lbl" data-i18n="fu_nausea_other_lbl">Other symptoms</label>
+        <input type="text" id="fuNauseaOther" placeholder="e.g., abdominal pain, diarrhea" />
+      </div>
+    </div>
+    
+    <!-- Dizziness follow-ups -->
+    <div id="fu-dizziness" class="followup hidden">
+      <h3 data-i18n="fu_dizziness_title">Dizziness details</h3>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_dizziness_onset_lbl">Onset</label>
+        <input type="text" id="fuDizzyOnset" placeholder="sudden or gradual?" />
+    
+        <label class="lbl" data-i18n="fu_dizziness_trigger_lbl">Triggered by position change?</label>
+        <select id="fuDizzyTrigger">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="yes" data-i18n="yes">Yes</option>
+        </select>
+      </div>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_dizziness_assoc_lbl">Associated symptoms</label>
+        <input type="text" id="fuDizzyAssoc" placeholder="e.g., nausea, palpitations" />
+    
+        <label class="lbl" data-i18n="fu_dizziness_duration_lbl">Duration</label>
+        <input type="text" id="fuDizzyDuration" placeholder="seconds, minutes, hours?" />
+      </div>
+    </div>
+    
+    <!-- Palpitations follow-ups -->
+    <div id="fu-palpitations" class="followup hidden">
+      <h3 data-i18n="fu_palp_title">Palpitations details</h3>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_palp_onset_lbl">Onset</label>
+        <input type="text" id="fuPalpOnset" placeholder="when did it start?" />
+    
+        <label class="lbl" data-i18n="fu_palp_duration_lbl">Duration/frequency</label>
+        <input type="text" id="fuPalpDuration" placeholder="how long do episodes last?" />
+      </div>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_palp_trigger_lbl">Triggered by stress/exertion?</label>
+        <select id="fuPalpTrigger">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="yes" data-i18n="yes">Yes</option>
+        </select>
+    
+        <label class="lbl" data-i18n="fu_palp_assoc_lbl">Associated symptoms</label>
+        <input type="text" id="fuPalpAssoc" placeholder="e.g., dizziness, chest pain" />
+      </div>
+    </div>
+    
+    <!-- Other symptoms -->
+    <div id="fu-other" class="followup hidden">
+      <h3 data-i18n="fu_other_title">Additional symptom details</h3>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_other_onset_lbl">When did it start?</label>
+        <input type="text" id="fuOtherOnset" placeholder="e.g., 2 days ago" />
+    
+        <label class="lbl" data-i18n="fu_other_severity_lbl">Severity (1–10)</label>
+        <input type="number" id="fuOtherSeverity" min="1" max="10" />
+      </div>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_other_duration_lbl">Duration/pattern</label>
+        <input type="text" id="fuOtherDuration" placeholder="constant or comes and goes?" />
+    
+        <label class="lbl" data-i18n="fu_other_description_lbl">Describe the symptom</label>
+        <input type="text" id="fuOtherDescription" placeholder="brief description" />
+      </div>
+    </div>
+
     <!-- History & Meds with mic -->
     <section class="card">
       <h2 data-i18n="sect_history">Medical History</h2>
