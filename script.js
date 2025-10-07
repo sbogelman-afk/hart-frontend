@@ -496,7 +496,7 @@ const t = {
     fu_other_description_lbl: "תארו את התסמין",
     fu_other_description_ph: "תיאור קצר",
 
-    sect_history: "היסטория רפואית",
+    sect_history: "היסטוריה רפואית",
     history_ph: "מחלות רקע, ניתוחים…",
     sect_meds: "תרופות נוכחיות",
     meds_ph: "רשימת התרופות…",
