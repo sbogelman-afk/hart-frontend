@@ -1,3 +1,4 @@
+<script>
 /***************
  * CONFIG
  ***************/
@@ -217,7 +218,6 @@ const t = {
 
     sect_followups: "Уточняющие вопросы",
 
-    /* cough */
     fu_cough_title: "Подробности кашля",
     fu_cough_type_lbl: "Тип",
     fu_cough_type_dry: "Сухой",
@@ -232,7 +232,6 @@ const t = {
     fu_cough_fever_low: "Низкая",
     fu_cough_fever_high: "Высокая",
 
-    /* chest pain */
     fu_cp_title: "Подробности боли в груди",
     fu_cp_onset_lbl: "Начало",
     fu_cp_onset_ph: "внезапно/постепенно; когда началось?",
@@ -250,7 +249,6 @@ const t = {
     fu_cp_rad_back: "В спину",
     fu_cp_relief_lbl: "Облегчается в покое?",
 
-    /* sob */
     fu_sob_title: "Подробности одышки",
     fu_sob_onset_lbl: "Начало и длительность",
     fu_sob_onset_ph: "когда началось? как долго?",
@@ -258,7 +256,6 @@ const t = {
     fu_sob_exertion_lbl: "При малой нагрузке?",
     fu_sob_wheeze_lbl: "Хрипы?",
 
-    /* fatigue */
     fu_fatigue_title: "Подробности усталости",
     fu_fatigue_duration_lbl: "Длительность",
     fu_fatigue_duration_ph: "напр., дни, недели",
@@ -270,7 +267,7 @@ const t = {
     fu_fatigue_weight_loss: "Потеря",
     fu_fatigue_mood_lbl: "Пониженное настроение?",
 
-    /* fever (new) */
+    /* fever */
     fu_fever_title: "Подробности о лихорадке",
     fu_fever_duration_lbl: "Длительность",
     fu_fever_duration_ph: "напр., 1 день, 3 дня",
@@ -280,7 +277,7 @@ const t = {
     fu_fever_other_lbl: "Сопутствующие симптомы",
     fu_fever_other_ph: "напр., боль в горле, кашель",
 
-    /* headache (new) */
+    /* headache */
     fu_headache_title: "Подробности головной боли",
     fu_headache_onset_lbl: "Начало",
     fu_headache_onset_ph: "внезапное или постепенное? когда началось?",
@@ -290,7 +287,7 @@ const t = {
     fu_headache_assoc_lbl: "Сопутствующие симптомы",
     fu_headache_assoc_ph: "напр., тошнота, изменения зрения",
 
-    /* nausea (new) */
+    /* nausea */
     fu_nausea_title: "Подробности тошноты",
     fu_nausea_onset_lbl: "Когда началось?",
     fu_nausea_onset_ph: "напр., 2 дня назад",
@@ -299,7 +296,7 @@ const t = {
     fu_nausea_other_lbl: "Другие симптомы",
     fu_nausea_other_ph: "напр., боль в животе, диарея",
 
-    /* dizziness (new) */
+    /* dizziness */
     fu_dizziness_title: "Подробности головокружения",
     fu_dizziness_onset_lbl: "Начало",
     fu_dizziness_onset_ph: "внезапно или постепенно?",
@@ -309,7 +306,7 @@ const t = {
     fu_dizziness_duration_lbl: "Длительность",
     fu_dizziness_duration_ph: "секунды, минуты, часы?",
 
-    /* palpitations (new) */
+    /* palpitations */
     fu_palp_title: "Подробности сердцебиения",
     fu_palp_onset_lbl: "Начало",
     fu_palp_onset_ph: "когда началось?",
@@ -319,7 +316,7 @@ const t = {
     fu_palp_assoc_lbl: "Сопутствующие симптомы",
     fu_palp_assoc_ph: "напр., головокружение, боль в груди",
 
-    /* other (new) */
+    /* other */
     fu_other_title: "Подробности другого симптома",
     fu_other_onset_lbl: "Когда началось?",
     fu_other_onset_ph: "напр., 2 дня назад",
@@ -384,7 +381,6 @@ const t = {
 
     sect_followups: "שאלות המשך",
 
-    /* cough */
     fu_cough_title: "פרטי שיעול",
     fu_cough_type_lbl: "סוג",
     fu_cough_type_dry: "יבש",
@@ -399,7 +395,6 @@ const t = {
     fu_cough_fever_low: "נמוך",
     fu_cough_fever_high: "גבוה",
 
-    /* chest pain */
     fu_cp_title: "פרטי כאבים בחזה",
     fu_cp_onset_lbl: "תחילה",
     fu_cp_onset_ph: "פתאומי/מדורג; מתי התחיל?",
@@ -417,7 +412,6 @@ const t = {
     fu_cp_rad_back: "לגב",
     fu_cp_relief_lbl: "מוקל במנוחה?",
 
-    /* sob */
     fu_sob_title: "פרטי קוצר נשימה",
     fu_sob_onset_lbl: "תחילה ומשך",
     fu_sob_onset_ph: "מתי התחיל? כמה זמן?",
@@ -425,7 +419,6 @@ const t = {
     fu_sob_exertion_lbl: "גם במאמץ קל?",
     fu_sob_wheeze_lbl: "עם צפצופים?",
 
-    /* fatigue */
     fu_fatigue_title: "פרטי עייפות",
     fu_fatigue_duration_lbl: "משך",
     fu_fatigue_duration_ph: "ימים, שבועות",
@@ -437,7 +430,7 @@ const t = {
     fu_fatigue_weight_loss: "ירידה",
     fu_fatigue_mood_lbl: "מצב רוח ירוד?",
 
-    /* fever (new) */
+    /* fever */
     fu_fever_title: "פרטי חום",
     fu_fever_duration_lbl: "משך",
     fu_fever_duration_ph: "למשל: יום אחד, שלושה ימים",
@@ -447,7 +440,7 @@ const t = {
     fu_fever_other_lbl: "תסמינים נלווים",
     fu_fever_other_ph: "למשל: כאב גרון, שיעול",
 
-    /* headache (new) */
+    /* headache */
     fu_headache_title: "פרטי כאב ראש",
     fu_headache_onset_lbl: "תחילה",
     fu_headache_onset_ph: "פתאומי או הדרגתי? מתי התחיל?",
@@ -457,7 +450,7 @@ const t = {
     fu_headache_assoc_lbl: "תסמינים נלווים",
     fu_headache_assoc_ph: "למשל: בחילה, שינויים בראייה",
 
-    /* nausea (new) */
+    /* nausea */
     fu_nausea_title: "פרטי בחילה",
     fu_nausea_onset_lbl: "מתי התחיל?",
     fu_nausea_onset_ph: "למשל: לפני יומיים",
@@ -466,7 +459,7 @@ const t = {
     fu_nausea_other_lbl: "תסמינים אחרים",
     fu_nausea_other_ph: "למשל: כאבי בטן, שלשול",
 
-    /* dizziness (new) */
+    /* dizziness */
     fu_dizziness_title: "פרטי סחרחורת",
     fu_dizziness_onset_lbl: "תחילה",
     fu_dizziness_onset_ph: "פתאומי או הדרגתי?",
@@ -476,7 +469,7 @@ const t = {
     fu_dizziness_duration_lbl: "משך",
     fu_dizziness_duration_ph: "שניות, דקות, שעות?",
 
-    /* palpitations (new) */
+    /* palpitations */
     fu_palp_title: "פרטי דפיקות לב",
     fu_palp_onset_lbl: "תחילה",
     fu_palp_onset_ph: "מתי זה התחיל?",
@@ -486,7 +479,7 @@ const t = {
     fu_palp_assoc_lbl: "תסמינים נלווים",
     fu_palp_assoc_ph: "למשל: סחרחורת, כאב בחזה",
 
-    /* other (new) */
+    /* other */
     fu_other_title: "פרטי תסמין נוסף",
     fu_other_onset_lbl: "מתי התחיל?",
     fu_other_onset_ph: "למשל: לפני יומיים",
@@ -513,7 +506,7 @@ const t = {
 
     submit: "שליחה",
     evaluating: "שולח… אנא המתינו.",
-    thanks_msg: "תודה! המידע נשלח. בדקו את תיבת המייל.",
+    thanks_msg: "תודה! המידע נשלח. בדקו את תיבת הדואר.",
     footer_note: "טופס זה אינו אבחון. במקרה חירום — חייגו 911."
   }
 };
@@ -616,15 +609,11 @@ function refreshFollowups() {
     if (el) el.classList.remove("hidden");
   });
 
-  // If user types "Other", auto-check & show
+  // Also show 'Other' follow-ups if the user typed text (even if box isn't checked)
   const otherText = $("#otherSymptoms")?.value.trim();
-  const chk = $("#chkOther");
-  if (chk) chk.checked = !!otherText;
-
-  const otherFU = document.getElementById("fu-other");
-  if (otherFU) {
-    if (otherText) otherFU.classList.remove("hidden");
-    else if (!selected.includes("other")) otherFU.classList.add("hidden");
+  if (otherText) {
+    const otherFU = document.getElementById("fu-other");
+    if (otherFU) otherFU.classList.remove("hidden");
   }
 }
 
@@ -676,10 +665,12 @@ function buildEmailText(lang){
   const email=$("#email").value.trim();
 
   const syms=Array.from($$("input[name='symptom']:checked")).map(x=>"• "+x.closest("label").innerText.trim());
-  const other=$("#otherSymptoms").value.trim();
+  const other=$("#otherSymptoms")?.value.trim();
   if(other) syms.push("• Other: "+other);
 
   const fuLines=[];
+
+  // Cough
   if(!$("#fu-cough")?.classList.contains("hidden")){
     fuLines.push("— Cough:",
       `   Type: ${$("#fuCoughType")?.value||"-"}`,
@@ -687,6 +678,7 @@ function buildEmailText(lang){
       `   Mucus: ${$("#fuCoughSputum")?.value||"-"}`,
       `   Fever: ${$("#fuCoughFever")?.value||"-"}`);
   }
+  // Chest pain
   if(!$("#fu-chest_pain")?.classList.contains("hidden")){
     fuLines.push("— Chest pain:",
       `   Onset: ${$("#fuCpOnset")?.value||"-"}`,
@@ -696,6 +688,7 @@ function buildEmailText(lang){
       `   Radiation: ${$("#fuCpRadiation")?.value||"-"}`,
       `   Relief at rest: ${$("#fuCpRelief")?.value||"-"}`);
   }
+  // Shortness of breath
   if(!$("#fu-sob")?.classList.contains("hidden")){
     fuLines.push("— Shortness of breath:",
       `   Onset & duration: ${$("#fuSobOnset")?.value||"-"}`,
@@ -703,12 +696,61 @@ function buildEmailText(lang){
       `   With minimal exertion: ${$("#fuSobExertion")?.value||"-"}`,
       `   Wheezing: ${$("#fuSobWheeze")?.value||"-"}`);
   }
+  // Fatigue
   if(!$("#fu-fatigue")?.classList.contains("hidden")){
     fuLines.push("— Fatigue:",
       `   Duration: ${$("#fuFatigueDuration")?.value||"-"}`,
       `   Sleep quality: ${$("#fuFatigueSleep")?.value||"-"}`,
       `   Weight change: ${$("#fuFatigueWeight")?.value||"-"}`,
       `   Low mood: ${$("#fuFatigueMood")?.value||"-"}`);
+  }
+  // Fever
+  if(!$("#fu-fever")?.classList.contains("hidden")){
+    fuLines.push("— Fever:",
+      `   Duration: ${$("#fuFeverDuration")?.value||"-"}`,
+      `   Max temp: ${$("#fuFeverTemp")?.value||"-"}`,
+      `   Chills/sweats: ${$("#fuFeverChills")?.value||"-"}`,
+      `   Associated: ${$("#fuFeverOther")?.value||"-"}`);
+  }
+  // Headache
+  if(!$("#fu-headache")?.classList.contains("hidden")){
+    fuLines.push("— Headache:",
+      `   Onset: ${$("#fuHeadacheOnset")?.value||"-"}`,
+      `   Duration/frequency: ${$("#fuHeadacheDuration")?.value||"-"}`,
+      `   Severity: ${$("#fuHeadacheSeverity")?.value||"-"}`,
+      `   Associated: ${$("#fuHeadacheAssoc")?.value||"-"}`);
+  }
+  // Nausea
+  if(!$("#fu-nausea")?.classList.contains("hidden")){
+    fuLines.push("— Nausea:",
+      `   Onset: ${$("#fuNauseaOnset")?.value||"-"}`,
+      `   Vomiting: ${$("#fuNauseaVomit")?.value||"-"}`,
+      `   After eating: ${$("#fuNauseaFood")?.value||"-"}`,
+      `   Other: ${$("#fuNauseaOther")?.value||"-"}`);
+  }
+  // Dizziness
+  if(!$("#fu-dizziness")?.classList.contains("hidden")){
+    fuLines.push("— Dizziness:",
+      `   Onset: ${$("#fuDizzinessOnset")?.value||"-"}`,
+      `   Triggered by position: ${$("#fuDizzinessTrigger")?.value||"-"}`,
+      `   Associated: ${$("#fuDizzinessAssoc")?.value||"-"}`,
+      `   Duration: ${$("#fuDizzinessDuration")?.value||"-"}`);
+  }
+  // Palpitations
+  if(!$("#fu-palpitations")?.classList.contains("hidden")){
+    fuLines.push("— Palpitations:",
+      `   Onset: ${$("#fuPalpOnset")?.value||"-"}`,
+      `   Duration/frequency: ${$("#fuPalpDuration")?.value||"-"}`,
+      `   Triggered by stress/exertion: ${$("#fuPalpTrigger")?.value||"-"}`,
+      `   Associated: ${$("#fuPalpAssoc")?.value||"-"}`);
+  }
+  // Other
+  if(!$("#fu-other")?.classList.contains("hidden")){
+    fuLines.push("— Other symptom:",
+      `   Onset: ${$("#fuOtherOnset")?.value||"-"}`,
+      `   Severity: ${$("#fuOtherSeverity")?.value||"-"}`,
+      `   Duration/pattern: ${$("#fuOtherDuration")?.value||"-"}`,
+      `   Description: ${$("#fuOtherDescription")?.value||"-"}`);
   }
 
   const history=$("#history")?.value.trim()||"-";
@@ -814,9 +856,30 @@ document.addEventListener("DOMContentLoaded",()=>{
   // Emergency listeners
   $$(".rf").forEach(cb=> cb.addEventListener("change", updateEmergencyState));
 
-  // Symptom follow-ups
+  // Symptom follow-ups (includes "Other" checkbox)
   $$("input[name='symptom']").forEach(cb => cb.addEventListener("change", refreshFollowups));
-  $("#otherSymptoms")?.addEventListener("input", refreshFollowups);
+
+  // Smart sync between "Other" text and checkbox (auto-check on typing, but keep manual control)
+  const otherInput = $("#otherSymptoms");
+  const chkOther = $("#chkOther");
+  if (otherInput && chkOther) {
+    otherInput.addEventListener("input", () => {
+      const txt = otherInput.value.trim();
+      // Auto-check when user types (mark that we did it)
+      if (txt && !chkOther.checked) {
+        chkOther.checked = true;
+        chkOther.dataset.autochecked = "1";
+      }
+      // If cleared and we auto-checked earlier, undo
+      else if (!txt && chkOther.dataset.autochecked === "1") {
+        chkOther.checked = false;
+        delete chkOther.dataset.autochecked;
+      }
+      refreshFollowups();
+    });
+  }
+
+  // Initial render of follow-ups
   refreshFollowups();
 
   // Mic
@@ -828,3 +891,4 @@ document.addEventListener("DOMContentLoaded",()=>{
   // Lang bar
   $$(".lang-btn").forEach(btn => btn.addEventListener("click", handleLangSwitch));
 });
+</script>
