@@ -89,3 +89,4 @@ body.rtl .grid2, body.rtl .grid3{direction:rtl}
 .followup.hidden {
   display: none !important;   /* hidden only when .hidden is present */
 }
+.welcome-hero { margin-top: 6px; font-size: 13px; opacity: .95; }
