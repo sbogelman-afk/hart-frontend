@@ -1050,204 +1050,253 @@ function setupMicButtons(){
 }
 
 /***************
+ * EMAIL I18N (labels only used inside the email)
+ ***************/
+function getEmailLabels(lang){
+  if (lang === "ru") {
+    return {
+      subjectPrefix: "Анкета HART",
+      language: "Язык",
+      patientEmail: "Email пациента",
+      symptoms: "Симптомы",
+      followups: "Уточняющие сведения",
+      medHistory: tr("ru","sect_history") || "Медицинский анамнез",
+      meds: tr("ru","sect_meds") || "Текущие лекарства",
+      lifestyle: tr("ru","sect_lifestyle") || "Образ жизни",
+      emSelected: "Отмеченные тревожные признаки",
+      endLine: "— Конец анкеты —",
+      hdrFormId: tr("ru","form_id") || "Номер формы",
+      hdrDate: tr("ru","form_date") || "Дата",
+      hdrPatientEmail: "Email пациента",
+      hdrLanguage: "Язык"
+    };
+  }
+  if (lang === "he") {
+    return {
+      subjectPrefix: "טופס HART",
+      language: "שפה",
+      patientEmail: "דוא״ל המטופל",
+      symptoms: tr("he","sect_symptoms") || "תסמינים",
+      followups: "שאלות המשך — פרטים",
+      medHistory: tr("he","sect_history") || "היסטוריה רפואית",
+      meds: tr("he","sect_meds") || "תרופות נוכחיות",
+      lifestyle: tr("he","sect_lifestyle") || "אורח חיים (רשות)",
+      emSelected: "אזהרות חירום שנבחרו",
+      endLine: "— סוף הטופס —",
+      hdrFormId: tr("he","form_id") || "מס׳ טופס",
+      hdrDate: tr("he","form_date") || "תאריך",
+      hdrPatientEmail: "דוא״ל המטופל",
+      hdrLanguage: "שפה"
+    };
+  }
+  return {
+    subjectPrefix: "HART Intake",
+    language: "Language",
+    patientEmail: "Patient email",
+    symptoms: "Symptoms",
+    followups: "Follow-up details",
+    medHistory: tr("en","sect_history") || "Medical History",
+    meds: tr("en","sect_meds") || "Current Medications",
+    lifestyle: tr("en","sect_lifestyle") || "Lifestyle (optional)",
+    emSelected: "Emergency red flags selected",
+    endLine: "— End of intake —",
+    hdrFormId: tr("en","form_id") || "Form ID",
+    hdrDate: tr("en","form_date") || "Date",
+    hdrPatientEmail: "Patient email",
+    hdrLanguage: "Language"
+  };
+}
+
+/***************
  * EMAIL (EmailJS)
  ***************/
 function buildEmailText(lang){
-  // Helpers to fetch nice text (use option label text for selects)
-  const val = (sel) => sel ? sel.value?.trim() : "";
-  const txt = (sel) => {
-    if (!sel) return "";
-    if (sel.tagName === "SELECT") {
-      const o = sel.options[sel.selectedIndex];
-      return (o && o.textContent) ? o.textContent.trim() : sel.value || "";
+  const L = getEmailLabels(lang);
+  const label = (k) => L[k] || k;
+
+  const val = (el) => (el && el.value != null ? String(el.value).trim() : "");
+  const txt = (el) => {
+    if (!el) return "";
+    if (el.tagName === "SELECT") {
+      const o = el.options[el.selectedIndex];
+      return (o && o.textContent) ? o.textContent.trim() : (el.value || "");
     }
-    return sel.value?.trim() || "";
+    return (el.value || "").trim();
   };
 
   const email = $("#email")?.value.trim();
 
-  // Symptoms (labels)
   const syms = Array.from($$("input[name='symptom']:checked")).map(x=>{
-    const label = x.closest("label")?.innerText.trim() || x.value;
-    return "• " + label;
+    const labelTxt = x.closest("label")?.innerText.trim() || x.value;
+    return "• " + labelTxt;
   });
   const otherTyped = $("#otherSymptoms")?.value.trim();
-  if (otherTyped) syms.push("• Other: " + otherTyped);
+  if (otherTyped) syms.push("• " + (tr(lang,"other_symptoms") || "Other") + ": " + otherTyped);
 
   const fuLines = [];
 
-  // Cough
   if(!$("#fu-cough")?.classList.contains("hidden")){
     fuLines.push(
-      "— Cough:",
-      `   Type: ${txt($("#fuCoughType"))||"-"}`,
-      `   Duration: ${txt($("#fuCoughDuration"))||"-"}`,
-      `   Mucus: ${txt($("#fuCoughSputum"))||"-"}`,
-      `   Fever: ${txt($("#fuCoughFever"))||"-"}`
+      "— " + (tr(lang,"fu_cough_title") || "Cough") + ":",
+      `   ${tr(lang,"fu_cough_type_lbl")||"Type"}: ${txt($("#fuCoughType"))||"-"}`,
+      `   ${tr(lang,"fu_cough_duration_lbl")||"Duration"}: ${txt($("#fuCoughDuration"))||"-"}`,
+      `   ${tr(lang,"fu_cough_sputum_lbl")||"Mucus present?"}: ${txt($("#fuCoughSputum"))||"-"}`,
+      `   ${tr(lang,"fu_cough_fever_lbl")||"Fever?"}: ${txt($("#fuCoughFever"))||"-"}`
     );
   }
 
-  // Chest pain
   if(!$("#fu-chest_pain")?.classList.contains("hidden")){
     fuLines.push(
-      "— Chest pain:",
-      `   Onset: ${txt($("#fuCpOnset"))||"-"}`,
-      `   Character: ${txt($("#fuCpCharacter"))||"-"}`,
-      `   Duration: ${txt($("#fuCpDuration"))||"-"}`,
-      `   Worse w/ exertion: ${txt($("#fuCpExertion"))||"-"}`,
-      `   Radiation: ${txt($("#fuCpRadiation"))||"-"}`,
-      `   Relief at rest: ${txt($("#fuCpRelief"))||"-"}`
+      "— " + (tr(lang,"fu_cp_title") || "Chest pain") + ":",
+      `   ${tr(lang,"fu_cp_onset_lbl")||"Onset"}: ${txt($("#fuCpOnset"))||"-"}`,
+      `   ${tr(lang,"fu_cp_character_lbl")||"Character"}: ${txt($("#fuCpCharacter"))||"-"}`,
+      `   ${tr(lang,"fu_cp_duration_lbl")||"Duration/frequency"}: ${txt($("#fuCpDuration"))||"-"}`,
+      `   ${tr(lang,"fu_cp_exertion_lbl")||"Worse with exertion?"}: ${txt($("#fuCpExertion"))||"-"}`,
+      `   ${tr(lang,"fu_cp_radiation_lbl")||"Radiation"}: ${txt($("#fuCpRadiation")))||"-"}`,
+      `   ${tr(lang,"fu_cp_relief_lbl")||"Relieved by rest?"}: ${txt($("#fuCpRelief"))||"-"}`
     );
   }
 
-  // Shortness of breath
   if(!$("#fu-sob")?.classList.contains("hidden")){
     fuLines.push(
-      "— Shortness of breath:",
-      `   Onset & duration: ${txt($("#fuSobOnset"))||"-"}`,
-      `   Worse lying flat: ${txt($("#fuSobLying"))||"-"}`,
-      `   With minimal exertion: ${txt($("#fuSobExertion"))||"-"}`,
-      `   Wheezing: ${txt($("#fuSobWheeze"))||"-"}`
+      "— " + (tr(lang,"fu_sob_title") || "Shortness of breath") + ":",
+      `   ${tr(lang,"fu_sob_onset_lbl")||"Onset & duration"}: ${txt($("#fuSobOnset"))||"-"}`,
+      `   ${tr(lang,"fu_sob_lying_lbl")||"Worse when lying flat?"}: ${txt($("#fuSobLying"))||"-"}`,
+      `   ${tr(lang,"fu_sob_exertion_lbl")||"With minimal exertion?"}: ${txt($("#fuSobExertion"))||"-"}`,
+      `   ${tr(lang,"fu_sob_wheeze_lbl")||"Wheezing present?"}: ${txt($("#fuSobWheeze"))||"-"}`
     );
   }
 
-  // Fatigue
   if(!$("#fu-fatigue")?.classList.contains("hidden")){
     fuLines.push(
-      "— Fatigue:",
-      `   Duration: ${txt($("#fuFatigueDuration"))||"-"}`,
-      `   Sleep quality: ${txt($("#fuFatigueSleep"))||"-"}`,
-      `   Weight change: ${txt($("#fuFatigueWeight"))||"-"}`,
-      `   Low mood: ${txt($("#fuFatigueMood"))||"-"}`
+      "— " + (tr(lang,"fu_fatigue_title") || "Fatigue") + ":",
+      `   ${tr(lang,"fu_fatigue_duration_lbl")||"Duration"}: ${txt($("#fuFatigueDuration"))||"-"}`,
+      `   ${tr(lang,"fu_fatigue_sleep_lbl")||"Sleep quality"}: ${txt($("#fuFatigueSleep"))||"-"}`,
+      `   ${tr(lang,"fu_fatigue_weight_lbl")||"Recent weight change?"}: ${txt($("#fuFatigueWeight"))||"-"}`,
+      `   ${tr(lang,"fu_fatigue_mood_lbl")||"Low mood?"}: ${txt($("#fuFatigueMood"))||"-"}`
     );
   }
 
-  // Fever (IDs match your HTML: fuFeverDuration, fuFeverTemp, fuFeverChills, fuFeverAssoc)
   if(!$("#fu-fever")?.classList.contains("hidden")){
     fuLines.push(
-      "— Fever:",
-      `   Duration: ${txt($("#fuFeverDuration"))||"-"}`,
-      `   Max temp: ${txt($("#fuFeverTemp"))||"-"}`,
-      `   Chills/sweats: ${txt($("#fuFeverChills"))||"-"}`,
-      `   Associated: ${txt($("#fuFeverAssoc"))||"-"}`
+      "— " + (tr(lang,"fu_fever_title") || "Fever") + ":",
+      `   ${tr(lang,"fu_fever_duration_lbl")||"Duration"}: ${txt($("#fuFeverDuration"))||"-"}`,
+      `   ${tr(lang,"fu_fever_temp_lbl")||"Highest temperature"}: ${txt($("#fuFeverTemp"))||"-"}`,
+      `   ${tr(lang,"fu_fever_chills_lbl")||"Chills or sweating?"}: ${txt($("#fuFeverChills"))||"-"}`,
+      `   ${tr(lang,"fu_fever_other_lbl")||"Associated symptoms"}: ${txt($("#fuFeverAssoc"))||"-"}`
     );
   }
 
-  // Headache
   if(!$("#fu-headache")?.classList.contains("hidden")){
     fuLines.push(
-      "— Headache:",
-      `   Onset: ${txt($("#fuHeadacheOnset"))||"-"}`,
-      `   Duration/frequency: ${txt($("#fuHeadacheDuration"))||"-"}`,
-      `   Severity: ${val($("#fuHeadacheSeverity"))||"-"}`,
-      `   Associated: ${txt($("#fuHeadacheAssoc"))||"-"}`
+      "— " + (tr(lang,"fu_headache_title") || "Headache") + ":",
+      `   ${tr(lang,"fu_headache_onset_lbl")||"Onset"}: ${txt($("#fuHeadacheOnset"))||"-"}`,
+      `   ${tr(lang,"fu_headache_duration_lbl")||"Duration/frequency"}: ${txt($("#fuHeadacheDuration"))||"-"}`,
+      `   ${tr(lang,"fu_headache_severity_lbl")||"Severity (1–10)"}: ${val($("#fuHeadacheSeverity"))||"-"}`,
+      `   ${tr(lang,"fu_headache_assoc_lbl")||"Associated symptoms"}: ${txt($("#fuHeadacheAssoc"))||"-"}`
     );
   }
 
-  // Nausea
   if(!$("#fu-nausea")?.classList.contains("hidden")){
     fuLines.push(
-      "— Nausea:",
-      `   Onset: ${txt($("#fuNauseaOnset"))||"-"}`,
-      `   Vomiting: ${txt($("#fuNauseaVomit"))||"-"}`,
-      `   After eating: ${txt($("#fuNauseaFood"))||"-"}`,
-      `   Other: ${txt($("#fuNauseaOther"))||"-"}`
+      "— " + (tr(lang,"fu_nausea_title") || "Nausea") + ":",
+      `   ${tr(lang,"fu_nausea_onset_lbl")||"When did it start?"}: ${txt($("#fuNauseaOnset"))||"-"}`,
+      `   ${tr(lang,"fu_nausea_vomit_lbl")||"Vomiting present?"}: ${txt($("#fuNauseaVomit"))||"-"}`,
+      `   ${tr(lang,"fu_nausea_food_lbl")||"Worse after eating?"}: ${txt($("#fuNauseaFood"))||"-"}`,
+      `   ${tr(lang,"fu_nausea_other_lbl")||"Other symptoms"}: ${txt($("#fuNauseaOther"))||"-"}`
     );
   }
 
-  // Dizziness (IDs match your HTML: fuDizzyOnset, fuDizzyTrigger, fuDizzyAssoc, fuDizzyDuration)
   if(!$("#fu-dizziness")?.classList.contains("hidden")){
     fuLines.push(
-      "— Dizziness:",
-      `   Onset: ${txt($("#fuDizzyOnset"))||"-"}`,
-      `   Triggered by position: ${txt($("#fuDizzyTrigger"))||"-"}`,
-      `   Associated: ${txt($("#fuDizzyAssoc"))||"-"}`,
-      `   Duration: ${txt($("#fuDizzyDuration"))||"-"}`
+      "— " + (tr(lang,"fu_dizziness_title") || "Dizziness") + ":",
+      `   ${tr(lang,"fu_dizziness_onset_lbl")||"Onset"}: ${txt($("#fuDizzyOnset"))||"-"}`,
+      `   ${tr(lang,"fu_dizziness_trigger_lbl")||"Triggered by position change?"}: ${txt($("#fuDizzyTrigger"))||"-"}`,
+      `   ${tr(lang,"fu_dizziness_assoc_lbl")||"Associated symptoms"}: ${txt($("#fuDizzyAssoc"))||"-"}`,
+      `   ${tr(lang,"fu_dizziness_duration_lbl")||"Duration"}: ${txt($("#fuDizzyDuration"))||"-"}`
     );
   }
 
-  // Palpitations (block id: fu-palpitations)
   if(!$("#fu-palpitations")?.classList.contains("hidden")){
     fuLines.push(
-      "— Palpitations:",
-      `   Onset: ${txt($("#fuPalpOnset"))||"-"}`,
-      `   Duration/frequency: ${txt($("#fuPalpDuration"))||"-"}`,
-      `   Triggered by stress/exertion: ${txt($("#fuPalpTrigger"))||"-"}`,
-      `   Associated: ${txt($("#fuPalpAssoc"))||"-"}`
+      "— " + (tr(lang,"fu_palp_title") || "Palpitations") + ":",
+      `   ${tr(lang,"fu_palp_onset_lbl")||"Onset"}: ${txt($("#fuPalpOnset"))||"-"}`,
+      `   ${tr(lang,"fu_palp_duration_lbl")||"Duration/frequency"}: ${txt($("#fuPalpDuration"))||"-"}`,
+      `   ${tr(lang,"fu_palp_trigger_lbl")||"Triggered by stress/exertion?"}: ${txt($("#fuPalpTrigger"))||"-"}`,
+      `   ${tr(lang,"fu_palp_assoc_lbl")||"Associated symptoms"}: ${txt($("#fuPalpAssoc"))||"-"}`
     );
   }
 
-  // Other symptom
   if(!$("#fu-other")?.classList.contains("hidden")){
     fuLines.push(
-      "— Other symptom:",
-      `   Onset: ${txt($("#fuOtherOnset"))||"-"}`,
-      `   Severity: ${val($("#fuOtherSeverity"))||"-"}`,
-      `   Duration/pattern: ${txt($("#fuOtherDuration"))||"-"}`,
-      `   Description: ${txt($("#fuOtherDescription"))||"-"}`
+      "— " + (tr(lang,"fu_other_title") || "Other symptom") + ":",
+      `   ${tr(lang,"fu_other_onset_lbl")||"When did it start?"}: ${txt($("#fuOtherOnset"))||"-"}`,
+      `   ${tr(lang,"fu_other_severity_lbl")||"Severity (1–10)"}: ${val($("#fuOtherSeverity"))||"-"}`,
+      `   ${tr(lang,"fu_other_duration_lbl")||"Duration/pattern"}: ${txt($("#fuOtherDuration"))||"-"}`,
+      `   ${tr(lang,"fu_other_description_lbl")||"Describe the symptom"}: ${txt($("#fuOtherDescription"))||"-"}`
     );
   }
 
-  // History / Meds / Lifestyle
   const history  = $("#history")?.value.trim() || "-";
   const meds     = $("#meds")?.value.trim() || "-";
   const smoking  = txt($("#smoking"))  || "-";
   const alcohol  = txt($("#alcohol"))  || "-";
   const exercise = $("#exercise")?.value || "-";
 
-  // Emergency flags (labels)
   const emFlags = Array.from($$(".rf:checked")).map(cb=>{
     const text = cb.closest("label")?.innerText.trim() || cb.value;
     return "• " + text;
   });
 
-  // Final body (no duplicate "HART Intake (Form: …)" header line)
   return [
-    `Language: ${lang.toUpperCase()}`,
-    `Patient email: ${email || "(not provided)"}`,
+    `${label("language")}: ${lang.toUpperCase()}`,
+    `${label("patientEmail")}: ${email || "(not provided)"}`,
     "",
-    "Symptoms:",
+    `${label("symptoms")}:`,
     ...(syms.length ? syms : ["• –"]),
     "",
-    "Follow-up details:",
+    `${label("followups")}:`,
     ...(fuLines.length ? fuLines : ["— –"]),
     "",
-    "Medical History:",
+    `${label("medHistory")}:`,
     history,
     "",
-    "Current Medications:",
+    `${label("meds")}:`,
     meds,
     "",
-    "Lifestyle:",
-    `• Smoking: ${smoking}`,
-    `• Alcohol: ${alcohol}`,
-    `• Exercise (hrs/wk): ${exercise}`,
+    `${label("lifestyle")}:`,
+    `• ${tr(lang,"smoking_label")||"Smoking"}: ${smoking}`,
+    `• ${tr(lang,"alcohol_label")||"Alcohol"}: ${alcohol}`,
+    `• ${tr(lang,"exercise_label")||"Exercise (hrs/week)"}: ${exercise}`,
     "",
-    "Emergency red flags selected:",
-    ...(emFlags.length ? emFlags : ["• none selected"]),
+    `${label("emSelected")}:`,
+    ...(emFlags.length ? emFlags : ["• –"]),
     "",
-    "— End of intake —"
+    label("endLine")
   ].join("\n");
 }
 
-async function sendEmail(formattedText){
-  // Build subject & top-level vars for the template
+async function sendEmail(formattedText,toEmail){
   const formId   = $("#formId")?.textContent.trim();
   const formDate = $("#formDate")?.textContent.trim();
-  const patient  = $("#email")?.value.trim() || "(not provided)";
-  const lang     = (window.currentLang || "en").toUpperCase();
+  const lang     = (window.currentLang || "en");
+  const L        = getEmailLabels(lang);
+  const patient  = toEmail || $("#email")?.value.trim() || "(not provided)";
 
   const params = {
-    // Template variables (use these inside your EmailJS template):
     to_email: "hart.intake.central@gmail.com",
     patient_email: patient,
     message: formattedText,
 
-    // New fields so the template header can fill the "top section":
-    subject: `[HART Intake] ${formId || ""}`, // Use {{subject}} in your template subject, OR use {{form_id}} in the subject
+    // Localized subject & header labels for your EmailJS template
+    subject: `[${L.subjectPrefix}] ${formId || ""}`,
     form_id: formId,
     form_date: formDate,
-    language: lang
+    language: lang.toUpperCase(),
+    label_intake_id: L.hdrFormId,
+    label_submitted_on: L.hdrDate,
+    label_patient_email: L.hdrPatientEmail,
+    label_language: L.hdrLanguage
   };
 
   return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
