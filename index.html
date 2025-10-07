@@ -1049,10 +1049,12 @@ function setupMicButtons(){
   });
 }
 
+<script>
 /***************
- * EMAIL I18N (labels only used inside the email)
+ * EMAIL I18N + BODY BUILDER
  ***************/
-function getEmailLabels(lang){
+function getEmailLabels(langRaw){
+  const lang = (langRaw || "en").toLowerCase();
   if (lang === "ru") {
     return {
       subjectPrefix: "Анкета HART",
@@ -1107,10 +1109,8 @@ function getEmailLabels(lang){
   };
 }
 
-/***************
- * EMAIL (EmailJS)
- ***************/
-function buildEmailText(lang){
+function buildEmailText(langRaw){
+  const lang = (langRaw || "en").toLowerCase();
   const L = getEmailLabels(lang);
   const label = (k) => L[k] || k;
 
@@ -1126,6 +1126,7 @@ function buildEmailText(lang){
 
   const email = $("#email")?.value.trim();
 
+  // Symptoms (use on-screen translated labels)
   const syms = Array.from($$("input[name='symptom']:checked")).map(x=>{
     const labelTxt = x.closest("label")?.innerText.trim() || x.value;
     return "• " + labelTxt;
@@ -1135,6 +1136,7 @@ function buildEmailText(lang){
 
   const fuLines = [];
 
+  // Cough
   if(!$("#fu-cough")?.classList.contains("hidden")){
     fuLines.push(
       "— " + (tr(lang,"fu_cough_title") || "Cough") + ":",
@@ -1145,6 +1147,7 @@ function buildEmailText(lang){
     );
   }
 
+  // Chest pain
   if(!$("#fu-chest_pain")?.classList.contains("hidden")){
     fuLines.push(
       "— " + (tr(lang,"fu_cp_title") || "Chest pain") + ":",
@@ -1157,6 +1160,7 @@ function buildEmailText(lang){
     );
   }
 
+  // Shortness of breath
   if(!$("#fu-sob")?.classList.contains("hidden")){
     fuLines.push(
       "— " + (tr(lang,"fu_sob_title") || "Shortness of breath") + ":",
@@ -1167,6 +1171,7 @@ function buildEmailText(lang){
     );
   }
 
+  // Fatigue
   if(!$("#fu-fatigue")?.classList.contains("hidden")){
     fuLines.push(
       "— " + (tr(lang,"fu_fatigue_title") || "Fatigue") + ":",
@@ -1177,6 +1182,7 @@ function buildEmailText(lang){
     );
   }
 
+  // Fever
   if(!$("#fu-fever")?.classList.contains("hidden")){
     fuLines.push(
       "— " + (tr(lang,"fu_fever_title") || "Fever") + ":",
@@ -1187,6 +1193,7 @@ function buildEmailText(lang){
     );
   }
 
+  // Headache
   if(!$("#fu-headache")?.classList.contains("hidden")){
     fuLines.push(
       "— " + (tr(lang,"fu_headache_title") || "Headache") + ":",
@@ -1197,6 +1204,7 @@ function buildEmailText(lang){
     );
   }
 
+  // Nausea
   if(!$("#fu-nausea")?.classList.contains("hidden")){
     fuLines.push(
       "— " + (tr(lang,"fu_nausea_title") || "Nausea") + ":",
@@ -1207,6 +1215,7 @@ function buildEmailText(lang){
     );
   }
 
+  // Dizziness
   if(!$("#fu-dizziness")?.classList.contains("hidden")){
     fuLines.push(
       "— " + (tr(lang,"fu_dizziness_title") || "Dizziness") + ":",
@@ -1217,6 +1226,7 @@ function buildEmailText(lang){
     );
   }
 
+  // Palpitations
   if(!$("#fu-palpitations")?.classList.contains("hidden")){
     fuLines.push(
       "— " + (tr(lang,"fu_palp_title") || "Palpitations") + ":",
@@ -1227,6 +1237,7 @@ function buildEmailText(lang){
     );
   }
 
+  // Other
   if(!$("#fu-other")?.classList.contains("hidden")){
     fuLines.push(
       "— " + (tr(lang,"fu_other_title") || "Other symptom") + ":",
@@ -1276,11 +1287,11 @@ function buildEmailText(lang){
   ].join("\n");
 }
 
-async function sendEmail(formattedText,toEmail){
+async function sendEmail(formattedText,toEmail,langRaw){
+  const lang     = (langRaw || "en").toLowerCase();
+  const L        = getEmailLabels(lang);
   const formId   = $("#formId")?.textContent.trim();
   const formDate = $("#formDate")?.textContent.trim();
-  const lang     = (window.currentLang || "en");
-  const L        = getEmailLabels(lang);
   const patient  = toEmail || $("#email")?.value.trim() || "(not provided)";
 
   const params = {
@@ -1288,8 +1299,8 @@ async function sendEmail(formattedText,toEmail){
     patient_email: patient,
     message: formattedText,
 
-    // Localized subject & header labels for your EmailJS template
-    subject: `[${L.subjectPrefix}] ${formId || ""}`,
+    // SUBJECT & header labels passed to EmailJS template
+    subject: `[${L.subjectPrefix}] ${formId || ""} — ${lang.toUpperCase()}`,
     form_id: formId,
     form_date: formDate,
     language: lang.toUpperCase(),
@@ -1301,6 +1312,7 @@ async function sendEmail(formattedText,toEmail){
 
   return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
 }
+</script>
 
 /***************
  * LANGUAGE SWITCH
@@ -1313,6 +1325,7 @@ function handleLangSwitch(e){
   const lang=e.currentTarget.dataset.lang;
   if(!lang)return;
   currentLang=lang;
+  window.currentLang=lang; // keep in sync for any other readers
   setActiveLangButton(lang);
   applyTranslations(lang);
 }
@@ -1360,22 +1373,25 @@ document.addEventListener("DOMContentLoaded",()=>{
   setupMicButtons();
 
   // Submit
-  $("#submitBtn")?.addEventListener("click", async ()=>{
-    const anyEmergency=Array.from($$(".rf")).some(cb=>cb.checked);
-    if(anyEmergency)return;
-    const email=$("#email")?.value.trim();
-    const text=buildEmailText(currentLang);
-    try{
-      $("#loading")?.classList.remove("hidden");
-      $("#thanks")?.classList.add("hidden");
-      await sendEmail(text,email);
-      $("#thanks")?.classList.remove("hidden");
-    }catch(err){
-      alert("Failed to send. Please try again.\n"+(err?.text||err?.message||err));
-    }finally{
-      $("#loading")?.classList.add("hidden");
-    }
-  });
+$("#submitBtn")?.addEventListener("click", async ()=>{
+  const anyEmergency=Array.from($$(".rf")).some(cb=>cb.checked);
+  if(anyEmergency)return;
+
+  const lang  = (window.currentLang || currentLang || "en").toLowerCase();
+  const email = $("#email")?.value.trim();
+  const text  = buildEmailText(lang);
+
+  try{
+    $("#loading")?.classList.remove("hidden");
+    $("#thanks")?.classList.add("hidden");
+    await sendEmail(text,email,lang);
+    $("#thanks")?.classList.remove("hidden");
+  }catch(err){
+    alert("Failed to send. Please try again.\n"+(err?.text||err?.message||err));
+  }finally{
+    $("#loading")?.classList.add("hidden");
+  }
+});
 
   // Lang bar
   $$(".lang-btn").forEach(btn => btn.addEventListener("click", handleLangSwitch));
