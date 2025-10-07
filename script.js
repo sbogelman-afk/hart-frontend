@@ -19,7 +19,7 @@ const t = {
   /* ---------------- ENGLISH ---------------- */
   en: {
     tagline: "Human-AI Relationship & Triage — Intake",
-    welcome: "Welcome! Tell us what’s going on—HART asks focused questions, uses AI to make sense of your symptoms, and sends a clear, translated summary with suggested next steps.",
+    welcome_hero: "Welcome! Tell us what’s going on—HART asks focused questions, uses AI to make sense of your symptoms, and sends a clear, translated summary with suggested next steps.",
     form_id: "Form ID",
     form_date: "Date",
     privacy_note: "We do not collect personal identifiers. We only ask for an email to send your evaluation.",
@@ -186,7 +186,7 @@ const t = {
   /* ---------------- RUSSIAN ---------------- */
   ru: {
     tagline: "Взаимодействие Человек–ИИ и триаж — Анкета",
-    welcome: "Добро пожаловать! Расскажите, что вас беспокоит — HART задаст точные вопросы, с помощью ИИ структурирует симптомы и отправит понятное, переведённое краткое изложение с рекомендованными следующими шагами.",
+    welcome_hero: "Добро пожаловать! Расскажите, что вас беспокоит — HART задаст точные вопросы, с помощью ИИ структурирует симптомы и отправит понятное, переведённое краткое изложение с рекомендованными следующими шагами.",
     form_id: "Номер формы",
     form_date: "Дата",
     privacy_note: "Мы не собираем личные данные. Нужен только email, чтобы отправить вам результат.",
@@ -353,7 +353,7 @@ const t = {
   /* ---------------- HEBREW ---------------- */
   he: {
     tagline: "קשר אדם-בינה וטריאז׳ — טופס קליטה",
-    welcome: ".שואל שאלות ממוקדות, משתמש בבינה מלאכותית כדי לעשות סדר בתסמינים, ושולח סיכום ברור ומתורגם עם צעדים מומלצים להמשך HART ברוכים הבאים! ספרו לנו מה קורה—‏ ",
+    welcome_hero: ".שואל שאלות ממוקדות, משתמש בבינה מלאכותית כדי לעשות סדר בתסמינים, ושולח סיכום ברור ומתורגם עם צעדים מומלצים להמשך HART ברוכים הבאים! ספרו לנו מה קורה—‏ ",
     form_id: "מס׳ טופס",
     form_date: "תאריך",
     privacy_note: "איננו אוספים פרטים מזהים. נבקש מייל בלבד כדי לשלוח את ההערכה.",
