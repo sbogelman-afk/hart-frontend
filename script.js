@@ -400,7 +400,13 @@ const symptomToBlock = {
   "cough": "fu-cough",
   "chest_pain": "fu-chest_pain",
   "sob": "fu-sob",
-  "fatigue": "fu-fatigue"
+  "fatigue": "fu-fatigue",
+  "fever": "fu-fever",
+  "headache": "fu-headache",
+  "nausea": "fu-nausea",
+  "dizziness": "fu-dizziness",
+  "palpitations": "fu-palpitations",
+  "other": "fu-other"
 };
 
 function refreshFollowups() {
