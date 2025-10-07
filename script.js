@@ -842,30 +842,25 @@ function handleLangSwitch(e){
   applyTranslations(lang);
 }
 
-/***************
- * INIT
- ***************/
-document.addEventListener("DOMContentLoaded",()=>{
-  console.log("[HART] DOM ready");
+// --- INIT (robust) ---
+function init(){
+  console.log("[HART] init starting…");
+
   // IDs & date
-  $("#formId").textContent=genFormId();
-  $("#formDate").textContent=todayStr();
+  $("#formId").textContent = genFormId();
+  $("#formDate").textContent = todayStr();
 
   // Default language EN
   applyTranslations("en");
   setActiveLangButton("en");
 
   // Emergency listeners
-  $$(".rf").forEach(cb=> cb.addEventListener("change", updateEmergencyState));
+  $$(".rf").forEach(cb => cb.addEventListener("change", updateEmergencyState));
 
   // Symptom follow-ups (includes "Other" checkbox)
-  // Robust: listen on the document too (in case markup changes)
   $$("input[name='symptom']").forEach(cb => cb.addEventListener("change", refreshFollowups));
-  document.addEventListener("change", (e)=>{
-    if (e.target && e.target.name === "symptom") refreshFollowups();
-  });
 
-  // Smart sync between "Other" text and checkbox (auto-check on typing)
+  // Smart sync between "Other" text and checkbox
   const otherInput = $("#otherSymptoms");
   const chkOther = $("#chkOther");
   if (otherInput && chkOther) {
@@ -882,7 +877,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     });
   }
 
-  // Initial render of follow-ups
+  // Initial render
   refreshFollowups();
 
   // Mic
@@ -894,6 +889,12 @@ document.addEventListener("DOMContentLoaded",()=>{
   // Lang bar
   $$(".lang-btn").forEach(btn => btn.addEventListener("click", handleLangSwitch));
 
-  console.log("[HART] Init complete");
-});
-</script>
+  console.log("[HART] init complete ✅");
+}
+
+// Run now or on DOM ready (covers all placements)
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}
