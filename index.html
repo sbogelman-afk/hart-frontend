@@ -86,10 +86,14 @@
         <label><input type="checkbox" name="symptom" value="palpitations" /> <span data-i18n="s_palpitations">Palpitations</span></label>
       </div>
 
-      <div class="row other-row">
-        <label class="lbl" data-i18n="other_symptoms">Other (optional)</label>
-        <input type="text" id="otherSymptoms" />
+      <div class="row other-row symptom-other">
+        <label>
+          <input type="checkbox" name="symptom" value="other" id="chkOther" />
+          <span data-i18n="other_symptoms">Other (optional)</span>
+        </label>
+        <input type="text" id="otherSymptoms" placeholder="Describe..." />
       </div>
+
     </section>
 
     <!-- Dynamic follow-ups container -->
