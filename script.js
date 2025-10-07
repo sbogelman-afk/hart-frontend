@@ -8,8 +8,12 @@ const EMAILJS_PUBLIC_KEY = "9CnCLpzz0nKl_y4gf";
 
 // Initialize EmailJS
 document.addEventListener("DOMContentLoaded", () => {
-  if (window.emailjs && emailjs.init) {
-    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+  try {
+    if (window.emailjs && emailjs.init) {
+      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+    }
+  } catch (e) {
+    console.error("EmailJS init error:", e);
   }
 });
 
@@ -569,11 +573,13 @@ function updateEmergencyState(){
   const banner = $("#emergencyBanner");
   const submit = $("#submitBtn");
   if (anyChecked){
-    banner.classList.remove("hidden");
-    submit.disabled = true;
+    banner?.classList.remove("hidden");
+    banner && (banner.style.display = "");
+    submit && (submit.disabled = true);
   } else {
-    banner.classList.add("hidden");
-    submit.disabled = false;
+    banner?.classList.add("hidden");
+    banner && (banner.style.display = "none");
+    submit && (submit.disabled = false);
   }
 }
 
@@ -593,28 +599,26 @@ const symptomToBlock = {
   "other": "fu-other"
 };
 
-function refreshFollowups() {
-  // Hide all follow-up blocks
-  Object.values(symptomToBlock).forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.classList.add("hidden");
-  });
+function showBlock(id, show){
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.toggle("hidden", !show);
+  el.style.display = show ? "" : "none";
+}
 
-  // Show those corresponding to checked symptom boxes
+function refreshFollowups() {
+  // Hide all
+  Object.values(symptomToBlock).forEach(id => showBlock(id, false));
+
+  // Checked symptoms
   const selected = Array.from(document.querySelectorAll("input[name='symptom']:checked"))
     .map(x => x.value);
 
-  selected.forEach(sym => {
-    const el = document.getElementById(symptomToBlock[sym]);
-    if (el) el.classList.remove("hidden");
-  });
+  selected.forEach(sym => showBlock(symptomToBlock[sym], true));
 
-  // Also show 'Other' follow-ups if the user typed text (even if box isn't checked)
+  // Also show Other FUs if there's text in the free-text field
   const otherText = $("#otherSymptoms")?.value.trim();
-  if (otherText) {
-    const otherFU = document.getElementById("fu-other");
-    if (otherFU) otherFU.classList.remove("hidden");
-  }
+  if (otherText) showBlock("fu-other", true);
 }
 
 /***************
@@ -639,8 +643,8 @@ function setupMicButtons(){
       const rec = new webkitSpeechRecognition(); // eslint-disable-line no-undef
       rec.continuous = true;
       rec.interimResults = true;
-      const currentLang = window.currentLang || "en";
-      rec.lang = (currentLang === "he") ? "he-IL" : (currentLang === "ru") ? "ru-RU" : "en-US";
+      const lang = window.currentLang || "en";
+      rec.lang = (lang === "he") ? "he-IL" : (lang === "ru") ? "ru-RU" : "en-US";
       rec.onresult = (e)=>{
         let tx = "";
         for (let i=e.resultIndex; i<e.results.length; i++){
@@ -670,7 +674,6 @@ function buildEmailText(lang){
 
   const fuLines=[];
 
-  // Cough
   if(!$("#fu-cough")?.classList.contains("hidden")){
     fuLines.push("— Cough:",
       `   Type: ${$("#fuCoughType")?.value||"-"}`,
@@ -678,7 +681,6 @@ function buildEmailText(lang){
       `   Mucus: ${$("#fuCoughSputum")?.value||"-"}`,
       `   Fever: ${$("#fuCoughFever")?.value||"-"}`);
   }
-  // Chest pain
   if(!$("#fu-chest_pain")?.classList.contains("hidden")){
     fuLines.push("— Chest pain:",
       `   Onset: ${$("#fuCpOnset")?.value||"-"}`,
@@ -688,7 +690,6 @@ function buildEmailText(lang){
       `   Radiation: ${$("#fuCpRadiation")?.value||"-"}`,
       `   Relief at rest: ${$("#fuCpRelief")?.value||"-"}`);
   }
-  // Shortness of breath
   if(!$("#fu-sob")?.classList.contains("hidden")){
     fuLines.push("— Shortness of breath:",
       `   Onset & duration: ${$("#fuSobOnset")?.value||"-"}`,
@@ -696,7 +697,6 @@ function buildEmailText(lang){
       `   With minimal exertion: ${$("#fuSobExertion")?.value||"-"}`,
       `   Wheezing: ${$("#fuSobWheeze")?.value||"-"}`);
   }
-  // Fatigue
   if(!$("#fu-fatigue")?.classList.contains("hidden")){
     fuLines.push("— Fatigue:",
       `   Duration: ${$("#fuFatigueDuration")?.value||"-"}`,
@@ -704,7 +704,6 @@ function buildEmailText(lang){
       `   Weight change: ${$("#fuFatigueWeight")?.value||"-"}`,
       `   Low mood: ${$("#fuFatigueMood")?.value||"-"}`);
   }
-  // Fever
   if(!$("#fu-fever")?.classList.contains("hidden")){
     fuLines.push("— Fever:",
       `   Duration: ${$("#fuFeverDuration")?.value||"-"}`,
@@ -712,7 +711,6 @@ function buildEmailText(lang){
       `   Chills/sweats: ${$("#fuFeverChills")?.value||"-"}`,
       `   Associated: ${$("#fuFeverOther")?.value||"-"}`);
   }
-  // Headache
   if(!$("#fu-headache")?.classList.contains("hidden")){
     fuLines.push("— Headache:",
       `   Onset: ${$("#fuHeadacheOnset")?.value||"-"}`,
@@ -720,7 +718,6 @@ function buildEmailText(lang){
       `   Severity: ${$("#fuHeadacheSeverity")?.value||"-"}`,
       `   Associated: ${$("#fuHeadacheAssoc")?.value||"-"}`);
   }
-  // Nausea
   if(!$("#fu-nausea")?.classList.contains("hidden")){
     fuLines.push("— Nausea:",
       `   Onset: ${$("#fuNauseaOnset")?.value||"-"}`,
@@ -728,7 +725,6 @@ function buildEmailText(lang){
       `   After eating: ${$("#fuNauseaFood")?.value||"-"}`,
       `   Other: ${$("#fuNauseaOther")?.value||"-"}`);
   }
-  // Dizziness
   if(!$("#fu-dizziness")?.classList.contains("hidden")){
     fuLines.push("— Dizziness:",
       `   Onset: ${$("#fuDizzinessOnset")?.value||"-"}`,
@@ -736,7 +732,6 @@ function buildEmailText(lang){
       `   Associated: ${$("#fuDizzinessAssoc")?.value||"-"}`,
       `   Duration: ${$("#fuDizzinessDuration")?.value||"-"}`);
   }
-  // Palpitations
   if(!$("#fu-palpitations")?.classList.contains("hidden")){
     fuLines.push("— Palpitations:",
       `   Onset: ${$("#fuPalpOnset")?.value||"-"}`,
@@ -744,7 +739,6 @@ function buildEmailText(lang){
       `   Triggered by stress/exertion: ${$("#fuPalpTrigger")?.value||"-"}`,
       `   Associated: ${$("#fuPalpAssoc")?.value||"-"}`);
   }
-  // Other
   if(!$("#fu-other")?.classList.contains("hidden")){
     fuLines.push("— Other symptom:",
       `   Onset: ${$("#fuOtherOnset")?.value||"-"}`,
@@ -808,21 +802,25 @@ async function onSubmit(){
   if(anyEmergency)return;
 
   const email=$("#email")?.value.trim();
-  const lang=currentLang;
+  const lang=window.currentLang || "en";
   const loading=$("#loading");
   const thanks=$("#thanks");
 
   loading?.classList.remove("hidden");
+  loading && (loading.style.display = "");
   thanks?.classList.add("hidden");
+  thanks && (thanks.style.display = "none");
 
   try{
     const text=buildEmailText(lang);
     await sendEmail(text,email);
     thanks?.classList.remove("hidden");
+    thanks && (thanks.style.display = "");
   }catch(err){
     alert("Failed to send. Please try again.\n"+(err?.text||err?.message||err));
   }finally{
     loading?.classList.add("hidden");
+    loading && (loading.style.display = "none");
   }
 }
 
@@ -830,6 +828,8 @@ async function onSubmit(){
  * LANGUAGE SWITCH BAR
  ***************/
 let currentLang="en";
+window.currentLang = "en"; // make it globally readable
+
 function setActiveLangButton(lang){
   $$(".lang-btn").forEach(btn=>btn.classList.toggle("active",btn.dataset.lang===lang));
 }
@@ -837,6 +837,7 @@ function handleLangSwitch(e){
   const lang=e.target.dataset.lang;
   if(!lang)return;
   currentLang=lang;
+  window.currentLang = lang; // keep in sync
   setActiveLangButton(lang);
   applyTranslations(lang);
 }
@@ -845,6 +846,7 @@ function handleLangSwitch(e){
  * INIT
  ***************/
 document.addEventListener("DOMContentLoaded",()=>{
+  console.log("[HART] DOM ready");
   // IDs & date
   $("#formId").textContent=genFormId();
   $("#formDate").textContent=todayStr();
@@ -857,21 +859,22 @@ document.addEventListener("DOMContentLoaded",()=>{
   $$(".rf").forEach(cb=> cb.addEventListener("change", updateEmergencyState));
 
   // Symptom follow-ups (includes "Other" checkbox)
+  // Robust: listen on the document too (in case markup changes)
   $$("input[name='symptom']").forEach(cb => cb.addEventListener("change", refreshFollowups));
+  document.addEventListener("change", (e)=>{
+    if (e.target && e.target.name === "symptom") refreshFollowups();
+  });
 
-  // Smart sync between "Other" text and checkbox (auto-check on typing, but keep manual control)
+  // Smart sync between "Other" text and checkbox (auto-check on typing)
   const otherInput = $("#otherSymptoms");
   const chkOther = $("#chkOther");
   if (otherInput && chkOther) {
     otherInput.addEventListener("input", () => {
       const txt = otherInput.value.trim();
-      // Auto-check when user types (mark that we did it)
       if (txt && !chkOther.checked) {
         chkOther.checked = true;
         chkOther.dataset.autochecked = "1";
-      }
-      // If cleared and we auto-checked earlier, undo
-      else if (!txt && chkOther.dataset.autochecked === "1") {
+      } else if (!txt && chkOther.dataset.autochecked === "1") {
         chkOther.checked = false;
         delete chkOther.dataset.autochecked;
       }
@@ -890,5 +893,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 
   // Lang bar
   $$(".lang-btn").forEach(btn => btn.addEventListener("click", handleLangSwitch));
+
+  console.log("[HART] Init complete");
 });
 </script>
