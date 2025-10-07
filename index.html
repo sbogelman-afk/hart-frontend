@@ -6,7 +6,7 @@
   <title>HART – Intake</title>
   <link rel="stylesheet" href="style.css" />
   <!-- EmailJS SDK -->
-  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 <header class="site-header">
@@ -15,15 +15,12 @@
     <div class="brand-text">
       <h1>HART</h1>
       <p class="tagline" data-i18n="tagline">Human-AI Relationship & Triage — Intake</p>
-
-      <!-- Hero line lives inside the header -->
       <p class="welcome-hero" data-i18n="welcome_hero">
         Welcome! Tell us what’s going on—HART asks focused questions, uses AI to make sense of your symptoms,
         and sends a clear, translated summary with suggested next steps.
       </p>
     </div>
   </div>
-
   <nav class="lang-switch">
     <button class="lang-btn active" data-lang="en">EN</button>
     <button class="lang-btn" data-lang="ru">RU</button>
@@ -32,7 +29,7 @@
 </header>
 
 <main class="container">
-  <!-- Form meta: Form ID + Date -->
+  <!-- Form meta -->
   <section class="card meta">
     <div class="row">
       <div>
@@ -92,15 +89,15 @@
         <input type="checkbox" name="symptom" value="other" id="chkOther" />
         <span data-i18n="other_symptoms">Other (optional)</span>
       </label>
-      <input type="text" id="otherSymptoms" data-ph="fu_other_description_ph" placeholder="Describe..." />
+      <input type="text" id="otherSymptoms" placeholder="Describe..." />
     </div>
   </section>
 
-  <!-- Dynamic follow-ups container -->
+  <!-- Dynamic follow-ups -->
   <section class="card">
     <h2 data-i18n="sect_followups">Follow-up Questions</h2>
 
-    <!-- Cough follow-ups -->
+    <!-- Cough -->
     <div id="fu-cough" class="followup hidden">
       <h3 data-i18n="fu_cough_title">Cough details</h3>
       <div class="grid2">
@@ -134,7 +131,7 @@
       </div>
     </div>
 
-    <!-- Chest pain follow-ups -->
+    <!-- Chest pain -->
     <div id="fu-chest_pain" class="followup hidden">
       <h3 data-i18n="fu_cp_title">Chest pain details</h3>
       <div class="grid2">
@@ -179,7 +176,7 @@
       </div>
     </div>
 
-    <!-- Shortness of breath follow-ups -->
+    <!-- Shortness of breath -->
     <div id="fu-sob" class="followup hidden">
       <h3 data-i18n="fu_sob_title">Shortness of breath details</h3>
       <div class="grid2">
@@ -210,7 +207,7 @@
       </div>
     </div>
 
-    <!-- Fatigue follow-ups -->
+    <!-- Fatigue -->
     <div id="fu-fatigue" class="followup hidden">
       <h3 data-i18n="fu_fatigue_title">Fatigue details</h3>
       <div class="grid2">
@@ -243,7 +240,7 @@
     </div>
   </section>
 
-  <!-- Fever follow-ups -->
+  <!-- Fever -->
   <div id="fu-fever" class="followup hidden">
     <h3 data-i18n="fu_fever_title">Fever details</h3>
     <div class="grid2">
@@ -266,7 +263,7 @@
     </div>
   </div>
 
-  <!-- Headache follow-ups -->
+  <!-- Headache -->
   <div id="fu-headache" class="followup hidden">
     <h3 data-i18n="fu_headache_title">Headache details</h3>
     <div class="grid2">
@@ -285,7 +282,7 @@
     </div>
   </div>
 
-  <!-- Nausea follow-ups -->
+  <!-- Nausea -->
   <div id="fu-nausea" class="followup hidden">
     <h3 data-i18n="fu_nausea_title">Nausea details</h3>
     <div class="grid2">
@@ -312,7 +309,7 @@
     </div>
   </div>
 
-  <!-- Dizziness follow-ups -->
+  <!-- Dizziness -->
   <div id="fu-dizziness" class="followup hidden">
     <h3 data-i18n="fu_dizziness_title">Dizziness details</h3>
     <div class="grid2">
@@ -335,7 +332,7 @@
     </div>
   </div>
 
-  <!-- Palpitations follow-ups -->
+  <!-- Palpitations -->
   <div id="fu-palpitations" class="followup hidden">
     <h3 data-i18n="fu_palp_title">Palpitations details</h3>
     <div class="grid2">
@@ -358,7 +355,7 @@
     </div>
   </div>
 
-  <!-- Other symptoms -->
+  <!-- Other -->
   <div id="fu-other" class="followup hidden">
     <h3 data-i18n="fu_other_title">Additional symptom details</h3>
     <div class="grid2">
@@ -377,7 +374,7 @@
     </div>
   </div>
 
-  <!-- History & Meds with mic -->
+  <!-- History & Meds -->
   <section class="card">
     <h2 data-i18n="sect_history">Medical History</h2>
     <div class="mic-row">
@@ -394,7 +391,7 @@
     </div>
   </section>
 
-  <!-- Lifestyle (optional) -->
+  <!-- Lifestyle -->
   <section class="card">
     <h2 data-i18n="sect_lifestyle">Lifestyle (optional)</h2>
     <div class="grid3">
@@ -423,7 +420,7 @@
     </div>
   </section>
 
-  <!-- Email + Submit -->
+  <!-- Contact -->
   <section class="card">
     <h2 data-i18n="sect_contact">Contact (email only)</h2>
     <div class="row">
@@ -446,7 +443,7 @@
   </p>
 </main>
 
-<!-- INLINE JS (so no broken external path) -->
+<!-- ===== INLINE SCRIPT (no external script.js) ===== -->
 <script>
 /***************
  * CONFIG
@@ -472,7 +469,6 @@ const t = {
     form_id: "Form ID",
     form_date: "Date",
     privacy_note: "We do not collect personal identifiers. We only ask for an email to send your evaluation.",
-
     emergency_header: "Emergency red flags",
     emergency_note: "If any apply, stop and seek emergency care.",
     rf_chest_pain: "Severe chest pain",
@@ -483,7 +479,6 @@ const t = {
     rf_suicidal: "Suicidal thoughts",
     call911_title: "Possible emergency.",
     call911_text: "Please call 911 or go to the nearest emergency department now.",
-
     sect_symptoms: "Symptoms",
     symptoms_note: "Select all that apply:",
     s_cough: "Cough",
@@ -496,9 +491,9 @@ const t = {
     s_dizziness: "Dizziness",
     s_palpitations: "Palpitations",
     other_symptoms: "Other (optional)",
-
     sect_followups: "Follow-up Questions",
 
+    /* cough */
     fu_cough_title: "Cough details",
     fu_cough_type_lbl: "Type",
     fu_cough_type_dry: "Dry",
@@ -513,6 +508,7 @@ const t = {
     fu_cough_fever_low: "Low-grade",
     fu_cough_fever_high: "High",
 
+    /* chest pain */
     fu_cp_title: "Chest pain details",
     fu_cp_onset_lbl: "Onset",
     fu_cp_onset_ph: "e.g., sudden, gradual; when did it start?",
@@ -530,6 +526,7 @@ const t = {
     fu_cp_rad_back: "Back",
     fu_cp_relief_lbl: "Relieved by rest?",
 
+    /* sob */
     fu_sob_title: "Shortness of breath details",
     fu_sob_onset_lbl: "Onset & duration",
     fu_sob_onset_ph: "when did it start? how long?",
@@ -537,6 +534,7 @@ const t = {
     fu_sob_exertion_lbl: "With minimal exertion?",
     fu_sob_wheeze_lbl: "Wheezing present?",
 
+    /* fatigue */
     fu_fatigue_title: "Fatigue details",
     fu_fatigue_duration_lbl: "Duration",
     fu_fatigue_duration_ph: "e.g., days, weeks",
@@ -548,6 +546,7 @@ const t = {
     fu_fatigue_weight_loss: "Loss",
     fu_fatigue_mood_lbl: "Low mood?",
 
+    /* fever */
     fu_fever_title: "Fever details",
     fu_fever_duration_lbl: "Duration",
     fu_fever_duration_ph: "e.g., 1 day, 3 days",
@@ -557,6 +556,7 @@ const t = {
     fu_fever_other_lbl: "Associated symptoms",
     fu_fever_other_ph: "e.g., sore throat, cough",
 
+    /* headache */
     fu_headache_title: "Headache details",
     fu_headache_onset_lbl: "Onset",
     fu_headache_onset_ph: "sudden or gradual? when did it start?",
@@ -566,6 +566,7 @@ const t = {
     fu_headache_assoc_lbl: "Associated symptoms",
     fu_headache_assoc_ph: "e.g., nausea, vision changes",
 
+    /* nausea */
     fu_nausea_title: "Nausea details",
     fu_nausea_onset_lbl: "When did it start?",
     fu_nausea_onset_ph: "e.g., 2 days ago",
@@ -574,6 +575,7 @@ const t = {
     fu_nausea_other_lbl: "Other symptoms",
     fu_nausea_other_ph: "e.g., abdominal pain, diarrhea",
 
+    /* dizziness */
     fu_dizziness_title: "Dizziness details",
     fu_dizziness_onset_lbl: "Onset",
     fu_dizziness_onset_ph: "sudden or gradual?",
@@ -583,6 +585,7 @@ const t = {
     fu_dizziness_duration_lbl: "Duration",
     fu_dizziness_duration_ph: "seconds, minutes, hours?",
 
+    /* palpitations */
     fu_palp_title: "Palpitations details",
     fu_palp_onset_lbl: "Onset",
     fu_palp_onset_ph: "when did it start?",
@@ -592,6 +595,7 @@ const t = {
     fu_palp_assoc_lbl: "Associated symptoms",
     fu_palp_assoc_ph: "e.g., dizziness, chest pain",
 
+    /* other */
     fu_other_title: "Additional symptom details",
     fu_other_onset_lbl: "When did it start?",
     fu_other_onset_ph: "e.g., 2 days ago",
@@ -605,30 +609,26 @@ const t = {
     history_ph: "Relevant past history…",
     sect_meds: "Current Medications",
     meds_ph: "List any medications…",
-
     sect_lifestyle: "Lifestyle (optional)",
     smoking_label: "Smoking",
     alcohol_label: "Alcohol",
     exercise_label: "Exercise (hrs/week)",
     yes: "Yes", no: "No", occasional: "Occasional",
-
     sect_contact: "Contact (email only)",
     email_label: "Your email (to receive evaluation)",
     select_prompt: "Select…",
-
     submit: "Submit",
     evaluating: "Sending… Please wait.",
     thanks_msg: "Thank you! Your information has been sent. Check your email for next steps.",
     footer_note: "This form does not provide diagnosis. For emergencies, call 911."
   },
 
-  ru: {
+  ru: { /* ——— Russian (as you had) ——— */
     tagline: "Взаимодействие Человек–ИИ и триаж — Анкета",
     welcome_hero: "Добро пожаловать! Расскажите, что вас беспокоит — HART задаст точные вопросы, с помощью ИИ структурирует симптомы и отправит понятное, переведённое краткое изложение с рекомендованными следующими шагами.",
     form_id: "Номер формы",
     form_date: "Дата",
     privacy_note: "Мы не собираем личные данные. Нужен только email, чтобы отправить вам результат.",
-
     emergency_header: "Тревожные симптомы",
     emergency_note: "Если что-то из этого есть — немедленно обратитесь за экстренной помощью.",
     rf_chest_pain: "Сильная боль в груди",
@@ -639,7 +639,6 @@ const t = {
     rf_suicidal: "Суицидальные мысли",
     call911_title: "Возможная неотложная ситуация.",
     call911_text: "Позвоните 911 или обратитесь в ближайшее отделение неотложной помощи.",
-
     sect_symptoms: "Симптомы",
     symptoms_note: "Отметьте все подходящее:",
     s_cough: "Кашель",
@@ -652,7 +651,6 @@ const t = {
     s_dizziness: "Головокружение",
     s_palpitations: "Сердцебиение",
     other_symptoms: "Другое (необязательно)",
-
     sect_followups: "Уточняющие вопросы",
 
     fu_cough_title: "Подробности кашля",
@@ -761,30 +759,26 @@ const t = {
     history_ph: "Ранее перенесённые болезни, операции и т.п.",
     sect_meds: "Текущие лекарства",
     meds_ph: "Перечислите препараты…",
-
     sect_lifestyle: "Образ жизни (необязательно)",
     smoking_label: "Курение",
     alcohol_label: "Алкоголь",
     exercise_label: "Физ. нагрузка (ч/нед.)",
     yes: "Да", no: "Нет", occasional: "Редко",
-
     sect_contact: "Контакты (только email)",
     email_label: "Ваш email (для отправки результата)",
     select_prompt: "Выберите…",
-
     submit: "Отправить",
     evaluating: "Отправка… Пожалуйста, подождите.",
     thanks_msg: "Спасибо! Ваша информация отправлена. Проверьте email.",
     footer_note: "Эта форма не является диагнозом. При неотложных состояниях звоните 911."
   },
 
-  he: {
+  he: { /* ——— Hebrew (as you had) ——— */
     tagline: "קשר אדם-בינה וטריאז׳ — טופס קליטה",
     welcome_hero: "ברוכים הבאים! ספרו לנו מה קורה—‏HART שואל שאלות ממוקדות, משתמש בבינה מלאכותית כדי לעשות סדר בתסמינים, ושולח סיכום ברור ומתורגם עם צעדים מומלצים להמשך.",
     form_id: "מס׳ טופס",
     form_date: "תאריך",
     privacy_note: "איננו אוספים פרטים מזהים. נבקש מייל בלבד כדי לשלוח את ההערכה.",
-
     emergency_header: "אזהרות חירום",
     emergency_note: "אם משהו מהבאים קיים — הפסיקו ופנו לעזרה דחופה.",
     rf_chest_pain: "כאבים חזקים בחזה",
@@ -795,7 +789,6 @@ const t = {
     rf_suicidal: "מחשבות אובדניות",
     call911_title: "יתכן מצב חירום.",
     call911_text: "התקשרו 911 או פנו מיד לחדר מיון.",
-
     sect_symptoms: "תסמינים",
     symptoms_note: "בחרו את כל המתאים:",
     s_cough: "שיעול",
@@ -808,7 +801,6 @@ const t = {
     s_dizziness: "סחרחורת",
     s_palpitations: "דופק מהיר",
     other_symptoms: "אחר (רשות)",
-
     sect_followups: "שאלות המשך",
 
     fu_cough_title: "פרטי שיעול",
@@ -917,17 +909,14 @@ const t = {
     history_ph: "מחלות רקע, ניתוחים…",
     sect_meds: "תרופות נוכחיות",
     meds_ph: "רשימת התרופות…",
-
     sect_lifestyle: "אורח חיים (רשות)",
     smoking_label: "עישון",
     alcohol_label: "אלכוהול",
     exercise_label: "פעילות (ש׳/שבוע)",
     yes: "כן", no: "לא", occasional: "לעיתים",
-
     sect_contact: "יצירת קשר (מייל בלבד)",
     email_label: "המייל שלך (לקבלת הערכה)",
     select_prompt: "בחרו…",
-
     submit: "שליחה",
     evaluating: "שולח… אנא המתינו.",
     thanks_msg: "תודה! המידע נשלח. בדקו את תיבת הדואר.",
@@ -961,13 +950,9 @@ function setRTL(lang){
   }
 }
 
-/***************
- * TRANSLATION APPLY (with fallback)
- ***************/
 function tr(lang, key){
   return (t[lang] && t[lang][key] != null) ? t[lang][key] : (t.en[key] ?? "");
 }
-
 function applyTranslations(lang){
   setRTL(lang);
   $$("[data-i18n]").forEach(el=>{
@@ -986,23 +971,18 @@ function applyTranslations(lang){
 }
 
 /***************
- * EMERGENCY LOGIC
+ * EMERGENCY
  ***************/
 function updateEmergencyState(){
   const anyChecked = Array.from($$(".rf")).some(cb => cb.checked);
   const banner = $("#emergencyBanner");
   const submit = $("#submitBtn");
-  if (anyChecked){
-    banner.classList.remove("hidden");
-    submit.disabled = true;
-  } else {
-    banner.classList.add("hidden");
-    submit.disabled = false;
-  }
+  if (anyChecked){ banner.classList.remove("hidden"); submit.disabled = true; }
+  else { banner.classList.add("hidden"); submit.disabled = false; }
 }
 
 /***************
- * FOLLOW-UPS (DYNAMIC)
+ * FOLLOW-UPS
  ***************/
 const symptomToBlock = {
   "cough": "fu-cough",
@@ -1018,32 +998,24 @@ const symptomToBlock = {
 };
 
 function refreshFollowups() {
-  // Hide all follow-up blocks
   Object.values(symptomToBlock).forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.add("hidden");
   });
 
-  // Show blocks for checked symptoms
-  const selected = Array.from(document.querySelectorAll("input[name='symptom']:checked"))
-    .map(x => x.value);
-
+  const selected = Array.from(document.querySelectorAll("input[name='symptom']:checked")).map(x => x.value);
   selected.forEach(sym => {
     const el = document.getElementById(symptomToBlock[sym]);
     if (el) el.classList.remove("hidden");
   });
 
-  // Also show "Other" if user typed text (even if box isn't checked)
+  // Auto-show Other block when user types in the free text
   const otherText = $("#otherSymptoms")?.value.trim();
-  const otherFU = document.getElementById("fu-other");
-  if (otherFU) {
-    if (otherText) otherFU.classList.remove("hidden");
-    else if (!selected.includes("other")) otherFU.classList.add("hidden");
+  if (otherText) {
+    $("#chkOther") && ($("#chkOther").checked = true);
+    const otherFU = document.getElementById("fu-other");
+    if (otherFU) otherFU.classList.remove("hidden");
   }
-
-  // Keep the "Other" checkbox visually in sync with typing
-  const chk = $("#chkOther");
-  if (chk) chk.checked = !!otherText || selected.includes("other");
 }
 
 /***************
@@ -1060,27 +1032,19 @@ function setupMicButtons(){
         return;
       }
       if (activeRecog){
-        activeRecog.stop();
-        activeRecog = null;
-        btn.classList.remove("recording");
-        return;
+        activeRecog.stop(); activeRecog = null; btn.classList.remove("recording"); return;
       }
       const rec = new webkitSpeechRecognition(); // eslint-disable-line no-undef
-      rec.continuous = true;
-      rec.interimResults = true;
+      rec.continuous = true; rec.interimResults = true;
       const currentLang = window.currentLang || "en";
       rec.lang = (currentLang === "he") ? "he-IL" : (currentLang === "ru") ? "ru-RU" : "en-US";
       rec.onresult = (e)=>{
         let tx = "";
-        for (let i=e.resultIndex; i<e.results.length; i++){
-          tx += e.results[i][0].transcript;
-        }
+        for (let i=e.resultIndex; i<e.results.length; i++) tx += e.results[i][0].transcript;
         field.value = tx;
       };
       rec.onend = ()=>{ activeRecog=null; btn.classList.remove("recording"); };
-      rec.start();
-      activeRecog = rec;
-      btn.classList.add("recording");
+      rec.start(); activeRecog = rec; btn.classList.add("recording");
     });
   });
 }
@@ -1219,14 +1183,14 @@ async function sendEmail(formattedText,toEmail){
 }
 
 /***************
- * LANGUAGE SWITCH BAR
+ * LANGUAGE SWITCH
  ***************/
 let currentLang="en";
 function setActiveLangButton(lang){
   $$(".lang-btn").forEach(btn=>btn.classList.toggle("active",btn.dataset.lang===lang));
 }
 function handleLangSwitch(e){
-  const lang=e.target.dataset.lang;
+  const lang=e.currentTarget.dataset.lang;
   if(!lang)return;
   currentLang=lang;
   setActiveLangButton(lang);
@@ -1238,5 +1202,66 @@ function handleLangSwitch(e){
  ***************/
 document.addEventListener("DOMContentLoaded",()=>{
   console.log("[HART] DOM ready");
+
+  // Visual sanity badge
+  const badge = document.createElement("div");
+  badge.textContent = "JS is running";
+  badge.style.cssText = "position:fixed;right:12px;bottom:12px;padding:6px 10px;background:#2ecc71;color:#fff;border-radius:6px;font:12px/1.2 system-ui;z-index:99999";
+  document.body.appendChild(badge);
+
   // IDs & date
-  $("#formId").tex
+  $("#formId").textContent=genFormId();
+  $("#formDate").textContent=todayStr();
+
+  // Default language EN
+  applyTranslations("en");
+  setActiveLangButton("en");
+
+  // Emergency listeners
+  $$(".rf").forEach(cb=> cb.addEventListener("change", updateEmergencyState));
+
+  // Symptom follow-ups
+  $$("input[name='symptom']").forEach(cb => cb.addEventListener("change", refreshFollowups));
+  document.addEventListener("change", (e)=>{ if (e.target && e.target.name === "symptom") refreshFollowups(); });
+
+  // Other text <-> checkbox sync
+  const otherInput = $("#otherSymptoms");
+  const chkOther = $("#chkOther");
+  if (otherInput && chkOther) {
+    otherInput.addEventListener("input", () => {
+      const txt = otherInput.value.trim();
+      if (txt && !chkOther.checked) { chkOther.checked = true; chkOther.dataset.autochecked = "1"; }
+      else if (!txt && chkOther.dataset.autochecked === "1") { chkOther.checked = false; delete chkOther.dataset.autochecked; }
+      refreshFollowups();
+    });
+  }
+
+  refreshFollowups();
+  setupMicButtons();
+
+  // Submit
+  $("#submitBtn")?.addEventListener("click", async ()=>{
+    const anyEmergency=Array.from($$(".rf")).some(cb=>cb.checked);
+    if(anyEmergency)return;
+    const email=$("#email")?.value.trim();
+    const text=buildEmailText(currentLang);
+    try{
+      $("#loading")?.classList.remove("hidden");
+      $("#thanks")?.classList.add("hidden");
+      await sendEmail(text,email);
+      $("#thanks")?.classList.remove("hidden");
+    }catch(err){
+      alert("Failed to send. Please try again.\n"+(err?.text||err?.message||err));
+    }finally{
+      $("#loading")?.classList.add("hidden");
+    }
+  });
+
+  // Lang bar
+  $$(".lang-btn").forEach(btn => btn.addEventListener("click", handleLangSwitch));
+
+  console.log("[HART] Init complete");
+});
+</script>
+</body>
+</html>
