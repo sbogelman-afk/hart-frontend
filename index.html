@@ -1330,6 +1330,42 @@ function handleLangSwitch(e){
 }
 
 /***************
+ * AIRTABLE LOGGING
+ ***************/
+async function logToAirtable(formattedText, formId, formDate, lang, patient, syms, emFlags) {
+  const airtableUrl = "https://api.airtable.com/v0/YOUR_BASE_ID/Intakes"; // ← replace YOUR_BASE_ID
+  const airtableKey = "YOUR_TOKEN_HERE"; // ← replace with your pat… token
+
+  const payload = {
+    fields: {
+      FormID: formId,
+      Date: formDate,
+      Language: lang.toUpperCase(),
+      Email: patient,
+      Symptoms: syms.join(", "),
+      Emergency: emFlags.length ? "Yes" : "No",
+      Summary: formattedText,
+      Status: "New"
+    }
+  };
+
+  try {
+    const res = await fetch(airtableUrl, {
+      method: "POST",
+      headers: {
+        "Authorization": "Bearer " + airtableKey,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error("Airtable error: " + res.status);
+    console.log("[HART] Logged to Airtable");
+  } catch (err) {
+    console.error("Failed to log to Airtable:", err);
+  }
+}
+
+/***************
  * INIT
  ***************/
 document.addEventListener("DOMContentLoaded", function(){
@@ -1382,23 +1418,39 @@ document.addEventListener("DOMContentLoaded", function(){
   var submitBtn = $("#submitBtn");
   if (submitBtn) submitBtn.addEventListener("click", async function(){
     var anyEmergency = Array.prototype.some.call($$(".rf"), function(cb){ return cb.checked; });
-    if(anyEmergency) return;
+    if (anyEmergency) return;
 
     var emailEl = $("#email");
     var email = emailEl ? emailEl.value.trim() : "";
-    var lang = window.currentLang || currentLang || "en";
+    var lang = window.currentLang || "en";
     var text = buildEmailText(lang);
 
     var loadingEl = $("#loading");
     var thanksEl  = $("#thanks");
-    try{
+
+    try {
       if (loadingEl) loadingEl.classList.remove("hidden");
       if (thanksEl)  thanksEl.classList.add("hidden");
-      await sendEmail(text,email);
+
+      // Step 1: Send the email
+      await sendEmail(text, email);
+
+      // Step 2: Log the submission to Airtable
+      await logToAirtable(
+        text,
+        $("#formId").textContent.trim(),
+        $("#formDate").textContent.trim(),
+        lang,
+        email,
+        Array.from(document.querySelectorAll("input[name='symptom']:checked")).map(x => x.value),
+        Array.from(document.querySelectorAll(".rf:checked"))
+      );
+
+      // Step 3: Show success message
       if (thanksEl)  thanksEl.classList.remove("hidden");
-    }catch(err){
+    } catch (err) {
       alert("Failed to send. Please try again.\n" + (err && (err.text || err.message) || err));
-    }finally{
+    } finally {
       if (loadingEl) loadingEl.classList.add("hidden");
     }
   });
@@ -1410,6 +1462,3 @@ document.addEventListener("DOMContentLoaded", function(){
 
   console.log("[HART] Init complete");
 });
-</script>
-</body>
-</html>
