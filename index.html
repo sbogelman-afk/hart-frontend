@@ -31,421 +31,422 @@
   </nav>
 </header>
 
-    <!-- Form meta: Form ID + Date -->
-    <section class="card meta">
-      <div class="row">
-        <div>
-          <label class="lbl" data-i18n="form_id">Form ID</label>
-          <div id="formId" class="pill"></div>
-        </div>
-        <div>
-          <label class="lbl" data-i18n="form_date">Date</label>
-          <div id="formDate" class="pill"></div>
-        </div>
+<main class="container">
+  <!-- Form meta: Form ID + Date -->
+  <section class="card meta">
+    <div class="row">
+      <div>
+        <label class="lbl" data-i18n="form_id">Form ID</label>
+        <div id="formId" class="pill"></div>
       </div>
-      <p class="muted" data-i18n="privacy_note">
-        We do not collect personal identifiers. We only ask for an email to send your evaluation.
-      </p>
-    </section>
-
-    <!-- Emergency red flags -->
-    <section class="card">
-      <h2 data-i18n="emergency_header">Emergency red flags</h2>
-      <p class="muted" data-i18n="emergency_note">
-        If any apply, stop and seek emergency care.
-      </p>
-      <div class="grid2">
-        <label><input class="rf" type="checkbox" value="chest_pain" /> <span data-i18n="rf_chest_pain">Severe chest pain</span></label>
-        <label><input class="rf" type="checkbox" value="severe_sob" /> <span data-i18n="rf_severe_sob">Severe shortness of breath</span></label>
-        <label><input class="rf" type="checkbox" value="stroke" /> <span data-i18n="rf_stroke">Facial droop or new weakness</span></label>
-        <label><input class="rf" type="checkbox" value="bleeding" /> <span data-i18n="rf_bleeding">Uncontrolled bleeding</span></label>
-        <label><input class="rf" type="checkbox" value="confusion" /> <span data-i18n="rf_confusion">Severe confusion</span></label>
-        <label><input class="rf" type="checkbox" value="suicidal" /> <span data-i18n="rf_suicidal">Suicidal thoughts</span></label>
-      </div>
-
-      <div id="emergencyBanner" class="alert hidden">
-        <strong data-i18n="call911_title">Possible emergency.</strong>
-        <div data-i18n="call911_text">Please call 911 or go to the nearest emergency department now.</div>
-      </div>
-    </section>
-
-    <!-- Symptoms selection -->
-    <section class="card">
-      <h2 data-i18n="sect_symptoms">Symptoms</h2>
-      <p class="muted" data-i18n="symptoms_note">Select all that apply:</p>
-
-      <div class="grid3">
-        <label><input type="checkbox" name="symptom" value="cough" /> <span data-i18n="s_cough">Cough</span></label>
-        <label><input type="checkbox" name="symptom" value="chest_pain" /> <span data-i18n="s_chest_pain">Chest pain</span></label>
-        <label><input type="checkbox" name="symptom" value="sob" /> <span data-i18n="s_sob">Shortness of breath</span></label>
-        <label><input type="checkbox" name="symptom" value="fever" /> <span data-i18n="s_fever">Fever</span></label>
-        <label><input type="checkbox" name="symptom" value="fatigue" /> <span data-i18n="s_fatigue">Fatigue</span></label>
-        <label><input type="checkbox" name="symptom" value="headache" /> <span data-i18n="s_headache">Headache</span></label>
-        <label><input type="checkbox" name="symptom" value="nausea" /> <span data-i18n="s_nausea">Nausea</span></label>
-        <label><input type="checkbox" name="symptom" value="dizziness" /> <span data-i18n="s_dizziness">Dizziness</span></label>
-        <label><input type="checkbox" name="symptom" value="palpitations" /> <span data-i18n="s_palpitations">Palpitations</span></label>
-      </div>
-
-      <div class="row other-row symptom-other">
-        <label>
-          <input type="checkbox" name="symptom" value="other" id="chkOther" />
-          <span data-i18n="other_symptoms">Other (optional)</span>
-        </label>
-        <input type="text" id="otherSymptoms" placeholder="Describe..." />
-      </div>
-
-    </section>
-
-    <!-- Dynamic follow-ups container -->
-    <section class="card">
-      <h2 data-i18n="sect_followups">Follow-up Questions</h2>
-
-      <!-- Cough follow-ups -->
-      <div id="fu-cough" class="followup hidden">
-        <h3 data-i18n="fu_cough_title">Cough details</h3>
-        <div class="grid2">
-          <label class="lbl" data-i18n="fu_cough_type_lbl">Type</label>
-          <select id="fuCoughType">
-            <option value="" data-i18n="select_prompt">Select…</option>
-            <option value="dry" data-i18n="fu_cough_type_dry">Dry</option>
-            <option value="wet" data-i18n="fu_cough_type_wet">Wet / productive</option>
-          </select>
-
-          <label class="lbl" data-i18n="fu_cough_duration_lbl">Duration</label>
-          <input type="text" id="fuCoughDuration" data-ph="fu_cough_duration_ph" placeholder="e.g., 3 days, 2 weeks" />
-        </div>
-        <div class="grid2">
-          <label class="lbl" data-i18n="fu_cough_sputum_lbl">Mucus present?</label>
-          <select id="fuCoughSputum">
-            <option value="" data-i18n="select_prompt">Select…</option>
-            <option value="no" data-i18n="no">No</option>
-            <option value="yes_clear" data-i18n="fu_cough_sputum_clear">Yes — clear</option>
-            <option value="yes_yellow" data-i18n="fu_cough_sputum_yellow">Yes — yellow/green</option>
-            <option value="yes_bloody" data-i18n="fu_cough_sputum_bloody">Yes — bloody</option>
-          </select>
-
-          <label class="lbl" data-i18n="fu_cough_fever_lbl">Fever?</label>
-          <select id="fuCoughFever">
-            <option value="" data-i18n="select_prompt">Select…</option>
-            <option value="no" data-i18n="no">No</option>
-            <option value="low" data-i18n="fu_cough_fever_low">Low-grade</option>
-            <option value="high" data-i18n="fu_cough_fever_high">High</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Chest pain follow-ups -->
-      <div id="fu-chest_pain" class="followup hidden">
-        <h3 data-i18n="fu_cp_title">Chest pain details</h3>
-        <div class="grid2">
-          <label class="lbl" data-i18n="fu_cp_onset_lbl">Onset</label>
-          <input type="text" id="fuCpOnset" data-ph="fu_cp_onset_ph" placeholder="e.g., sudden, gradual; when did it start?" />
-
-          <label class="lbl" data-i18n="fu_cp_character_lbl">Character</label>
-          <select id="fuCpCharacter">
-            <option value="" data-i18n="select_prompt">Select…</option>
-            <option value="pressure" data-i18n="fu_cp_char_pressure">Pressure</option>
-            <option value="sharp" data-i18n="fu_cp_char_sharp">Sharp</option>
-            <option value="burning" data-i18n="fu_cp_char_burning">Burning</option>
-          </select>
-        </div>
-        <div class="grid2">
-          <label class="lbl" data-i18n="fu_cp_duration_lbl">Duration/frequency</label>
-          <input type="text" id="fuCpDuration" data-ph="fu_cp_duration_ph" placeholder="seconds? minutes? constant/episodic?" />
-
-          <label class="lbl" data-i18n="fu_cp_exertion_lbl">Worse with exertion?</label>
-          <select id="fuCpExertion">
-            <option value="" data-i18n="select_prompt">Select…</option>
-            <option value="no" data-i18n="no">No</option>
-            <option value="yes" data-i18n="yes">Yes</option>
-          </select>
-        </div>
-        <div class="grid2">
-          <label class="lbl" data-i18n="fu_cp_radiation_lbl">Radiation</label>
-          <select id="fuCpRadiation">
-            <option value="" data-i18n="select_prompt">Select…</option>
-            <option value="none" data-i18n="fu_cp_rad_none">None</option>
-            <option value="arm" data-i18n="fu_cp_rad_arm">Left arm</option>
-            <option value="jaw" data-i18n="fu_cp_rad_jaw">Jaw</option>
-            <option value="back" data-i18n="fu_cp_rad_back">Back</option>
-          </select>
-
-          <label class="lbl" data-i18n="fu_cp_relief_lbl">Relieved by rest?</label>
-          <select id="fuCpRelief">
-            <option value="" data-i18n="select_prompt">Select…</option>
-            <option value="no" data-i18n="no">No</option>
-            <option value="yes" data-i18n="yes">Yes</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Shortness of breath follow-ups -->
-      <div id="fu-sob" class="followup hidden">
-        <h3 data-i18n="fu_sob_title">Shortness of breath details</h3>
-        <div class="grid2">
-          <label class="lbl" data-i18n="fu_sob_onset_lbl">Onset & duration</label>
-          <input type="text" id="fuSobOnset" data-ph="fu_sob_onset_ph" placeholder="when did it start? how long?" />
-
-          <label class="lbl" data-i18n="fu_sob_lying_lbl">Worse when lying flat?</label>
-          <select id="fuSobLying">
-            <option value="" data-i18n="select_prompt">Select…</option>
-            <option value="no" data-i18n="no">No</option>
-            <option value="yes" data-i18n="yes">Yes</option>
-          </select>
-        </div>
-        <div class="grid2">
-          <label class="lbl" data-i18n="fu_sob_exertion_lbl">With minimal exertion?</label>
-          <select id="fuSobExertion">
-            <option value="" data-i18n="select_prompt">Select…</option>
-            <option value="no" data-i18n="no">No</option>
-            <option value="yes" data-i18n="yes">Yes</option>
-          </select>
-
-          <label class="lbl" data-i18n="fu_sob_wheeze_lbl">Wheezing present?</label>
-          <select id="fuSobWheeze">
-            <option value="" data-i18n="select_prompt">Select…</option>
-            <option value="no" data-i18n="no">No</option>
-            <option value="yes" data-i18n="yes">Yes</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Fatigue follow-ups -->
-      <div id="fu-fatigue" class="followup hidden">
-        <h3 data-i18n="fu_fatigue_title">Fatigue details</h3>
-        <div class="grid2">
-          <label class="lbl" data-i18n="fu_fatigue_duration_lbl">Duration</label>
-          <input type="text" id="fuFatigueDuration" data-ph="fu_fatigue_duration_ph" placeholder="e.g., days, weeks" />
-
-          <label class="lbl" data-i18n="fu_fatigue_sleep_lbl">Sleep quality</label>
-          <select id="fuFatigueSleep">
-            <option value="" data-i18n="select_prompt">Select…</option>
-            <option value="good" data-i18n="fu_fatigue_sleep_good">Good</option>
-            <option value="poor" data-i18n="fu_fatigue_sleep_poor">Poor</option>
-          </select>
-        </div>
-        <div class="grid2">
-          <label class="lbl" data-i18n="fu_fatigue_weight_lbl">Recent weight change?</label>
-          <select id="fuFatigueWeight">
-            <option value="" data-i18n="select_prompt">Select…</option>
-            <option value="no" data-i18n="no">No</option>
-            <option value="gain" data-i18n="fu_fatigue_weight_gain">Gain</option>
-            <option value="loss" data-i18n="fu_fatigue_weight_loss">Loss</option>
-          </select>
-
-          <label class="lbl" data-i18n="fu_fatigue_mood_lbl">Low mood?</label>
-          <select id="fuFatigueMood">
-            <option value="" data-i18n="select_prompt">Select…</option>
-            <option value="no" data-i18n="no">No</option>
-            <option value="yes" data-i18n="yes">Yes</option>
-          </select>
-        </div>
-      </div>
-    </section>
-
-    <!-- Fever follow-ups -->
-    <div id="fu-fever" class="followup hidden">
-      <h3 data-i18n="fu_fever_title">Fever details</h3>
-      <div class="grid2">
-        <label class="lbl" data-i18n="fu_fever_duration_lbl">Duration</label>
-        <input type="text" id="fuFeverDuration" data-ph="fu_fever_duration_ph" placeholder="" />
-    
-        <label class="lbl" data-i18n="fu_fever_temp_lbl">Highest temperature (°F/°C)</label>
-        <input type="text" id="fuFeverTemp" data-ph="fu_fever_temp_ph" placeholder="" />
-      </div>
-      <div class="grid2">
-        <label class="lbl" data-i18n="fu_fever_chills_lbl">Chills or sweating?</label>
-        <select id="fuFeverChills">
-          <option value="" data-i18n="select_prompt">Select…</option>
-          <option value="no" data-i18n="no">No</option>
-          <option value="yes" data-i18n="yes">Yes</option>
-        </select>
-    
-        <label class="lbl" data-i18n="fu_fever_other_lbl">Associated symptoms</label>
-        <input type="text" id="fuFeverAssoc" data-ph="fu_fever_other_ph" placeholder="" />
+      <div>
+        <label class="lbl" data-i18n="form_date">Date</label>
+        <div id="formDate" class="pill"></div>
       </div>
     </div>
-    
-    <!-- Headache follow-ups -->
-    <div id="fu-headache" class="followup hidden">
-      <h3 data-i18n="fu_headache_title">Headache details</h3>
-      <div class="grid2">
-        <label class="lbl" data-i18n="fu_headache_onset_lbl">Onset</label>
-        <input type="text" id="fuHeadacheOnset" data-ph="fu_headache_onset_ph" placeholder="" />
-    
-        <label class="lbl" data-i18n="fu_headache_duration_lbl">Duration/frequency</label>
-        <input type="text" id="fuHeadacheDuration" data-ph="fu_headache_duration_ph" placeholder="" />
-      </div>
-      <div class="grid2">
-        <label class="lbl" data-i18n="fu_headache_severity_lbl">Severity (1–10)</label>
-        <input type="number" id="fuHeadacheSeverity" min="1" max="10" />
-    
-        <label class="lbl" data-i18n="fu_headache_assoc_lbl">Associated symptoms</label>
-        <input type="text" id="fuHeadacheAssoc" data-ph="fu_headache_assoc_ph" placeholder="" />
-      </div>
-    </div>
-    
-    <!-- Nausea follow-ups -->
-    <div id="fu-nausea" class="followup hidden">
-      <h3 data-i18n="fu_nausea_title">Nausea details</h3>
-      <div class="grid2">
-        <label class="lbl" data-i18n="fu_nausea_onset_lbl">When did it start?</label>
-        <input type="text" id="fuNauseaOnset" data-ph="fu_nausea_onset_ph" placeholder="" />
-    
-        <label class="lbl" data-i18n="fu_nausea_vomit_lbl">Vomiting present?</label>
-        <select id="fuNauseaVomit">
-          <option value="" data-i18n="select_prompt">Select…</option>
-          <option value="no" data-i18n="no">No</option>
-          <option value="yes" data-i18n="yes">Yes</option>
-        </select>
-      </div>
-      <div class="grid2">
-        <label class="lbl" data-i18n="fu_nausea_food_lbl">Worse after eating?</label>
-        <select id="fuNauseaFood">
-          <option value="" data-i18n="select_prompt">Select…</option>
-          <option value="no" data-i18n="no">No</option>
-          <option value="yes" data-i18n="yes">Yes</option>
-        </select>
-    
-        <label class="lbl" data-i18n="fu_nausea_other_lbl">Other symptoms</label>
-        <input type="text" id="fuNauseaOther" data-ph="fu_nausea_other_ph" placeholder="" />
-      </div>
-    </div>
-    
-    <!-- Dizziness follow-ups -->
-    <div id="fu-dizziness" class="followup hidden">
-      <h3 data-i18n="fu_dizziness_title">Dizziness details</h3>
-      <div class="grid2">
-        <label class="lbl" data-i18n="fu_dizziness_onset_lbl">Onset</label>
-        <input type="text" id="fuDizzyOnset" data-ph="fu_dizziness_onset_ph" placeholder="" />
-    
-        <label class="lbl" data-i18n="fu_dizziness_trigger_lbl">Triggered by position change?</label>
-        <select id="fuDizzyTrigger">
-          <option value="" data-i18n="select_prompt">Select…</option>
-          <option value="no" data-i18n="no">No</option>
-          <option value="yes" data-i18n="yes">Yes</option>
-        </select>
-      </div>
-      <div class="grid2">
-        <label class="lbl" data-i18n="fu_dizziness_assoc_lbl">Associated symptoms</label>
-        <input type="text" id="fuDizzyAssoc" data-ph="fu_dizziness_assoc_ph" placeholder="" />
-    
-        <label class="lbl" data-i18n="fu_dizziness_duration_lbl">Duration</label>
-        <input type="text" id="fuDizzyDuration" data-ph="fu_dizziness_duration_ph" placeholder="" />
-      </div>
-    </div>
-    
-    <!-- Palpitations follow-ups -->
-    <div id="fu-palpitations" class="followup hidden">
-      <h3 data-i18n="fu_palp_title">Palpitations details</h3>
-      <div class="grid2">
-        <label class="lbl" data-i18n="fu_palp_onset_lbl">Onset</label>
-        <input type="text" id="fuPalpOnset" data-ph="fu_palp_onset_ph" placeholder="" />
-    
-        <label class="lbl" data-i18n="fu_palp_duration_lbl">Duration/frequency</label>
-        <input type="text" id="fuPalpDuration" data-ph="fu_palp_duration_ph" placeholder="" />
-      </div>
-      <div class="grid2">
-        <label class="lbl" data-i18n="fu_palp_trigger_lbl">Triggered by stress/exertion?</label>
-        <select id="fuPalpTrigger">
-          <option value="" data-i18n="select_prompt">Select…</option>
-          <option value="no" data-i18n="no">No</option>
-          <option value="yes" data-i18n="yes">Yes</option>
-        </select>
-    
-        <label class="lbl" data-i18n="fu_palp_assoc_lbl">Associated symptoms</label>
-        <input type="text" id="fuPalpAssoc" data-ph="fu_palp_assoc_ph" placeholder="" />
-      </div>
-    </div>
-    
-    <!-- Other symptoms -->
-    <div id="fu-other" class="followup hidden">
-      <h3 data-i18n="fu_other_title">Additional symptom details</h3>
-      <div class="grid2">
-        <label class="lbl" data-i18n="fu_other_onset_lbl">When did it start?</label>
-        <input type="text" id="fuOtherOnset" data-ph="fu_other_onset_ph" placeholder="" />
-    
-        <label class="lbl" data-i18n="fu_other_severity_lbl">Severity (1–10)</label>
-        <input type="number" id="fuOtherSeverity" min="1" max="10" />
-      </div>
-      <div class="grid2">
-        <label class="lbl" data-i18n="fu_other_duration_lbl">Duration/pattern</label>
-        <input type="text" id="fuOtherDuration" data-ph="fu_other_duration_ph" placeholder="" />
-    
-        <label class="lbl" data-i18n="fu_other_description_lbl">Describe the symptom</label>
-        <input type="text" id="fuOtherDescription" data-ph="fu_other_description_ph" placeholder="" />
-      </div>
-    </div>
-
-    <!-- History & Meds with mic -->
-    <section class="card">
-      <h2 data-i18n="sect_history">Medical History</h2>
-      <div class="mic-row">
-        <textarea id="history" rows="4" data-ph="history_ph" placeholder="Relevant past history…"></textarea>
-        <button class="mic-btn" data-target="history">🎙</button>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2 data-i18n="sect_meds">Current Medications</h2>
-      <div class="mic-row">
-        <textarea id="meds" rows="3" data-ph="meds_ph" placeholder="List any medications…"></textarea>
-        <button class="mic-btn" data-target="meds">🎙</button>
-      </div>
-    </section>
-
-    <!-- Lifestyle (optional) -->
-    <section class="card">
-      <h2 data-i18n="sect_lifestyle">Lifestyle (optional)</h2>
-      <div class="grid3">
-        <div>
-          <label class="lbl" data-i18n="smoking_label">Smoking</label>
-          <select id="smoking">
-            <option value="" data-i18n="select_prompt">Select…</option>
-            <option value="yes" data-i18n="yes">Yes</option>
-            <option value="no" data-i18n="no">No</option>
-            <option value="occasional" data-i18n="occasional">Occasional</option>
-          </select>
-        </div>
-        <div>
-          <label class="lbl" data-i18n="alcohol_label">Alcohol</label>
-          <select id="alcohol">
-            <option value="" data-i18n="select_prompt">Select…</option>
-            <option value="yes" data-i18n="yes">Yes</option>
-            <option value="no" data-i18n="no">No</option>
-            <option value="occasional" data-i18n="occasional">Occasional</option>
-          </select>
-        </div>
-        <div>
-          <label class="lbl" data-i18n="exercise_label">Exercise (hrs/week)</label>
-          <input type="number" id="exercise" min="0" step="0.5" />
-        </div>
-      </div>
-    </section>
-
-    <!-- Email + Submit -->
-    <section class="card">
-      <h2 data-i18n="sect_contact">Contact (email only)</h2>
-      <div class="row">
-        <label class="lbl" for="email" data-i18n="email_label">Your email (to receive evaluation)</label>
-        <input type="email" id="email" placeholder="you@example.com" />
-      </div>
-
-      <div class="actions">
-        <button id="submitBtn" class="primary" data-i18n="submit">Submit</button>
-        <span id="loading" class="loading hidden" data-i18n="evaluating">Sending… Please wait.</span>
-      </div>
-
-      <div id="thanks" class="success hidden" data-i18n="thanks_msg">
-        Thank you! Your information has been sent. Check your email for next steps.
-      </div>
-    </section>
-
-    <p class="fineprint" data-i18n="footer_note">
-      This form does not provide diagnosis. For emergencies, call 911.
+    <p class="muted" data-i18n="privacy_note">
+      We do not collect personal identifiers. We only ask for an email to send your evaluation.
     </p>
-  </main>
+  </section>
 
-  <script src="script.js"></script>
+  <!-- Emergency red flags -->
+  <section class="card">
+    <h2 data-i18n="emergency_header">Emergency red flags</h2>
+    <p class="muted" data-i18n="emergency_note">
+      If any apply, stop and seek emergency care.
+    </p>
+    <div class="grid2">
+      <label><input class="rf" type="checkbox" value="chest_pain" /> <span data-i18n="rf_chest_pain">Severe chest pain</span></label>
+      <label><input class="rf" type="checkbox" value="severe_sob" /> <span data-i18n="rf_severe_sob">Severe shortness of breath</span></label>
+      <label><input class="rf" type="checkbox" value="stroke" /> <span data-i18n="rf_stroke">Facial droop or new weakness</span></label>
+      <label><input class="rf" type="checkbox" value="bleeding" /> <span data-i18n="rf_bleeding">Uncontrolled bleeding</span></label>
+      <label><input class="rf" type="checkbox" value="confusion" /> <span data-i18n="rf_confusion">Severe confusion</span></label>
+      <label><input class="rf" type="checkbox" value="suicidal" /> <span data-i18n="rf_suicidal">Suicidal thoughts</span></label>
+    </div>
+
+    <div id="emergencyBanner" class="alert hidden">
+      <strong data-i18n="call911_title">Possible emergency.</strong>
+      <div data-i18n="call911_text">Please call 911 or go to the nearest emergency department now.</div>
+    </div>
+  </section>
+
+  <!-- Symptoms selection -->
+  <section class="card">
+    <h2 data-i18n="sect_symptoms">Symptoms</h2>
+    <p class="muted" data-i18n="symptoms_note">Select all that apply:</p>
+
+    <div class="grid3">
+      <label><input type="checkbox" name="symptom" value="cough" /> <span data-i18n="s_cough">Cough</span></label>
+      <label><input type="checkbox" name="symptom" value="chest_pain" /> <span data-i18n="s_chest_pain">Chest pain</span></label>
+      <label><input type="checkbox" name="symptom" value="sob" /> <span data-i18n="s_sob">Shortness of breath</span></label>
+      <label><input type="checkbox" name="symptom" value="fever" /> <span data-i18n="s_fever">Fever</span></label>
+      <label><input type="checkbox" name="symptom" value="fatigue" /> <span data-i18n="s_fatigue">Fatigue</span></label>
+      <label><input type="checkbox" name="symptom" value="headache" /> <span data-i18n="s_headache">Headache</span></label>
+      <label><input type="checkbox" name="symptom" value="nausea" /> <span data-i18n="s_nausea">Nausea</span></label>
+      <label><input type="checkbox" name="symptom" value="dizziness" /> <span data-i18n="s_dizziness">Dizziness</span></label>
+      <label><input type="checkbox" name="symptom" value="palpitations" /> <span data-i18n="s_palpitations">Palpitations</span></label>
+    </div>
+
+    <div class="row other-row symptom-other">
+      <label>
+        <input type="checkbox" name="symptom" value="other" id="chkOther" />
+        <span data-i18n="other_symptoms">Other (optional)</span>
+      </label>
+      <input type="text" id="otherSymptoms" placeholder="Describe..." />
+    </div>
+
+  </section>
+
+  <!-- Dynamic follow-ups container -->
+  <section class="card">
+    <h2 data-i18n="sect_followups">Follow-up Questions</h2>
+
+    <!-- Cough follow-ups -->
+    <div id="fu-cough" class="followup hidden">
+      <h3 data-i18n="fu_cough_title">Cough details</h3>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_cough_type_lbl">Type</label>
+        <select id="fuCoughType">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="dry" data-i18n="fu_cough_type_dry">Dry</option>
+          <option value="wet" data-i18n="fu_cough_type_wet">Wet / productive</option>
+        </select>
+
+        <label class="lbl" data-i18n="fu_cough_duration_lbl">Duration</label>
+        <input type="text" id="fuCoughDuration" data-ph="fu_cough_duration_ph" placeholder="e.g., 3 days, 2 weeks" />
+      </div>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_cough_sputum_lbl">Mucus present?</label>
+        <select id="fuCoughSputum">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="yes_clear" data-i18n="fu_cough_sputum_clear">Yes — clear</option>
+          <option value="yes_yellow" data-i18n="fu_cough_sputum_yellow">Yes — yellow/green</option>
+          <option value="yes_bloody" data-i18n="fu_cough_sputum_bloody">Yes — bloody</option>
+        </select>
+
+        <label class="lbl" data-i18n="fu_cough_fever_lbl">Fever?</label>
+        <select id="fuCoughFever">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="low" data-i18n="fu_cough_fever_low">Low-grade</option>
+          <option value="high" data-i18n="fu_cough_fever_high">High</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Chest pain follow-ups -->
+    <div id="fu-chest_pain" class="followup hidden">
+      <h3 data-i18n="fu_cp_title">Chest pain details</h3>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_cp_onset_lbl">Onset</label>
+        <input type="text" id="fuCpOnset" data-ph="fu_cp_onset_ph" placeholder="e.g., sudden, gradual; when did it start?" />
+
+        <label class="lbl" data-i18n="fu_cp_character_lbl">Character</label>
+        <select id="fuCpCharacter">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="pressure" data-i18n="fu_cp_char_pressure">Pressure</option>
+          <option value="sharp" data-i18n="fu_cp_char_sharp">Sharp</option>
+          <option value="burning" data-i18n="fu_cp_char_burning">Burning</option>
+        </select>
+      </div>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_cp_duration_lbl">Duration/frequency</label>
+        <input type="text" id="fuCpDuration" data-ph="fu_cp_duration_ph" placeholder="seconds? minutes? constant/episodic?" />
+
+        <label class="lbl" data-i18n="fu_cp_exertion_lbl">Worse with exertion?</label>
+        <select id="fuCpExertion">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="yes" data-i18n="yes">Yes</option>
+        </select>
+      </div>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_cp_radiation_lbl">Radiation</label>
+        <select id="fuCpRadiation">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="none" data-i18n="fu_cp_rad_none">None</option>
+          <option value="arm" data-i18n="fu_cp_rad_arm">Left arm</option>
+          <option value="jaw" data-i18n="fu_cp_rad_jaw">Jaw</option>
+          <option value="back" data-i18n="fu_cp_rad_back">Back</option>
+        </select>
+
+        <label class="lbl" data-i18n="fu_cp_relief_lbl">Relieved by rest?</label>
+        <select id="fuCpRelief">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="yes" data-i18n="yes">Yes</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Shortness of breath follow-ups -->
+    <div id="fu-sob" class="followup hidden">
+      <h3 data-i18n="fu_sob_title">Shortness of breath details</h3>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_sob_onset_lbl">Onset & duration</label>
+        <input type="text" id="fuSobOnset" data-ph="fu_sob_onset_ph" placeholder="when did it start? how long?" />
+
+        <label class="lbl" data-i18n="fu_sob_lying_lbl">Worse when lying flat?</label>
+        <select id="fuSobLying">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="yes" data-i18n="yes">Yes</option>
+        </select>
+      </div>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_sob_exertion_lbl">With minimal exertion?</label>
+        <select id="fuSobExertion">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="yes" data-i18n="yes">Yes</option>
+        </select>
+
+        <label class="lbl" data-i18n="fu_sob_wheeze_lbl">Wheezing present?</label>
+        <select id="fuSobWheeze">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="yes" data-i18n="yes">Yes</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Fatigue follow-ups -->
+    <div id="fu-fatigue" class="followup hidden">
+      <h3 data-i18n="fu_fatigue_title">Fatigue details</h3>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_fatigue_duration_lbl">Duration</label>
+        <input type="text" id="fuFatigueDuration" data-ph="fu_fatigue_duration_ph" placeholder="e.g., days, weeks" />
+
+        <label class="lbl" data-i18n="fu_fatigue_sleep_lbl">Sleep quality</label>
+        <select id="fuFatigueSleep">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="good" data-i18n="fu_fatigue_sleep_good">Good</option>
+          <option value="poor" data-i18n="fu_fatigue_sleep_poor">Poor</option>
+        </select>
+      </div>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_fatigue_weight_lbl">Recent weight change?</label>
+        <select id="fuFatigueWeight">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="gain" data-i18n="fu_fatigue_weight_gain">Gain</option>
+          <option value="loss" data-i18n="fu_fatigue_weight_loss">Loss</option>
+        </select>
+
+        <label class="lbl" data-i18n="fu_fatigue_mood_lbl">Low mood?</label>
+        <select id="fuFatigueMood">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="yes" data-i18n="yes">Yes</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fever follow-ups -->
+  <div id="fu-fever" class="followup hidden">
+    <h3 data-i18n="fu_fever_title">Fever details</h3>
+    <div class="grid2">
+      <label class="lbl" data-i18n="fu_fever_duration_lbl">Duration</label>
+      <input type="text" id="fuFeverDuration" data-ph="fu_fever_duration_ph" placeholder="" />
+
+      <label class="lbl" data-i18n="fu_fever_temp_lbl">Highest temperature (°F/°C)</label>
+      <input type="text" id="fuFeverTemp" data-ph="fu_fever_temp_ph" placeholder="" />
+    </div>
+    <div class="grid2">
+      <label class="lbl" data-i18n="fu_fever_chills_lbl">Chills or sweating?</label>
+      <select id="fuFeverChills">
+        <option value="" data-i18n="select_prompt">Select…</option>
+        <option value="no" data-i18n="no">No</option>
+        <option value="yes" data-i18n="yes">Yes</option>
+      </select>
+
+      <label class="lbl" data-i18n="fu_fever_other_lbl">Associated symptoms</label>
+      <input type="text" id="fuFeverOther" data-ph="fu_fever_other_ph" placeholder="" />
+    </div>
+  </div>
+
+  <!-- Headache follow-ups -->
+  <div id="fu-headache" class="followup hidden">
+    <h3 data-i18n="fu_headache_title">Headache details</h3>
+    <div class="grid2">
+      <label class="lbl" data-i18n="fu_headache_onset_lbl">Onset</label>
+      <input type="text" id="fuHeadacheOnset" data-ph="fu_headache_onset_ph" placeholder="" />
+
+      <label class="lbl" data-i18n="fu_headache_duration_lbl">Duration/frequency</label>
+      <input type="text" id="fuHeadacheDuration" data-ph="fu_headache_duration_ph" placeholder="" />
+    </div>
+    <div class="grid2">
+      <label class="lbl" data-i18n="fu_headache_severity_lbl">Severity (1–10)</label>
+      <input type="number" id="fuHeadacheSeverity" min="1" max="10" />
+
+      <label class="lbl" data-i18n="fu_headache_assoc_lbl">Associated symptoms</label>
+      <input type="text" id="fuHeadacheAssoc" data-ph="fu_headache_assoc_ph" placeholder="" />
+    </div>
+  </div>
+
+  <!-- Nausea follow-ups -->
+  <div id="fu-nausea" class="followup hidden">
+    <h3 data-i18n="fu_nausea_title">Nausea details</h3>
+    <div class="grid2">
+      <label class="lbl" data-i18n="fu_nausea_onset_lbl">When did it start?</label>
+      <input type="text" id="fuNauseaOnset" data-ph="fu_nausea_onset_ph" placeholder="" />
+
+      <label class="lbl" data-i18n="fu_nausea_vomit_lbl">Vomiting present?</label>
+      <select id="fuNauseaVomit">
+        <option value="" data-i18n="select_prompt">Select…</option>
+        <option value="no" data-i18n="no">No</option>
+        <option value="yes" data-i18n="yes">Yes</option>
+      </select>
+    </div>
+    <div class="grid2">
+      <label class="lbl" data-i18n="fu_nausea_food_lbl">Worse after eating?</label>
+      <select id="fuNauseaFood">
+        <option value="" data-i18n="select_prompt">Select…</option>
+        <option value="no" data-i18n="no">No</option>
+        <option value="yes" data-i18n="yes">Yes</option>
+      </select>
+
+      <label class="lbl" data-i18n="fu_nausea_other_lbl">Other symptoms</label>
+      <input type="text" id="fuNauseaOther" data-ph="fu_nausea_other_ph" placeholder="" />
+    </div>
+  </div>
+
+  <!-- Dizziness follow-ups -->
+  <div id="fu-dizziness" class="followup hidden">
+    <h3 data-i18n="fu_dizziness_title">Dizziness details</h3>
+    <div class="grid2">
+      <label class="lbl" data-i18n="fu_dizziness_onset_lbl">Onset</label>
+      <input type="text" id="fuDizzinessOnset" data-ph="fu_dizziness_onset_ph" placeholder="" />
+
+      <label class="lbl" data-i18n="fu_dizziness_trigger_lbl">Triggered by position change?</label>
+      <select id="fuDizzinessTrigger">
+        <option value="" data-i18n="select_prompt">Select…</option>
+        <option value="no" data-i18n="no">No</option>
+        <option value="yes" data-i18n="yes">Yes</option>
+      </select>
+    </div>
+    <div class="grid2">
+      <label class="lbl" data-i18n="fu_dizziness_assoc_lbl">Associated symptoms</label>
+      <input type="text" id="fuDizzinessAssoc" data-ph="fu_dizziness_assoc_ph" placeholder="" />
+
+      <label class="lbl" data-i18n="fu_dizziness_duration_lbl">Duration</label>
+      <input type="text" id="fuDizzinessDuration" data-ph="fu_dizziness_duration_ph" placeholder="" />
+    </div>
+  </div>
+
+  <!-- Palpitations follow-ups -->
+  <div id="fu-palpitations" class="followup hidden">
+    <h3 data-i18n="fu_palp_title">Palpitations details</h3>
+    <div class="grid2">
+      <label class="lbl" data-i18n="fu_palp_onset_lbl">Onset</label>
+      <input type="text" id="fuPalpOnset" data-ph="fu_palp_onset_ph" placeholder="" />
+
+      <label class="lbl" data-i18n="fu_palp_duration_lbl">Duration/frequency</label>
+      <input type="text" id="fuPalpDuration" data-ph="fu_palp_duration_ph" placeholder="" />
+    </div>
+    <div class="grid2">
+      <label class="lbl" data-i18n="fu_palp_trigger_lbl">Triggered by stress/exertion?</label>
+      <select id="fuPalpTrigger">
+        <option value="" data-i18n="select_prompt">Select…</option>
+        <option value="no" data-i18n="no">No</option>
+        <option value="yes" data-i18n="yes">Yes</option>
+      </select>
+
+      <label class="lbl" data-i18n="fu_palp_assoc_lbl">Associated symptoms</label>
+      <input type="text" id="fuPalpAssoc" data-ph="fu_palp_assoc_ph" placeholder="" />
+    </div>
+  </div>
+
+  <!-- Other symptoms -->
+  <div id="fu-other" class="followup hidden">
+    <h3 data-i18n="fu_other_title">Additional symptom details</h3>
+    <div class="grid2">
+      <label class="lbl" data-i18n="fu_other_onset_lbl">When did it start?</label>
+      <input type="text" id="fuOtherOnset" data-ph="fu_other_onset_ph" placeholder="" />
+
+      <label class="lbl" data-i18n="fu_other_severity_lbl">Severity (1–10)</label>
+      <input type="number" id="fuOtherSeverity" min="1" max="10" />
+    </div>
+    <div class="grid2">
+      <label class="lbl" data-i18n="fu_other_duration_lbl">Duration/pattern</label>
+      <input type="text" id="fuOtherDuration" data-ph="fu_other_duration_ph" placeholder="" />
+
+      <label class="lbl" data-i18n="fu_other_description_lbl">Describe the symptom</label>
+      <input type="text" id="fuOtherDescription" data-ph="fu_other_description_ph" placeholder="" />
+    </div>
+  </div>
+
+  <!-- History & Meds with mic -->
+  <section class="card">
+    <h2 data-i18n="sect_history">Medical History</h2>
+    <div class="mic-row">
+      <textarea id="history" rows="4" data-ph="history_ph" placeholder="Relevant past history…"></textarea>
+      <button class="mic-btn" data-target="history">🎙</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2 data-i18n="sect_meds">Current Medications</h2>
+    <div class="mic-row">
+      <textarea id="meds" rows="3" data-ph="meds_ph" placeholder="List any medications…"></textarea>
+      <button class="mic-btn" data-target="meds">🎙</button>
+    </div>
+  </section>
+
+  <!-- Lifestyle (optional) -->
+  <section class="card">
+    <h2 data-i18n="sect_lifestyle">Lifestyle (optional)</h2>
+    <div class="grid3">
+      <div>
+        <label class="lbl" data-i18n="smoking_label">Smoking</label>
+        <select id="smoking">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="yes" data-i18n="yes">Yes</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="occasional" data-i18n="occasional">Occasional</option>
+        </select>
+      </div>
+      <div>
+        <label class="lbl" data-i18n="alcohol_label">Alcohol</label>
+        <select id="alcohol">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="yes" data-i18n="yes">Yes</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="occasional" data-i18n="occasional">Occasional</option>
+        </select>
+      </div>
+      <div>
+        <label class="lbl" data-i18n="exercise_label">Exercise (hrs/week)</label>
+        <input type="number" id="exercise" min="0" step="0.5" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Email + Submit -->
+  <section class="card">
+    <h2 data-i18n="sect_contact">Contact (email only)</h2>
+    <div class="row">
+      <label class="lbl" for="email" data-i18n="email_label">Your email (to receive evaluation)</label>
+      <input type="email" id="email" placeholder="you@example.com" />
+    </div>
+
+    <div class="actions">
+      <button id="submitBtn" class="primary" data-i18n="submit">Submit</button>
+      <span id="loading" class="loading hidden" data-i18n="evaluating">Sending… Please wait.</span>
+    </div>
+
+    <div id="thanks" class="success hidden" data-i18n="thanks_msg">
+      Thank you! Your information has been sent. Check your email for next steps.
+    </div>
+  </section>
+
+  <p class="fineprint" data-i18n="footer_note">
+    This form does not provide diagnosis. For emergencies, call 911.
+  </p>
+</main>
+
+<script src="script.js"></script>
 </body>
 </html>
