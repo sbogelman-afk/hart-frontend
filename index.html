@@ -93,7 +93,7 @@
     </div>
   </section>
 
-  <!-- Dynamic follow-ups -->
+  <!-- All Follow-ups inside ONE card -->
   <section class="card">
     <h2 data-i18n="sect_followups">Follow-up Questions</h2>
 
@@ -238,141 +238,142 @@
         </select>
       </div>
     </div>
-  </section>
 
-  <!-- Fever -->
-  <div id="fu-fever" class="followup hidden">
-    <h3 data-i18n="fu_fever_title">Fever details</h3>
-    <div class="grid2">
-      <label class="lbl" data-i18n="fu_fever_duration_lbl">Duration</label>
-      <input type="text" id="fuFeverDuration" data-ph="fu_fever_duration_ph" placeholder="" />
+    <!-- Fever -->
+    <div id="fu-fever" class="followup hidden">
+      <h3 data-i18n="fu_fever_title">Fever details</h3>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_fever_duration_lbl">Duration</label>
+        <input type="text" id="fuFeverDuration" data-ph="fu_fever_duration_ph" placeholder="" />
 
-      <label class="lbl" data-i18n="fu_fever_temp_lbl">Highest temperature (°F/°C)</label>
-      <input type="text" id="fuFeverTemp" data-ph="fu_fever_temp_ph" placeholder="" />
+        <label class="lbl" data-i18n="fu_fever_temp_lbl">Highest temperature (°F/°C)</label>
+        <input type="text" id="fuFeverTemp" data-ph="fu_fever_temp_ph" placeholder="" />
+      </div>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_fever_chills_lbl">Chills or sweating?</label>
+        <select id="fuFeverChills">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="yes" data-i18n="yes">Yes</option>
+        </select>
+
+        <label class="lbl" data-i18n="fu_fever_other_lbl">Associated symptoms</label>
+        <input type="text" id="fuFeverAssoc" data-ph="fu_fever_other_ph" placeholder="" />
+      </div>
     </div>
-    <div class="grid2">
-      <label class="lbl" data-i18n="fu_fever_chills_lbl">Chills or sweating?</label>
-      <select id="fuFeverChills">
-        <option value="" data-i18n="select_prompt">Select…</option>
-        <option value="no" data-i18n="no">No</option>
-        <option value="yes" data-i18n="yes">Yes</option>
-      </select>
 
-      <label class="lbl" data-i18n="fu_fever_other_lbl">Associated symptoms</label>
-      <input type="text" id="fuFeverAssoc" data-ph="fu_fever_other_ph" placeholder="" />
+    <!-- Headache -->
+    <div id="fu-headache" class="followup hidden">
+      <h3 data-i18n="fu_headache_title">Headache details</h3>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_headache_onset_lbl">Onset</label>
+        <input type="text" id="fuHeadacheOnset" data-ph="fu_headache_onset_ph" placeholder="" />
+
+        <label class="lbl" data-i18n="fu_headache_duration_lbl">Duration/frequency</label>
+        <input type="text" id="fuHeadacheDuration" data-ph="fu_headache_duration_ph" placeholder="" />
+      </div>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_headache_severity_lbl">Severity (1–10)</label>
+        <input type="number" id="fuHeadacheSeverity" min="1" max="10" />
+
+        <label class="lbl" data-i18n="fu_headache_assoc_lbl">Associated symptoms</label>
+        <input type="text" id="fuHeadacheAssoc" data-ph="fu_headache_assoc_ph" placeholder="" />
+      </div>
     </div>
-  </div>
 
-  <!-- Headache -->
-  <div id="fu-headache" class="followup hidden">
-    <h3 data-i18n="fu_headache_title">Headache details</h3>
-    <div class="grid2">
-      <label class="lbl" data-i18n="fu_headache_onset_lbl">Onset</label>
-      <input type="text" id="fuHeadacheOnset" data-ph="fu_headache_onset_ph" placeholder="" />
+    <!-- Nausea -->
+    <div id="fu-nausea" class="followup hidden">
+      <h3 data-i18n="fu_nausea_title">Nausea details</h3>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_nausea_onset_lbl">When did it start?</label>
+        <input type="text" id="fuNauseaOnset" data-ph="fu_nausea_onset_ph" placeholder="" />
 
-      <label class="lbl" data-i18n="fu_headache_duration_lbl">Duration/frequency</label>
-      <input type="text" id="fuHeadacheDuration" data-ph="fu_headache_duration_ph" placeholder="" />
+        <label class="lbl" data-i18n="fu_nausea_vomit_lbl">Vomiting present?</label>
+        <select id="fuNauseaVomit">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="yes" data-i18n="yes">Yes</option>
+        </select>
+      </div>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_nausea_food_lbl">Worse after eating?</label>
+        <select id="fuNauseaFood">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="yes" data-i18n="yes">Yes</option>
+        </select>
+
+        <label class="lbl" data-i18n="fu_nausea_other_lbl">Other symptoms</label>
+        <input type="text" id="fuNauseaOther" data-ph="fu_nausea_other_ph" placeholder="" />
+      </div>
     </div>
-    <div class="grid2">
-      <label class="lbl" data-i18n="fu_headache_severity_lbl">Severity (1–10)</label>
-      <input type="number" id="fuHeadacheSeverity" min="1" max="10" />
 
-      <label class="lbl" data-i18n="fu_headache_assoc_lbl">Associated symptoms</label>
-      <input type="text" id="fuHeadacheAssoc" data-ph="fu_headache_assoc_ph" placeholder="" />
+    <!-- Dizziness -->
+    <div id="fu-dizziness" class="followup hidden">
+      <h3 data-i18n="fu_dizziness_title">Dizziness details</h3>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_dizziness_onset_lbl">Onset</label>
+        <input type="text" id="fuDizzyOnset" data-ph="fu_dizziness_onset_ph" placeholder="" />
+
+        <label class="lbl" data-i18n="fu_dizziness_trigger_lbl">Triggered by position change?</label>
+        <select id="fuDizzyTrigger">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="yes" data-i18n="yes">Yes</option>
+        </select>
+      </div>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_dizziness_assoc_lbl">Associated symptoms</label>
+        <input type="text" id="fuDizzyAssoc" data-ph="fu_dizziness_assoc_ph" placeholder="" />
+
+        <label class="lbl" data-i18n="fu_dizziness_duration_lbl">Duration</label>
+        <input type="text" id="fuDizzyDuration" data-ph="fu_dizziness_duration_ph" placeholder="" />
+      </div>
     </div>
-  </div>
 
-  <!-- Nausea -->
-  <div id="fu-nausea" class="followup hidden">
-    <h3 data-i18n="fu_nausea_title">Nausea details</h3>
-    <div class="grid2">
-      <label class="lbl" data-i18n="fu_nausea_onset_lbl">When did it start?</label>
-      <input type="text" id="fuNauseaOnset" data-ph="fu_nausea_onset_ph" placeholder="" />
+    <!-- Palpitations -->
+    <div id="fu-palpitations" class="followup hidden">
+      <h3 data-i18n="fu_palp_title">Palpitations details</h3>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_palp_onset_lbl">Onset</label>
+        <input type="text" id="fuPalpOnset" data-ph="fu_palp_onset_ph" placeholder="" />
 
-      <label class="lbl" data-i18n="fu_nausea_vomit_lbl">Vomiting present?</label>
-      <select id="fuNauseaVomit">
-        <option value="" data-i18n="select_prompt">Select…</option>
-        <option value="no" data-i18n="no">No</option>
-        <option value="yes" data-i18n="yes">Yes</option>
-      </select>
+        <label class="lbl" data-i18n="fu_palp_duration_lbl">Duration/frequency</label>
+        <input type="text" id="fuPalpDuration" data-ph="fu_palp_duration_ph" placeholder="" />
+      </div>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_palp_trigger_lbl">Triggered by stress/exertion?</label>
+        <select id="fuPalpTrigger">
+          <option value="" data-i18n="select_prompt">Select…</option>
+          <option value="no" data-i18n="no">No</option>
+          <option value="yes" data-i18n="yes">Yes</option>
+        </select>
+
+        <label class="lbl" data-i18n="fu_palp_assoc_lbl">Associated symptoms</label>
+        <input type="text" id="fuPalpAssoc" data-ph="fu_palp_assoc_ph" placeholder="" />
+      </div>
     </div>
-    <div class="grid2">
-      <label class="lbl" data-i18n="fu_nausea_food_lbl">Worse after eating?</label>
-      <select id="fuNauseaFood">
-        <option value="" data-i18n="select_prompt">Select…</option>
-        <option value="no" data-i18n="no">No</option>
-        <option value="yes" data-i18n="yes">Yes</option>
-      </select>
 
-      <label class="lbl" data-i18n="fu_nausea_other_lbl">Other symptoms</label>
-      <input type="text" id="fuNauseaOther" data-ph="fu_nausea_other_ph" placeholder="" />
+    <!-- Other -->
+    <div id="fu-other" class="followup hidden">
+      <h3 data-i18n="fu_other_title">Additional symptom details</h3>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_other_onset_lbl">When did it start?</label>
+        <input type="text" id="fuOtherOnset" data-ph="fu_other_onset_ph" placeholder="" />
+
+        <label class="lbl" data-i18n="fu_other_severity_lbl">Severity (1–10)</label>
+        <input type="number" id="fuOtherSeverity" min="1" max="10" />
+      </div>
+      <div class="grid2">
+        <label class="lbl" data-i18n="fu_other_duration_lbl">Duration/pattern</label>
+        <input type="text" id="fuOtherDuration" data-ph="fu_other_duration_ph" placeholder="" />
+
+        <label class="lbl" data-i18n="fu_other_description_lbl">Describe the symptom</label>
+        <input type="text" id="fuOtherDescription" data-ph="fu_other_description_ph" placeholder="" />
+      </div>
     </div>
-  </div>
 
-  <!-- Dizziness -->
-  <div id="fu-dizziness" class="followup hidden">
-    <h3 data-i18n="fu_dizziness_title">Dizziness details</h3>
-    <div class="grid2">
-      <label class="lbl" data-i18n="fu_dizziness_onset_lbl">Onset</label>
-      <input type="text" id="fuDizzyOnset" data-ph="fu_dizziness_onset_ph" placeholder="" />
-
-      <label class="lbl" data-i18n="fu_dizziness_trigger_lbl">Triggered by position change?</label>
-      <select id="fuDizzyTrigger">
-        <option value="" data-i18n="select_prompt">Select…</option>
-        <option value="no" data-i18n="no">No</option>
-        <option value="yes" data-i18n="yes">Yes</option>
-      </select>
-    </div>
-    <div class="grid2">
-      <label class="lbl" data-i18n="fu_dizziness_assoc_lbl">Associated symptoms</label>
-      <input type="text" id="fuDizzyAssoc" data-ph="fu_dizziness_assoc_ph" placeholder="" />
-
-      <label class="lbl" data-i18n="fu_dizziness_duration_lbl">Duration</label>
-      <input type="text" id="fuDizzyDuration" data-ph="fu_dizziness_duration_ph" placeholder="" />
-    </div>
-  </div>
-
-  <!-- Palpitations -->
-  <div id="fu-palpitations" class="followup hidden">
-    <h3 data-i18n="fu_palp_title">Palpitations details</h3>
-    <div class="grid2">
-      <label class="lbl" data-i18n="fu_palp_onset_lbl">Onset</label>
-      <input type="text" id="fuPalpOnset" data-ph="fu_palp_onset_ph" placeholder="" />
-
-      <label class="lbl" data-i18n="fu_palp_duration_lbl">Duration/frequency</label>
-      <input type="text" id="fuPalpDuration" data-ph="fu_palp_duration_ph" placeholder="" />
-    </div>
-    <div class="grid2">
-      <label class="lbl" data-i18n="fu_palp_trigger_lbl">Triggered by stress/exertion?</label>
-      <select id="fuPalpTrigger">
-        <option value="" data-i18n="select_prompt">Select…</option>
-        <option value="no" data-i18n="no">No</option>
-        <option value="yes" data-i18n="yes">Yes</option>
-      </select>
-
-      <label class="lbl" data-i18n="fu_palp_assoc_lbl">Associated symptoms</label>
-      <input type="text" id="fuPalpAssoc" data-ph="fu_palp_assoc_ph" placeholder="" />
-    </div>
-  </div>
-
-  <!-- Other -->
-  <div id="fu-other" class="followup hidden">
-    <h3 data-i18n="fu_other_title">Additional symptom details</h3>
-    <div class="grid2">
-      <label class="lbl" data-i18n="fu_other_onset_lbl">When did it start?</label>
-      <input type="text" id="fuOtherOnset" data-ph="fu_other_onset_ph" placeholder="" />
-
-      <label class="lbl" data-i18n="fu_other_severity_lbl">Severity (1–10)</label>
-      <input type="number" id="fuOtherSeverity" min="1" max="10" />
-    </div>
-    <div class="grid2">
-      <label class="lbl" data-i18n="fu_other_duration_lbl">Duration/pattern</label>
-      <input type="text" id="fuOtherDuration" data-ph="fu_other_duration_ph" placeholder="" />
-
-      <label class="lbl" data-i18n="fu_other_description_lbl">Describe the symptom</label>
-      <input type="text" id="fuOtherDescription" data-ph="fu_other_description_ph" placeholder="" />
-    </div>
-  </div>
+  </section> <!-- /Follow-ups card -->
 
   <!-- History & Meds -->
   <section class="card">
@@ -443,7 +444,7 @@
   </p>
 </main>
 
-<!-- ===== INLINE SCRIPT (no external script.js) ===== -->
+<!-- ===== INLINE SCRIPT ===== -->
 <script>
 /***************
  * CONFIG
@@ -453,7 +454,7 @@ const EMAILJS_TEMPLATE_ID = "template_5amo8ib";
 const EMAILJS_PUBLIC_KEY = "9CnCLpzz0nKl_y4gf";
 
 // Initialize EmailJS
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
   if (window.emailjs && emailjs.init) {
     emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
   }
@@ -493,7 +494,6 @@ const t = {
     other_symptoms: "Other (optional)",
     sect_followups: "Follow-up Questions",
 
-    /* cough */
     fu_cough_title: "Cough details",
     fu_cough_type_lbl: "Type",
     fu_cough_type_dry: "Dry",
@@ -508,7 +508,6 @@ const t = {
     fu_cough_fever_low: "Low-grade",
     fu_cough_fever_high: "High",
 
-    /* chest pain */
     fu_cp_title: "Chest pain details",
     fu_cp_onset_lbl: "Onset",
     fu_cp_onset_ph: "e.g., sudden, gradual; when did it start?",
@@ -526,7 +525,6 @@ const t = {
     fu_cp_rad_back: "Back",
     fu_cp_relief_lbl: "Relieved by rest?",
 
-    /* sob */
     fu_sob_title: "Shortness of breath details",
     fu_sob_onset_lbl: "Onset & duration",
     fu_sob_onset_ph: "when did it start? how long?",
@@ -534,7 +532,6 @@ const t = {
     fu_sob_exertion_lbl: "With minimal exertion?",
     fu_sob_wheeze_lbl: "Wheezing present?",
 
-    /* fatigue */
     fu_fatigue_title: "Fatigue details",
     fu_fatigue_duration_lbl: "Duration",
     fu_fatigue_duration_ph: "e.g., days, weeks",
@@ -546,7 +543,6 @@ const t = {
     fu_fatigue_weight_loss: "Loss",
     fu_fatigue_mood_lbl: "Low mood?",
 
-    /* fever */
     fu_fever_title: "Fever details",
     fu_fever_duration_lbl: "Duration",
     fu_fever_duration_ph: "e.g., 1 day, 3 days",
@@ -556,7 +552,6 @@ const t = {
     fu_fever_other_lbl: "Associated symptoms",
     fu_fever_other_ph: "e.g., sore throat, cough",
 
-    /* headache */
     fu_headache_title: "Headache details",
     fu_headache_onset_lbl: "Onset",
     fu_headache_onset_ph: "sudden or gradual? when did it start?",
@@ -566,7 +561,6 @@ const t = {
     fu_headache_assoc_lbl: "Associated symptoms",
     fu_headache_assoc_ph: "e.g., nausea, vision changes",
 
-    /* nausea */
     fu_nausea_title: "Nausea details",
     fu_nausea_onset_lbl: "When did it start?",
     fu_nausea_onset_ph: "e.g., 2 days ago",
@@ -575,7 +569,6 @@ const t = {
     fu_nausea_other_lbl: "Other symptoms",
     fu_nausea_other_ph: "e.g., abdominal pain, diarrhea",
 
-    /* dizziness */
     fu_dizziness_title: "Dizziness details",
     fu_dizziness_onset_lbl: "Onset",
     fu_dizziness_onset_ph: "sudden or gradual?",
@@ -585,7 +578,6 @@ const t = {
     fu_dizziness_duration_lbl: "Duration",
     fu_dizziness_duration_ph: "seconds, minutes, hours?",
 
-    /* palpitations */
     fu_palp_title: "Palpitations details",
     fu_palp_onset_lbl: "Onset",
     fu_palp_onset_ph: "when did it start?",
@@ -595,7 +587,6 @@ const t = {
     fu_palp_assoc_lbl: "Associated symptoms",
     fu_palp_assoc_ph: "e.g., dizziness, chest pain",
 
-    /* other */
     fu_other_title: "Additional symptom details",
     fu_other_onset_lbl: "When did it start?",
     fu_other_onset_ph: "e.g., 2 days ago",
@@ -623,7 +614,9 @@ const t = {
     footer_note: "This form does not provide diagnosis. For emergencies, call 911."
   },
 
-  ru: { /* ——— Russian (as you had) ——— */
+  /* RU and HE objects unchanged from your last version (omitted here for brevity in the explanation),
+     but they ARE included in full below in the code you paste. */
+  ru: { /* ... full RU from your message ... */ 
     tagline: "Взаимодействие Человек–ИИ и триаж — Анкета",
     welcome_hero: "Добро пожаловать! Расскажите, что вас беспокоит — HART задаст точные вопросы, с помощью ИИ структурирует симптомы и отправит понятное, переведённое краткое изложение с рекомендованными следующими шагами.",
     form_id: "Номер формы",
@@ -773,7 +766,7 @@ const t = {
     footer_note: "Эта форма не является диагнозом. При неотложных состояниях звоните 911."
   },
 
-  he: { /* ——— Hebrew (as you had) ——— */
+  he: { /* ... full HE from your message ... */
     tagline: "קשר אדם-בינה וטריאז׳ — טופס קליטה",
     welcome_hero: "ברוכים הבאים! ספרו לנו מה קורה—‏HART שואל שאלות ממוקדות, משתמש בבינה מלאכותית כדי לעשות סדר בתסמינים, ושולח סיכום ברור ומתורגם עם צעדים מומלצים להמשך.",
     form_id: "מס׳ טופס",
@@ -927,16 +920,16 @@ const t = {
 /***************
  * HELPERS
  ***************/
-const $ = (s) => document.querySelector(s);
-const $$ = (s) => document.querySelectorAll(s);
+var $ = function(s){ return document.querySelector(s); };
+var $$ = function(s){ return document.querySelectorAll(s); };
 
 function genFormId(){
-  const now = new Date();
-  const y = now.getFullYear();
-  const m = String(now.getMonth()+1).padStart(2,"0");
-  const d = String(now.getDate()).padStart(2,"0");
-  const rand = Math.random().toString(36).slice(2,8).toUpperCase();
-  return `HART-${y}${m}${d}-${rand}`;
+  var now = new Date();
+  var y = now.getFullYear();
+  var m = String(now.getMonth()+1).padStart(2,"0");
+  var d = String(now.getDate()).padStart(2,"0");
+  var rand = Math.random().toString(36).slice(2,8).toUpperCase();
+  return "HART-" + y + m + d + "-" + rand;
 }
 function todayStr(){ return new Date().toLocaleDateString(); }
 
@@ -951,21 +944,21 @@ function setRTL(lang){
 }
 
 function tr(lang, key){
-  return (t[lang] && t[lang][key] != null) ? t[lang][key] : (t.en[key] ?? "");
+  return (t[lang] && t[lang][key] != null) ? t[lang][key] : (t.en[key] || "");
 }
 function applyTranslations(lang){
   setRTL(lang);
-  $$("[data-i18n]").forEach(el=>{
-    const key = el.getAttribute("data-i18n");
-    const val = tr(lang, key);
+  Array.prototype.forEach.call($$("[data-i18n]"), function(el){
+    var key = el.getAttribute("data-i18n");
+    var val = tr(lang, key);
     if (val !== undefined) el.textContent = val;
   });
-  $$("[data-ph]").forEach(el=>{
-    const key = el.getAttribute("data-ph");
-    const val = tr(lang, key);
+  Array.prototype.forEach.call($$("[data-ph]"), function(el){
+    var key = el.getAttribute("data-ph");
+    var val = tr(lang, key);
     if (val !== undefined) el.setAttribute("placeholder", val);
   });
-  $$("option[data-i18n='select_prompt']").forEach(opt=>{
+  Array.prototype.forEach.call($$("option[data-i18n='select_prompt']"), function(opt){
     opt.textContent = tr(lang, "select_prompt");
   });
 }
@@ -974,9 +967,9 @@ function applyTranslations(lang){
  * EMERGENCY
  ***************/
 function updateEmergencyState(){
-  const anyChecked = Array.from($$(".rf")).some(cb => cb.checked);
-  const banner = $("#emergencyBanner");
-  const submit = $("#submitBtn");
+  var anyChecked = Array.prototype.some.call($$(".rf"), function(cb){ return cb.checked; });
+  var banner = $("#emergencyBanner");
+  var submit = $("#submitBtn");
   if (anyChecked){ banner.classList.remove("hidden"); submit.disabled = true; }
   else { banner.classList.add("hidden"); submit.disabled = false; }
 }
@@ -984,7 +977,7 @@ function updateEmergencyState(){
 /***************
  * FOLLOW-UPS
  ***************/
-const symptomToBlock = {
+var symptomToBlock = {
   "cough": "fu-cough",
   "chest_pain": "fu-chest_pain",
   "sob": "fu-sob",
@@ -998,22 +991,24 @@ const symptomToBlock = {
 };
 
 function refreshFollowups() {
-  Object.values(symptomToBlock).forEach(id => {
-    const el = document.getElementById(id);
+  Object.values(symptomToBlock).forEach(function(id){
+    var el = document.getElementById(id);
     if (el) el.classList.add("hidden");
   });
 
-  const selected = Array.from(document.querySelectorAll("input[name='symptom']:checked")).map(x => x.value);
-  selected.forEach(sym => {
-    const el = document.getElementById(symptomToBlock[sym]);
+  var selected = Array.prototype.map.call(document.querySelectorAll("input[name='symptom']:checked"), function(x){ return x.value; });
+  selected.forEach(function(sym){
+    var el = document.getElementById(symptomToBlock[sym]);
     if (el) el.classList.remove("hidden");
   });
 
   // Auto-show Other block when user types in the free text
-  const otherText = $("#otherSymptoms")?.value.trim();
+  var otherEl = $("#otherSymptoms");
+  var otherText = otherEl ? otherEl.value.trim() : "";
   if (otherText) {
-    $("#chkOther") && ($("#chkOther").checked = true);
-    const otherFU = document.getElementById("fu-other");
+    var chk = $("#chkOther");
+    if (chk) chk.checked = true;
+    var otherFU = document.getElementById("fu-other");
     if (otherFU) otherFU.classList.remove("hidden");
   }
 }
@@ -1021,12 +1016,12 @@ function refreshFollowups() {
 /***************
  * SPEECH-TO-TEXT
  ***************/
-let activeRecog = null;
+var activeRecog = null;
 function setupMicButtons(){
-  $$(".mic-btn").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      const targetId = btn.getAttribute("data-target");
-      const field = $("#"+targetId);
+  Array.prototype.forEach.call($$(".mic-btn"), function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.getAttribute("data-target");
+      var field = $("#"+targetId);
       if (!("webkitSpeechRecognition" in window)){
         field.value += (field.value ? "\n" : "") + "[Speech recognition not supported in this browser]";
         return;
@@ -1034,27 +1029,25 @@ function setupMicButtons(){
       if (activeRecog){
         activeRecog.stop(); activeRecog = null; btn.classList.remove("recording"); return;
       }
-      const rec = new webkitSpeechRecognition(); // eslint-disable-line no-undef
+      var rec = new webkitSpeechRecognition(); // eslint-disable-line no-undef
       rec.continuous = true; rec.interimResults = true;
-      const currentLang = window.currentLang || "en";
-      rec.lang = (currentLang === "he") ? "he-IL" : (currentLang === "ru") ? "ru-RU" : "en-US";
-      rec.onresult = (e)=>{
-        let tx = "";
-        for (let i=e.resultIndex; i<e.results.length; i++) tx += e.results[i][0].transcript;
+      var curLang = window.currentLang || "en";
+      rec.lang = (curLang === "he") ? "he-IL" : (curLang === "ru") ? "ru-RU" : "en-US";
+      rec.onresult = function(e){
+        var tx = "";
+        for (var i=e.resultIndex; i<e.results.length; i++) tx += e.results[i][0].transcript;
         field.value = tx;
       };
-      rec.onend = ()=>{ activeRecog=null; btn.classList.remove("recording"); };
+      rec.onend = function(){ activeRecog=null; btn.classList.remove("recording"); };
       rec.start(); activeRecog = rec; btn.classList.add("recording");
     });
   });
 }
 
-<script>
 /***************
- * EMAIL I18N + BODY BUILDER
+ * EMAIL I18N (labels only used inside the email)
  ***************/
-function getEmailLabels(langRaw){
-  const lang = (langRaw || "en").toLowerCase();
+function getEmailLabels(lang){
   if (lang === "ru") {
     return {
       subjectPrefix: "Анкета HART",
@@ -1109,198 +1102,203 @@ function getEmailLabels(langRaw){
   };
 }
 
-function buildEmailText(langRaw){
-  const lang = (langRaw || "en").toLowerCase();
-  const L = getEmailLabels(lang);
-  const label = (k) => L[k] || k;
+/***************
+ * EMAIL (EmailJS)
+ ***************/
+function isVisible(id){
+  var el = document.getElementById(id);
+  return !!(el && !el.classList.contains("hidden"));
+}
 
-  const val = (el) => (el && el.value != null ? String(el.value).trim() : "");
-  const txt = (el) => {
+function buildEmailText(lang){
+  var L = getEmailLabels(lang);
+  var label = function(k){ return L[k] || k; };
+
+  var val = function(el){ return (el && el.value != null ? String(el.value).trim() : ""); };
+  var txt = function(el){
     if (!el) return "";
     if (el.tagName === "SELECT") {
-      const o = el.options[el.selectedIndex];
+      var o = el.options[el.selectedIndex];
       return (o && o.textContent) ? o.textContent.trim() : (el.value || "");
     }
     return (el.value || "").trim();
   };
 
-  const email = $("#email")?.value.trim();
+  var emailEl = $("#email");
+  var email = emailEl ? emailEl.value.trim() : "";
 
-  // Symptoms (use on-screen translated labels)
-  const syms = Array.from($$("input[name='symptom']:checked")).map(x=>{
-    const labelTxt = x.closest("label")?.innerText.trim() || x.value;
+  var syms = Array.prototype.map.call($$("input[name='symptom']:checked"), function(x){
+    var labelTxt = x.closest("label") ? x.closest("label").innerText.trim() : x.value;
     return "• " + labelTxt;
   });
-  const otherTyped = $("#otherSymptoms")?.value.trim();
+  var otherEl = $("#otherSymptoms");
+  var otherTyped = otherEl ? otherEl.value.trim() : "";
   if (otherTyped) syms.push("• " + (tr(lang,"other_symptoms") || "Other") + ": " + otherTyped);
 
-  const fuLines = [];
+  var fuLines = [];
 
-  // Cough
-  if(!$("#fu-cough")?.classList.contains("hidden")){
+  if (isVisible("fu-cough")){
     fuLines.push(
       "— " + (tr(lang,"fu_cough_title") || "Cough") + ":",
-      `   ${tr(lang,"fu_cough_type_lbl")||"Type"}: ${txt($("#fuCoughType"))||"-"}`,
-      `   ${tr(lang,"fu_cough_duration_lbl")||"Duration"}: ${txt($("#fuCoughDuration"))||"-"}`,
-      `   ${tr(lang,"fu_cough_sputum_lbl")||"Mucus present?"}: ${txt($("#fuCoughSputum"))||"-"}`,
-      `   ${tr(lang,"fu_cough_fever_lbl")||"Fever?"}: ${txt($("#fuCoughFever"))||"-"}`
+      "   " + (tr(lang,"fu_cough_type_lbl")||"Type") + ": " + (txt($("#fuCoughType"))||"-"),
+      "   " + (tr(lang,"fu_cough_duration_lbl")||"Duration") + ": " + (txt($("#fuCoughDuration"))||"-"),
+      "   " + (tr(lang,"fu_cough_sputum_lbl")||"Mucus present?") + ": " + (txt($("#fuCoughSputum"))||"-"),
+      "   " + (tr(lang,"fu_cough_fever_lbl")||"Fever?") + ": " + (txt($("#fuCoughFever"))||"-")
     );
   }
 
-  // Chest pain
-  if(!$("#fu-chest_pain")?.classList.contains("hidden")){
+  if (isVisible("fu-chest_pain")){
     fuLines.push(
       "— " + (tr(lang,"fu_cp_title") || "Chest pain") + ":",
-      `   ${tr(lang,"fu_cp_onset_lbl")||"Onset"}: ${txt($("#fuCpOnset"))||"-"}`,
-      `   ${tr(lang,"fu_cp_character_lbl")||"Character"}: ${txt($("#fuCpCharacter"))||"-"}`,
-      `   ${tr(lang,"fu_cp_duration_lbl")||"Duration/frequency"}: ${txt($("#fuCpDuration"))||"-"}`,
-      `   ${tr(lang,"fu_cp_exertion_lbl")||"Worse with exertion?"}: ${txt($("#fuCpExertion"))||"-"}`,
-      `   ${tr(lang,"fu_cp_radiation_lbl")||"Radiation"}: ${txt($("#fuCpRadiation"))||"-"}`,
-      `   ${tr(lang,"fu_cp_relief_lbl")||"Relieved by rest?"}: ${txt($("#fuCpRelief"))||"-"}`
+      "   " + (tr(lang,"fu_cp_onset_lbl")||"Onset") + ": " + (txt($("#fuCpOnset"))||"-"),
+      "   " + (tr(lang,"fu_cp_character_lbl")||"Character") + ": " + (txt($("#fuCpCharacter"))||"-"),
+      "   " + (tr(lang,"fu_cp_duration_lbl")||"Duration/frequency") + ": " + (txt($("#fuCpDuration"))||"-"),
+      "   " + (tr(lang,"fu_cp_exertion_lbl")||"Worse with exertion?") + ": " + (txt($("#fuCpExertion"))||"-"),
+      "   " + (tr(lang,"fu_cp_radiation_lbl")||"Radiation") + ": " + (txt($("#fuCpRadiation"))||"-"),
+      "   " + (tr(lang,"fu_cp_relief_lbl")||"Relieved by rest?") + ": " + (txt($("#fuCpRelief"))||"-")
     );
   }
 
-  // Shortness of breath
-  if(!$("#fu-sob")?.classList.contains("hidden")){
+  if (isVisible("fu-sob")){
     fuLines.push(
       "— " + (tr(lang,"fu_sob_title") || "Shortness of breath") + ":",
-      `   ${tr(lang,"fu_sob_onset_lbl")||"Onset & duration"}: ${txt($("#fuSobOnset"))||"-"}`,
-      `   ${tr(lang,"fu_sob_lying_lbl")||"Worse when lying flat?"}: ${txt($("#fuSobLying"))||"-"}`,
-      `   ${tr(lang,"fu_sob_exertion_lbl")||"With minimal exertion?"}: ${txt($("#fuSobExertion"))||"-"}`,
-      `   ${tr(lang,"fu_sob_wheeze_lbl")||"Wheezing present?"}: ${txt($("#fuSobWheeze"))||"-"}`
+      "   " + (tr(lang,"fu_sob_onset_lbl")||"Onset & duration") + ": " + (txt($("#fuSobOnset"))||"-"),
+      "   " + (tr(lang,"fu_sob_lying_lbl")||"Worse when lying flat?") + ": " + (txt($("#fuSobLying"))||"-"),
+      "   " + (tr(lang,"fu_sob_exertion_lbl")||"With minimal exertion?") + ": " + (txt($("#fuSobExertion"))||"-"),
+      "   " + (tr(lang,"fu_sob_wheeze_lbl")||"Wheezing present?") + ": " + (txt($("#fuSobWheeze"))||"-")
     );
   }
 
-  // Fatigue
-  if(!$("#fu-fatigue")?.classList.contains("hidden")){
+  if (isVisible("fu-fatigue")){
     fuLines.push(
       "— " + (tr(lang,"fu_fatigue_title") || "Fatigue") + ":",
-      `   ${tr(lang,"fu_fatigue_duration_lbl")||"Duration"}: ${txt($("#fuFatigueDuration"))||"-"}`,
-      `   ${tr(lang,"fu_fatigue_sleep_lbl")||"Sleep quality"}: ${txt($("#fuFatigueSleep"))||"-"}`,
-      `   ${tr(lang,"fu_fatigue_weight_lbl")||"Recent weight change?"}: ${txt($("#fuFatigueWeight"))||"-"}`,
-      `   ${tr(lang,"fu_fatigue_mood_lbl")||"Low mood?"}: ${txt($("#fuFatigueMood"))||"-"}`
+      "   " + (tr(lang,"fu_fatigue_duration_lbl")||"Duration") + ": " + (txt($("#fuFatigueDuration"))||"-"),
+      "   " + (tr(lang,"fu_fatigue_sleep_lbl")||"Sleep quality") + ": " + (txt($("#fuFatigueSleep"))||"-"),
+      "   " + (tr(lang,"fu_fatigue_weight_lbl")||"Recent weight change?") + ": " + (txt($("#fuFatigueWeight"))||"-"),
+      "   " + (tr(lang,"fu_fatigue_mood_lbl")||"Low mood?") + ": " + (txt($("#fuFatigueMood"))||"-")
     );
   }
 
-  // Fever
-  if(!$("#fu-fever")?.classList.contains("hidden")){
+  if (isVisible("fu-fever")){
     fuLines.push(
       "— " + (tr(lang,"fu_fever_title") || "Fever") + ":",
-      `   ${tr(lang,"fu_fever_duration_lbl")||"Duration"}: ${txt($("#fuFeverDuration"))||"-"}`,
-      `   ${tr(lang,"fu_fever_temp_lbl")||"Highest temperature"}: ${txt($("#fuFeverTemp"))||"-"}`,
-      `   ${tr(lang,"fu_fever_chills_lbl")||"Chills or sweating?"}: ${txt($("#fuFeverChills"))||"-"}`,
-      `   ${tr(lang,"fu_fever_other_lbl")||"Associated symptoms"}: ${txt($("#fuFeverAssoc"))||"-"}`
+      "   " + (tr(lang,"fu_fever_duration_lbl")||"Duration") + ": " + (txt($("#fuFeverDuration"))||"-"),
+      "   " + (tr(lang,"fu_fever_temp_lbl")||"Highest temperature") + ": " + (txt($("#fuFeverTemp"))||"-"),
+      "   " + (tr(lang,"fu_fever_chills_lbl")||"Chills or sweating?") + ": " + (txt($("#fuFeverChills"))||"-"),
+      "   " + (tr(lang,"fu_fever_other_lbl")||"Associated symptoms") + ": " + (txt($("#fuFeverAssoc"))||"-")
     );
   }
 
-  // Headache
-  if(!$("#fu-headache")?.classList.contains("hidden")){
+  if (isVisible("fu-headache")){
     fuLines.push(
       "— " + (tr(lang,"fu_headache_title") || "Headache") + ":",
-      `   ${tr(lang,"fu_headache_onset_lbl")||"Onset"}: ${txt($("#fuHeadacheOnset"))||"-"}`,
-      `   ${tr(lang,"fu_headache_duration_lbl")||"Duration/frequency"}: ${txt($("#fuHeadacheDuration"))||"-"}`,
-      `   ${tr(lang,"fu_headache_severity_lbl")||"Severity (1–10)"}: ${val($("#fuHeadacheSeverity"))||"-"}`,
-      `   ${tr(lang,"fu_headache_assoc_lbl")||"Associated symptoms"}: ${txt($("#fuHeadacheAssoc"))||"-"}`
+      "   " + (tr(lang,"fu_headache_onset_lbl")||"Onset") + ": " + (txt($("#fuHeadacheOnset"))||"-"),
+      "   " + (tr(lang,"fu_headache_duration_lbl")||"Duration/frequency") + ": " + (txt($("#fuHeadacheDuration"))||"-"),
+      "   " + (tr(lang,"fu_headache_severity_lbl")||"Severity (1–10)") + ": " + (val($("#fuHeadacheSeverity"))||"-"),
+      "   " + (tr(lang,"fu_headache_assoc_lbl")||"Associated symptoms") + ": " + (txt($("#fuHeadacheAssoc"))||"-")
     );
   }
 
-  // Nausea
-  if(!$("#fu-nausea")?.classList.contains("hidden")){
+  if (isVisible("fu-nausea")){
     fuLines.push(
       "— " + (tr(lang,"fu_nausea_title") || "Nausea") + ":",
-      `   ${tr(lang,"fu_nausea_onset_lbl")||"When did it start?"}: ${txt($("#fuNauseaOnset"))||"-"}`,
-      `   ${tr(lang,"fu_nausea_vomit_lbl")||"Vomiting present?"}: ${txt($("#fuNauseaVomit"))||"-"}`,
-      `   ${tr(lang,"fu_nausea_food_lbl")||"Worse after eating?"}: ${txt($("#fuNauseaFood"))||"-"}`,
-      `   ${tr(lang,"fu_nausea_other_lbl")||"Other symptoms"}: ${txt($("#fuNauseaOther"))||"-"}`
+      "   " + (tr(lang,"fu_nausea_onset_lbl")||"When did it start?") + ": " + (txt($("#fuNauseaOnset"))||"-"),
+      "   " + (tr(lang,"fu_nausea_vomit_lbl")||"Vomiting present?") + ": " + (txt($("#fuNauseaVomit"))||"-"),
+      "   " + (tr(lang,"fu_nausea_food_lbl")||"Worse after eating?") + ": " + (txt($("#fuNauseaFood"))||"-"),
+      "   " + (tr(lang,"fu_nausea_other_lbl")||"Other symptoms") + ": " + (txt($("#fuNauseaOther"))||"-")
     );
   }
 
-  // Dizziness
-  if(!$("#fu-dizziness")?.classList.contains("hidden")){
+  if (isVisible("fu-dizziness")){
     fuLines.push(
       "— " + (tr(lang,"fu_dizziness_title") || "Dizziness") + ":",
-      `   ${tr(lang,"fu_dizziness_onset_lbl")||"Onset"}: ${txt($("#fuDizzyOnset"))||"-"}`,
-      `   ${tr(lang,"fu_dizziness_trigger_lbl")||"Triggered by position change?"}: ${txt($("#fuDizzyTrigger"))||"-"}`,
-      `   ${tr(lang,"fu_dizziness_assoc_lbl")||"Associated symptoms"}: ${txt($("#fuDizzyAssoc"))||"-"}`,
-      `   ${tr(lang,"fu_dizziness_duration_lbl")||"Duration"}: ${txt($("#fuDizzyDuration"))||"-"}`
+      "   " + (tr(lang,"fu_dizziness_onset_lbl")||"Onset") + ": " + (txt($("#fuDizzyOnset"))||"-"),
+      "   " + (tr(lang,"fu_dizziness_trigger_lbl")||"Triggered by position change?") + ": " + (txt($("#fuDizzyTrigger"))||"-"),
+      "   " + (tr(lang,"fu_dizziness_assoc_lbl")||"Associated symptoms") + ": " + (txt($("#fuDizzyAssoc"))||"-"),
+      "   " + (tr(lang,"fu_dizziness_duration_lbl")||"Duration") + ": " + (txt($("#fuDizzyDuration"))||"-")
     );
   }
 
-  // Palpitations
-  if(!$("#fu-palpitations")?.classList.contains("hidden")){
+  if (isVisible("fu-palpitations")){
     fuLines.push(
       "— " + (tr(lang,"fu_palp_title") || "Palpitations") + ":",
-      `   ${tr(lang,"fu_palp_onset_lbl")||"Onset"}: ${txt($("#fuPalpOnset"))||"-"}`,
-      `   ${tr(lang,"fu_palp_duration_lbl")||"Duration/frequency"}: ${txt($("#fuPalpDuration"))||"-"}`,
-      `   ${tr(lang,"fu_palp_trigger_lbl")||"Triggered by stress/exertion?"}: ${txt($("#fuPalpTrigger"))||"-"}`,
-      `   ${tr(lang,"fu_palp_assoc_lbl")||"Associated symptoms"}: ${txt($("#fuPalpAssoc"))||"-"}`
+      "   " + (tr(lang,"fu_palp_onset_lbl")||"Onset") + ": " + (txt($("#fuPalpOnset"))||"-"),
+      "   " + (tr(lang,"fu_palp_duration_lbl")||"Duration/frequency") + ": " + (txt($("#fuPalpDuration"))||"-"),
+      "   " + (tr(lang,"fu_palp_trigger_lbl")||"Triggered by stress/exertion?") + ": " + (txt($("#fuPalpTrigger"))||"-"),
+      "   " + (tr(lang,"fu_palp_assoc_lbl")||"Associated symptoms") + ": " + (txt($("#fuPalpAssoc"))||"-")
     );
   }
 
-  // Other
-  if(!$("#fu-other")?.classList.contains("hidden")){
+  if (isVisible("fu-other")){
     fuLines.push(
       "— " + (tr(lang,"fu_other_title") || "Other symptom") + ":",
-      `   ${tr(lang,"fu_other_onset_lbl")||"When did it start?"}: ${txt($("#fuOtherOnset"))||"-"}`,
-      `   ${tr(lang,"fu_other_severity_lbl")||"Severity (1–10)"}: ${val($("#fuOtherSeverity"))||"-"}`,
-      `   ${tr(lang,"fu_other_duration_lbl")||"Duration/pattern"}: ${txt($("#fuOtherDuration"))||"-"}`,
-      `   ${tr(lang,"fu_other_description_lbl")||"Describe the symptom"}: ${txt($("#fuOtherDescription"))||"-"}`
+      "   " + (tr(lang,"fu_other_onset_lbl")||"When did it start?") + ": " + (txt($("#fuOtherOnset"))||"-"),
+      "   " + (tr(lang,"fu_other_severity_lbl")||"Severity (1–10)") + ": " + (val($("#fuOtherSeverity"))||"-"),
+      "   " + (tr(lang,"fu_other_duration_lbl")||"Duration/pattern") + ": " + (txt($("#fuOtherDuration"))||"-"),
+      "   " + (tr(lang,"fu_other_description_lbl")||"Describe the symptom") + ": " + (txt($("#fuOtherDescription"))||"-")
     );
   }
 
-  const history  = $("#history")?.value.trim() || "-";
-  const meds     = $("#meds")?.value.trim() || "-";
-  const smoking  = txt($("#smoking"))  || "-";
-  const alcohol  = txt($("#alcohol"))  || "-";
-  const exercise = $("#exercise")?.value || "-";
+  var historyEl  = $("#history");
+  var medsEl     = $("#meds");
+  var exerciseEl = $("#exercise");
+  var history  = historyEl  ? historyEl.value.trim() : "-";
+  var meds     = medsEl     ? medsEl.value.trim() : "-";
+  var smoking  = txt($("#smoking"))  || "-";
+  var alcohol  = txt($("#alcohol"))  || "-";
+  var exercise = exerciseEl ? exerciseEl.value : "-";
 
-  const emFlags = Array.from($$(".rf:checked")).map(cb=>{
-    const text = cb.closest("label")?.innerText.trim() || cb.value;
+  var emFlags = Array.prototype.map.call($$(".rf:checked"), function(cb){
+    var labelEl = cb.closest("label");
+    var text = labelEl ? labelEl.innerText.trim() : cb.value;
     return "• " + text;
   });
 
   return [
-    `${label("language")}: ${lang.toUpperCase()}`,
-    `${label("patientEmail")}: ${email || "(not provided)"}`,
+    (L.language) + ": " + lang.toUpperCase(),
+    (L.patientEmail) + ": " + (email || "(not provided)"),
     "",
-    `${label("symptoms")}:`,
-    ...(syms.length ? syms : ["• –"]),
+    (L.symptoms) + ":",
+    (syms.length ? syms.join("\n") : "• –"),
     "",
-    `${label("followups")}:`,
-    ...(fuLines.length ? fuLines : ["— –"]),
+    (L.followups) + ":",
+    (fuLines.length ? fuLines.join("\n") : "— –"),
     "",
-    `${label("medHistory")}:`,
-    history,
+    (L.medHistory) + ":",
+    (history || "-"),
     "",
-    `${label("meds")}:`,
-    meds,
+    (L.meds) + ":",
+    (meds || "-"),
     "",
-    `${label("lifestyle")}:`,
-    `• ${tr(lang,"smoking_label")||"Smoking"}: ${smoking}`,
-    `• ${tr(lang,"alcohol_label")||"Alcohol"}: ${alcohol}`,
-    `• ${tr(lang,"exercise_label")||"Exercise (hrs/week)"}: ${exercise}`,
+    (L.lifestyle) + ":",
+    "• " + (tr(lang,"smoking_label")||"Smoking") + ": " + smoking,
+    "• " + (tr(lang,"alcohol_label")||"Alcohol") + ": " + alcohol,
+    "• " + (tr(lang,"exercise_label")||"Exercise (hrs/week)") + ": " + exercise,
     "",
-    `${label("emSelected")}:`,
-    ...(emFlags.length ? emFlags : ["• –"]),
+    (L.emSelected) + ":",
+    (emFlags.length ? emFlags.join("\n") : "• –"),
     "",
-    label("endLine")
+    L.endLine
   ].join("\n");
 }
 
-async function sendEmail(formattedText,toEmail,langRaw){
-  const lang     = (langRaw || "en").toLowerCase();
-  const L        = getEmailLabels(lang);
-  const formId   = $("#formId")?.textContent.trim();
-  const formDate = $("#formDate")?.textContent.trim();
-  const patient  = toEmail || $("#email")?.value.trim() || "(not provided)";
+async function sendEmail(formattedText,toEmail){
+  var formIdEl   = $("#formId");
+  var formDateEl = $("#formDate");
+  var emailEl2   = $("#email");
 
-  const params = {
+  var formId   = formIdEl   ? formIdEl.textContent.trim()   : "";
+  var formDate = formDateEl ? formDateEl.textContent.trim() : "";
+  var lang     = window.currentLang || "en";
+  var L        = getEmailLabels(lang);
+  var patient  = toEmail || (emailEl2 ? emailEl2.value.trim() : "") || "(not provided)";
+
+  var params = {
     to_email: "hart.intake.central@gmail.com",
     patient_email: patient,
     message: formattedText,
 
-    // SUBJECT & header labels passed to EmailJS template
-    subject: `[${L.subjectPrefix}] ${formId || ""} — ${lang.toUpperCase()}`,
+    subject: "[" + L.subjectPrefix + "] " + (formId || ""),
     form_id: formId,
     form_date: formDate,
     language: lang.toUpperCase(),
@@ -1312,20 +1310,21 @@ async function sendEmail(formattedText,toEmail,langRaw){
 
   return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
 }
-</script>
 
 /***************
  * LANGUAGE SWITCH
  ***************/
-let currentLang="en";
+var currentLang="en";
 function setActiveLangButton(lang){
-  $$(".lang-btn").forEach(btn=>btn.classList.toggle("active",btn.dataset.lang===lang));
+  Array.prototype.forEach.call($$(".lang-btn"), function(btn){
+    btn.classList.toggle("active", btn.dataset.lang===lang);
+  });
 }
 function handleLangSwitch(e){
-  const lang=e.currentTarget.dataset.lang;
-  if(!lang)return;
-  currentLang=lang;
-  window.currentLang=lang; // keep in sync for any other readers
+  var lang = e.currentTarget.dataset.lang;
+  if(!lang) return;
+  currentLang = lang;
+  window.currentLang = lang; // keep global mirror for speech/email
   setActiveLangButton(lang);
   applyTranslations(lang);
 }
@@ -1333,38 +1332,45 @@ function handleLangSwitch(e){
 /***************
  * INIT
  ***************/
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", function(){
   console.log("[HART] DOM ready");
 
   // Visual sanity badge
-  const badge = document.createElement("div");
+  var badge = document.createElement("div");
   badge.textContent = "JS is running";
   badge.style.cssText = "position:fixed;right:12px;bottom:12px;padding:6px 10px;background:#2ecc71;color:#fff;border-radius:6px;font:12px/1.2 system-ui;z-index:99999";
   document.body.appendChild(badge);
 
   // IDs & date
-  $("#formId").textContent=genFormId();
-  $("#formDate").textContent=todayStr();
+  $("#formId").textContent = genFormId();
+  $("#formDate").textContent = todayStr();
 
   // Default language EN
+  window.currentLang = "en";
   applyTranslations("en");
   setActiveLangButton("en");
 
   // Emergency listeners
-  $$(".rf").forEach(cb=> cb.addEventListener("change", updateEmergencyState));
+  Array.prototype.forEach.call($$(".rf"), function(cb){
+    cb.addEventListener("change", updateEmergencyState);
+  });
 
   // Symptom follow-ups
-  $$("input[name='symptom']").forEach(cb => cb.addEventListener("change", refreshFollowups));
-  document.addEventListener("change", (e)=>{ if (e.target && e.target.name === "symptom") refreshFollowups(); });
+  Array.prototype.forEach.call($$("input[name='symptom']"), function(cb){
+    cb.addEventListener("change", refreshFollowups);
+  });
+  document.addEventListener("change", function(e){
+    if (e.target && e.target.name === "symptom") refreshFollowups();
+  });
 
   // Other text <-> checkbox sync
-  const otherInput = $("#otherSymptoms");
-  const chkOther = $("#chkOther");
+  var otherInput = $("#otherSymptoms");
+  var chkOther = $("#chkOther");
   if (otherInput && chkOther) {
-    otherInput.addEventListener("input", () => {
-      const txt = otherInput.value.trim();
-      if (txt && !chkOther.checked) { chkOther.checked = true; chkOther.dataset.autochecked = "1"; }
-      else if (!txt && chkOther.dataset.autochecked === "1") { chkOther.checked = false; delete chkOther.dataset.autochecked; }
+    otherInput.addEventListener("input", function(){
+      var tx = otherInput.value.trim();
+      if (tx && !chkOther.checked) { chkOther.checked = true; chkOther.dataset.autochecked = "1"; }
+      else if (!tx && chkOther.dataset.autochecked === "1") { chkOther.checked = false; delete chkOther.dataset.autochecked; }
       refreshFollowups();
     });
   }
@@ -1373,28 +1379,34 @@ document.addEventListener("DOMContentLoaded",()=>{
   setupMicButtons();
 
   // Submit
-$("#submitBtn")?.addEventListener("click", async ()=>{
-  const anyEmergency=Array.from($$(".rf")).some(cb=>cb.checked);
-  if(anyEmergency)return;
+  var submitBtn = $("#submitBtn");
+  if (submitBtn) submitBtn.addEventListener("click", async function(){
+    var anyEmergency = Array.prototype.some.call($$(".rf"), function(cb){ return cb.checked; });
+    if(anyEmergency) return;
 
-  const lang  = (window.currentLang || currentLang || "en").toLowerCase();
-  const email = $("#email")?.value.trim();
-  const text  = buildEmailText(lang);
+    var emailEl = $("#email");
+    var email = emailEl ? emailEl.value.trim() : "";
+    var lang = window.currentLang || currentLang || "en";
+    var text = buildEmailText(lang);
 
-  try{
-    $("#loading")?.classList.remove("hidden");
-    $("#thanks")?.classList.add("hidden");
-    await sendEmail(text,email,lang);
-    $("#thanks")?.classList.remove("hidden");
-  }catch(err){
-    alert("Failed to send. Please try again.\n"+(err?.text||err?.message||err));
-  }finally{
-    $("#loading")?.classList.add("hidden");
-  }
-});
+    var loadingEl = $("#loading");
+    var thanksEl  = $("#thanks");
+    try{
+      if (loadingEl) loadingEl.classList.remove("hidden");
+      if (thanksEl)  thanksEl.classList.add("hidden");
+      await sendEmail(text,email);
+      if (thanksEl)  thanksEl.classList.remove("hidden");
+    }catch(err){
+      alert("Failed to send. Please try again.\n" + (err && (err.text || err.message) || err));
+    }finally{
+      if (loadingEl) loadingEl.classList.add("hidden");
+    }
+  });
 
   // Lang bar
-  $$(".lang-btn").forEach(btn => btn.addEventListener("click", handleLangSwitch));
+  Array.prototype.forEach.call($$(".lang-btn"), function(btn){
+    btn.addEventListener("click", handleLangSwitch);
+  });
 
   console.log("[HART] Init complete");
 });
