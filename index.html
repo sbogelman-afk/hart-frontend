@@ -8,6 +8,18 @@
   <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
+<script>
+  console.log('[HART] inline sanity loaded');
+  // minimal bindings just to prove wiring works
+  document.querySelectorAll('.lang-btn').forEach(btn=>{
+    btn.addEventListener('click', e=>{
+      console.log('Lang click:', e.target.dataset.lang);
+    });
+  });
+  document.querySelectorAll("input[name='symptom']").forEach(cb=>{
+    cb.addEventListener('change', ()=> console.log('symptom toggled'));
+  });
+</script>
 <body>
 <header class="site-header">
   <div class="brand">
