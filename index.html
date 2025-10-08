@@ -1376,13 +1376,14 @@ async function logToAirtable(formattedText, formId, formDate, lang, patient, sym
 /***************
  * INIT
  ***************/
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function() {
   console.log("[HART] DOM ready");
 
   // Visual sanity badge
   var badge = document.createElement("div");
   badge.textContent = "JS is running";
-  badge.style.cssText = "position:fixed;right:12px;bottom:12px;padding:6px 10px;background:#2ecc71;color:#fff;border-radius:6px;font:12px/1.2 system-ui;z-index:99999";
+  badge.style.cssText =
+    "position:fixed;right:12px;bottom:12px;padding:6px 10px;background:#2ecc71;color:#fff;border-radius:6px;font:12px/1.2 system-ui;z-index:99999";
   document.body.appendChild(badge);
 
   // IDs & date
@@ -1395,15 +1396,15 @@ document.addEventListener("DOMContentLoaded", function(){
   setActiveLangButton("en");
 
   // Emergency listeners
-  Array.prototype.forEach.call($$(".rf"), function(cb){
+  Array.prototype.forEach.call($$(".rf"), function(cb) {
     cb.addEventListener("change", updateEmergencyState);
   });
 
   // Symptom follow-ups
-  Array.prototype.forEach.call($$("input[name='symptom']"), function(cb){
+  Array.prototype.forEach.call($$("input[name='symptom']"), function(cb) {
     cb.addEventListener("change", refreshFollowups);
   });
-  document.addEventListener("change", function(e){
+  document.addEventListener("change", function(e) {
     if (e.target && e.target.name === "symptom") refreshFollowups();
   });
 
@@ -1411,10 +1412,15 @@ document.addEventListener("DOMContentLoaded", function(){
   var otherInput = $("#otherSymptoms");
   var chkOther = $("#chkOther");
   if (otherInput && chkOther) {
-    otherInput.addEventListener("input", function(){
+    otherInput.addEventListener("input", function() {
       var tx = otherInput.value.trim();
-      if (tx && !chkOther.checked) { chkOther.checked = true; chkOther.dataset.autochecked = "1"; }
-      else if (!tx && chkOther.dataset.autochecked === "1") { chkOther.checked = false; delete chkOther.dataset.autochecked; }
+      if (tx && !chkOther.checked) {
+        chkOther.checked = true;
+        chkOther.dataset.autochecked = "1";
+      } else if (!tx && chkOther.dataset.autochecked === "1") {
+        chkOther.checked = false;
+        delete chkOther.dataset.autochecked;
+      }
       refreshFollowups();
     });
   }
@@ -1422,20 +1428,20 @@ document.addEventListener("DOMContentLoaded", function(){
   refreshFollowups();
   setupMicButtons();
 
-  // Submit
-
-/***************
- * SUBMIT HANDLER
- ***************/
-document.addEventListener("DOMContentLoaded", function() {
-
+  /***************
+   * SUBMIT HANDLER
+   ***************/
   var submitBtn = $("#submitBtn");
   if (submitBtn) {
+    console.log("[HART] Submit button listener attached");
     submitBtn.addEventListener("click", async function() {
+      console.log("[HART] Submit button clicked");
 
       var anyEmergency = Array.prototype.some.call($$(".rf"), cb => cb.checked);
       if (anyEmergency) {
-        alert("⚠️ One or more emergency red flags are selected.\nYour data will still be submitted, but please seek emergency care immediately.");
+        alert(
+          "⚠️ One or more emergency red flags are selected.\nYour data will still be submitted, but please seek emergency care immediately."
+        );
       }
 
       var emailEl = $("#email");
@@ -1444,11 +1450,11 @@ document.addEventListener("DOMContentLoaded", function() {
       var text = buildEmailText(lang);
 
       var loadingEl = $("#loading");
-      var thanksEl  = $("#thanks");
+      var thanksEl = $("#thanks");
 
       try {
         if (loadingEl) loadingEl.classList.remove("hidden");
-        if (thanksEl)  thanksEl.classList.add("hidden");
+        if (thanksEl) thanksEl.classList.add("hidden");
 
         await sendEmail(text, email);
 
@@ -1458,32 +1464,35 @@ document.addEventListener("DOMContentLoaded", function() {
           $("#formDate").textContent.trim(),
           lang,
           email,
-          Array.from(document.querySelectorAll("input[name='symptom']:checked")).map(x => x.value),
+          Array.from(
+            document.querySelectorAll("input[name='symptom']:checked")
+          ).map(x => x.value),
           Array.from(document.querySelectorAll(".rf:checked"))
         );
 
         if (thanksEl) thanksEl.classList.remove("hidden");
       } catch (err) {
-        alert("Failed to send. Please try again.\n" + (err && (err.text || err.message) || err));
+        alert(
+          "Failed to send. Please try again.\n" +
+            (err && (err.text || err.message) || err)
+        );
         console.error("[HART] Submission failed:", err);
       } finally {
         if (loadingEl) loadingEl.classList.add("hidden");
       }
-
     });
   } else {
     console.error("[HART] Submit button not found.");
   }
 
-});
-
   // Lang bar
-  Array.prototype.forEach.call($$(".lang-btn"), function(btn){
+  Array.prototype.forEach.call($$(".lang-btn"), function(btn) {
     btn.addEventListener("click", handleLangSwitch);
   });
 
   console.log("[HART] Init complete");
 });
-</script> 
-</body> 
+</script>
+</body>
 </html>
+
