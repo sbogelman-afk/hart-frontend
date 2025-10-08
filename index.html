@@ -1424,42 +1424,57 @@ document.addEventListener("DOMContentLoaded", function(){
 
   // Submit
 
-var submitBtn = $("#submitBtn");
-if (submitBtn) submitBtn.addEventListener("click", async function(){
-  var anyEmergency = Array.prototype.some.call($$(".rf"), cb => cb.checked);
-  if (anyEmergency) {
-    alert("⚠️ One or more emergency red flags are selected.\nYour data will still be submitted, but please seek emergency care immediately.");
+/***************
+ * SUBMIT HANDLER
+ ***************/
+document.addEventListener("DOMContentLoaded", function() {
+
+  var submitBtn = $("#submitBtn");
+  if (submitBtn) {
+    submitBtn.addEventListener("click", async function() {
+
+      var anyEmergency = Array.prototype.some.call($$(".rf"), cb => cb.checked);
+      if (anyEmergency) {
+        alert("⚠️ One or more emergency red flags are selected.\nYour data will still be submitted, but please seek emergency care immediately.");
+      }
+
+      var emailEl = $("#email");
+      var email = emailEl ? emailEl.value.trim() : "";
+      var lang = window.currentLang || "en";
+      var text = buildEmailText(lang);
+
+      var loadingEl = $("#loading");
+      var thanksEl  = $("#thanks");
+
+      try {
+        if (loadingEl) loadingEl.classList.remove("hidden");
+        if (thanksEl)  thanksEl.classList.add("hidden");
+
+        await sendEmail(text, email);
+
+        await logToAirtable(
+          text,
+          $("#formId").textContent.trim(),
+          $("#formDate").textContent.trim(),
+          lang,
+          email,
+          Array.from(document.querySelectorAll("input[name='symptom']:checked")).map(x => x.value),
+          Array.from(document.querySelectorAll(".rf:checked"))
+        );
+
+        if (thanksEl) thanksEl.classList.remove("hidden");
+      } catch (err) {
+        alert("Failed to send. Please try again.\n" + (err && (err.text || err.message) || err));
+        console.error("[HART] Submission failed:", err);
+      } finally {
+        if (loadingEl) loadingEl.classList.add("hidden");
+      }
+
+    });
+  } else {
+    console.error("[HART] Submit button not found.");
   }
 
-  var emailEl = $("#email");
-  var email = emailEl ? emailEl.value.trim() : "";
-  var lang = window.currentLang || "en";
-  var text = buildEmailText(lang);
-
-  var loadingEl = $("#loading");
-  var thanksEl  = $("#thanks");
-
-  try {
-    if (loadingEl) loadingEl.classList.remove("hidden");
-    if (thanksEl)  thanksEl.classList.add("hidden");
-
-    await sendEmail(text, email);
-    await logToAirtable(
-      text,
-      $("#formId").textContent.trim(),
-      $("#formDate").textContent.trim(),
-      lang,
-      email,
-      Array.from(document.querySelectorAll("input[name='symptom']:checked")).map(x => x.value),
-      Array.from(document.querySelectorAll(".rf:checked"))
-    );
-
-    if (thanksEl) thanksEl.classList.remove("hidden");
-  } catch (err) {
-    alert("Failed to send. Please try again.\n" + (err && (err.text || err.message) || err));
-  } finally {
-    if (loadingEl) loadingEl.classList.add("hidden");
-  }
 });
 
   // Lang bar
