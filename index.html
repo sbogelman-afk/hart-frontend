@@ -1122,17 +1122,15 @@ function buildEmailText(lang){
 
   var val = function(el){ return (el && el.value != null ? String(el.value).trim() : ""); };
   var txt = function(el){
-  if (!el) return "";
-  if (el.tagName === "SELECT") {
-    var o = el.options[el.selectedIndex];
-    // Get trimmed text or value
-    var val = (o && o.textContent) ? o.textContent.trim() : (el.value || "");
-    // Skip placeholders or empty selects
-    if (!val || val === "Select…" || val.toLowerCase().startsWith("select")) return "";
-    return val;
-  }
-  return (el.value || "").trim();
-};
+    if (!el) return "";
+    if (el.tagName === "SELECT") {
+      var o = el.options[el.selectedIndex];
+      // Ignore placeholder options like "Select…" that have an empty value
+      if (!o || o.value === "") return "-";
+      return o.textContent.trim();
+    }
+    return (el.value || "").trim();
+  };
 
   var emailEl = $("#email");
   var email = emailEl ? emailEl.value.trim() : "";
