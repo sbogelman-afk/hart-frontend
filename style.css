@@ -176,3 +176,8 @@ select[value=""],
 select:not(:focus):has(option[value=""]:checked) {
   color: var(--muted);
 }
+
+input:invalid {
+  border-color: var(--warn);
+  background: #fff0f0;
+}
