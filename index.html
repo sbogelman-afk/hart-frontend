@@ -61,10 +61,13 @@
       <label><input class="rf" type="checkbox" value="suicidal" /> <span data-i18n="rf_suicidal">Suicidal thoughts</span></label>
     </div>
 
-    <div id="emergencyBanner" class="alert hidden">
-      <strong data-i18n="call911_title">Possible emergency.</strong>
-      <div data-i18n="call911_text">Please call 911 or go to the nearest emergency department now.</div>
+  <div id="emergencyBanner" class="alert hidden">
+    <strong data-i18n="call911_title">🚨 Possible emergency</strong>
+    <div data-i18n="call911_text">
+      Please call 911 or go to the nearest emergency department now.
     </div>
+  </div>
+
   </section>
 
   <!-- Symptoms selection -->
@@ -967,14 +970,11 @@ function applyTranslations(lang){
  * EMERGENCY
  ***************/
 function updateEmergencyState() {
-  var anyChecked = Array.prototype.some.call($$(".rf"), function(cb) {
-    return cb.checked;
-  });
-  var banner = $("#emergencyBanner");
+  const anyChecked = Array.prototype.some.call($$(".rf"), cb => cb.checked);
+  const banner = $("#emergencyBanner");
 
   if (anyChecked) {
     banner.classList.remove("hidden");
-    alert("⚠️ Possible emergency detected.\nPlease call 911 or go to the nearest emergency department.");
   } else {
     banner.classList.add("hidden");
   }
@@ -1442,13 +1442,6 @@ document.addEventListener("DOMContentLoaded", function() {
     console.log("[HART] Submit button listener attached");
     submitBtn.addEventListener("click", async function() {
       console.log("[HART] Submit button clicked");
-
-      var anyEmergency = Array.prototype.some.call($$(".rf"), cb => cb.checked);
-      if (anyEmergency) {
-        alert(
-          "⚠️ One or more emergency red flags are selected.\nYour data will still be submitted, but please seek emergency care immediately."
-        );
-      }
 
       var emailEl = $("#email");
       var email = emailEl ? emailEl.value.trim() : "";
