@@ -429,7 +429,7 @@
     <h2 data-i18n="sect_contact">Contact (email only)</h2>
     <div class="row">
       <label class="lbl" for="email" data-i18n="email_label">Your email (to receive evaluation)</label>
-      <input type="email" id="email" placeholder="you@example.com" />
+      <input type="email" id="email" placeholder="you@example.com" required />
     </div>
 
     <div class="actions">
@@ -1456,42 +1456,49 @@ document.addEventListener("DOMContentLoaded", function() {
     submitBtn.addEventListener("click", async function() {
       console.log("[HART] Submit button clicked");
 
-      var emailEl = $("#email");
-      var email = emailEl ? emailEl.value.trim() : "";
-      var lang = window.currentLang || "en";
-      var text = buildEmailText(lang);
+  var emailEl = $("#email");
+  var email = emailEl ? emailEl.value.trim() : "";
+  var lang = window.currentLang || "en";
+  var text = buildEmailText(lang);
+  
+  // ✅ Email validation check
+  if (!email) {
+    alert("⚠️ Please enter your email address before submitting.");
+    if (emailEl) emailEl.focus();
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert("⚠️ Please enter a valid email address (e.g., name@example.com).");
+    if (emailEl) emailEl.focus();
+    return;
+  }
+  
+  var loadingEl = $("#loading");
+  var thanksEl  = $("#thanks");
+  
+  try {
+    if (loadingEl) loadingEl.classList.remove("hidden");
+    if (thanksEl)  thanksEl.classList.add("hidden");
+  
+    await sendEmail(text, email);
+    await logToAirtable(
+      text,
+      $("#formId").textContent.trim(),
+      $("#formDate").textContent.trim(),
+      lang,
+      email,
+      Array.from(document.querySelectorAll("input[name='symptom']:checked")).map(x => x.value),
+      Array.from(document.querySelectorAll(".rf:checked"))
+    );
+  
+    if (thanksEl) thanksEl.classList.remove("hidden");
+  } catch (err) {
+    alert("Failed to send. Please try again.\n" + (err && (err.text || err.message) || err));
+    console.error("[HART] Submission failed:", err);
+  } finally {
+    if (loadingEl) loadingEl.classList.add("hidden");
+  }
 
-      var loadingEl = $("#loading");
-      var thanksEl = $("#thanks");
-
-      try {
-        if (loadingEl) loadingEl.classList.remove("hidden");
-        if (thanksEl) thanksEl.classList.add("hidden");
-
-        await sendEmail(text, email);
-
-        await logToAirtable(
-          text,
-          $("#formId").textContent.trim(),
-          $("#formDate").textContent.trim(),
-          lang,
-          email,
-          Array.from(
-            document.querySelectorAll("input[name='symptom']:checked")
-          ).map(x => x.value),
-          Array.from(document.querySelectorAll(".rf:checked"))
-        );
-
-        if (thanksEl) thanksEl.classList.remove("hidden");
-      } catch (err) {
-        alert(
-          "Failed to send. Please try again.\n" +
-            (err && (err.text || err.message) || err)
-        );
-        console.error("[HART] Submission failed:", err);
-      } finally {
-        if (loadingEl) loadingEl.classList.add("hidden");
-      }
     });
   } else {
     console.error("[HART] Submit button not found.");
