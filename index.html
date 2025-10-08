@@ -969,9 +969,11 @@ function applyTranslations(lang){
 function updateEmergencyState(){
   var anyChecked = Array.prototype.some.call($$(".rf"), function(cb){ return cb.checked; });
   var banner = $("#emergencyBanner");
-  var submit = $("#submitBtn");
-  if (anyChecked){ banner.classList.remove("hidden"); submit.disabled = true; }
-  else { banner.classList.add("hidden"); submit.disabled = false; }
+  if (anyChecked){
+    banner.classList.remove("hidden");
+  } else {
+    banner.classList.add("hidden");
+  }
 }
 
 /***************
