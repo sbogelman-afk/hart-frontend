@@ -1303,20 +1303,31 @@ async function sendEmail(formattedText,toEmail){
   var L        = getEmailLabels(lang);
   var patient  = toEmail || (emailEl2 ? emailEl2.value.trim() : "") || "(not provided)";
 
-  var params = {
-    to_email: "hart.intake.central@gmail.com",
-    patient_email: patient,
-    message: formattedText,
+// Determine if the selected language is right-to-left
+var isRTL = (lang === "he" || lang === "ar" || lang === "fa");
 
-    subject: "[" + L.subjectPrefix + "] " + (formId || ""),
-    form_id: formId,
-    form_date: formDate,
-    language: lang.toUpperCase(),
-    label_intake_id: L.hdrFormId,
-    label_submitted_on: L.hdrDate,
-    label_patient_email: L.hdrPatientEmail,
-    label_language: L.hdrLanguage
-  };
+// Wrap message with direction and preserve line breaks
+var wrappedText = `<div dir="${isRTL ? "rtl" : "ltr"}" 
+  style="text-align:${isRTL ? "right" : "left"}; 
+  font-family:Arial, sans-serif; 
+  white-space:pre-wrap;">`
+  + formattedText.replace(/\n/g, "<br>")
+  + `</div>`;
+
+var params = {
+  to_email: "hart.intake.central@gmail.com",
+  patient_email: patient,
+  message: wrappedText,
+
+  subject: (isRTL ? "‮" : "") + "[" + L.subjectPrefix + "] " + (formId || ""),
+  form_id: formId,
+  form_date: formDate,
+  language: lang.toUpperCase(),
+  label_intake_id: L.hdrFormId,
+  label_submitted_on: L.hdrDate,
+  label_patient_email: L.hdrPatientEmail,
+  label_language: L.hdrLanguage
+};
 
   return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
 }
