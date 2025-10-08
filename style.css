@@ -114,3 +114,40 @@ body.rtl .grid2, body.rtl .grid3{direction:rtl}
   50% { box-shadow: 0 0 16px rgba(255, 0, 0, 0.45); }
   100% { box-shadow: 0 0 6px rgba(255, 0, 0, 0.2); }
 }
+
+/* === Follow-up Questions Cleanup === */
+
+/* Each followup card section */
+.followup {
+  display: block;
+  margin-top: 1.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line, #e5e7eb);
+}
+
+/* Internal grid spacing */
+.followup .grid2,
+.followup .grid3 {
+  display: grid;
+  gap: 0.75rem 1rem; /* vertical, horizontal */
+  margin-top: 0.75rem;
+}
+
+/* Label and input spacing inside grids */
+.followup label.lbl {
+  margin-bottom: 0.25rem;
+  display: block;
+  font-weight: 500;
+}
+
+.followup input,
+.followup select,
+.followup textarea {
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+/* Add consistent spacing after last grid */
+.followup:last-child {
+  margin-bottom: 1.5rem;
+}
