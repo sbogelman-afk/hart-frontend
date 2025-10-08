@@ -163,3 +163,10 @@ body.rtl .grid2, body.rtl .grid3{direction:rtl}
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+select:invalid {
+  color: #9ca3af; /* soft gray */
+}
+select option[value=""] {
+  color: #9ca3af;
+}
