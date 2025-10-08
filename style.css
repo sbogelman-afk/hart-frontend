@@ -115,31 +115,33 @@ body.rtl .grid2, body.rtl .grid3{direction:rtl}
   100% { box-shadow: 0 0 6px rgba(255, 0, 0, 0.2); }
 }
 
-/* === Follow-up Questions Cleanup === */
+/* === Follow-up Questions Cleanup (HART styling) === */
 
 /* Each followup card section */
 .followup {
   display: block;
   margin-top: 1.5rem;
   padding-top: 0.75rem;
-  border-top: 1px solid var(--line, #e5e7eb);
+  border-top: 1px solid var(--accent-weak, #b23a48); /* subtle HART burgundy line */
 }
 
 /* Internal grid spacing */
 .followup .grid2,
 .followup .grid3 {
   display: grid;
-  gap: 0.75rem 1rem; /* vertical, horizontal */
+  gap: 0.9rem 1rem; /* vertical, horizontal */
   margin-top: 0.75rem;
 }
 
-/* Label and input spacing inside grids */
+/* Label and input alignment */
 .followup label.lbl {
-  margin-bottom: 0.25rem;
   display: block;
+  margin-bottom: 0.25rem;
   font-weight: 500;
+  color: var(--ink, #1f2937);
 }
 
+/* Consistent spacing for inputs, selects, and textareas */
 .followup input,
 .followup select,
 .followup textarea {
@@ -147,7 +149,17 @@ body.rtl .grid2, body.rtl .grid3{direction:rtl}
   margin-bottom: 0.75rem;
 }
 
-/* Add consistent spacing after last grid */
+/* Breathing room after the last followup group */
 .followup:last-child {
   margin-bottom: 1.5rem;
+}
+
+/* Optional: subtle fade-in animation when a followup appears */
+.followup {
+  animation: fadeInFollowup 0.25s ease-in-out;
+}
+
+@keyframes fadeInFollowup {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
