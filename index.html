@@ -1340,7 +1340,7 @@ async function logToAirtable(formattedText, formId, formDate, lang, patient, sym
   const payload = {
     fields: {
       FormID: formId,
-      Date: new Date(formDate).toISOString(), // ensure proper ISO format
+      Date: new Date().toISOString(),
       Language: lang.toUpperCase(),
       Email: patient,
       Symptoms: syms.join(", "),
