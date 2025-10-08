@@ -1336,10 +1336,11 @@ async function logToAirtable(formattedText, formId, formDate, lang, patient, sym
   const airtableUrl = "https://api.airtable.com/v0/apparXKDYKRiWzlft/Intakes";
   const airtableKey = "patxMT9IV5ll34k6n.e00a336738f1beddd2cce546163ee2eba947c062f8120b13cdf4a35f30d32180"; // ✅ quoted
 
+  
   const payload = {
     fields: {
       FormID: formId,
-      Date: new Date(formDate).toISOString(),
+      Date: new Date(formDate).toISOString(), // ensure proper ISO format
       Language: lang.toUpperCase(),
       Email: patient,
       Symptoms: syms.join(", "),
@@ -1358,8 +1359,15 @@ async function logToAirtable(formattedText, formId, formDate, lang, patient, sym
       },
       body: JSON.stringify(payload)
     });
-    if (!res.ok) throw new Error("Airtable error: " + res.status);
-    console.log("[HART] Logged to Airtable");
+
+    if (!res.ok) {
+      // 🔍 NEW: print Airtable's full error response for debugging
+      const errText = await res.text();
+      console.error("Airtable responded with:", res.status, res.statusText, errText);
+      throw new Error("Airtable error: " + res.status);
+    }
+
+    console.log("[HART] Logged to Airtable successfully");
   } catch (err) {
     console.error("Failed to log to Airtable:", err);
   }
