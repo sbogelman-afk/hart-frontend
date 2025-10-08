@@ -170,3 +170,9 @@ select:invalid {
 select option[value=""] {
   color: #9ca3af;
 }
+
+/* Fallback: always gray out placeholder-style option */
+select[value=""],
+select:not(:focus):has(option[value=""]:checked) {
+  color: #9ca3af;
+}
