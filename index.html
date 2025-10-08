@@ -966,11 +966,15 @@ function applyTranslations(lang){
 /***************
  * EMERGENCY
  ***************/
-function updateEmergencyState(){
-  var anyChecked = Array.prototype.some.call($$(".rf"), function(cb){ return cb.checked; });
+function updateEmergencyState() {
+  var anyChecked = Array.prototype.some.call($$(".rf"), function(cb) {
+    return cb.checked;
+  });
   var banner = $("#emergencyBanner");
-  if (anyChecked){
+
+  if (anyChecked) {
     banner.classList.remove("hidden");
+    alert("⚠️ Possible emergency detected.\nPlease call 911 or go to the nearest emergency department.");
   } else {
     banner.classList.add("hidden");
   }
